@@ -101,7 +101,7 @@ export default function ScannerSection() {
 
                     <button
                         onClick={handleScanClick}
-                        className={`group relative flex items-center justify-center gap-2 px-8 py-4 rounded-xl text-white font-bold transition-all duration-300 w-full sm:w-auto whitespace-nowrap shadow-lg ${hasScanned ? 'bg-emerald-600 hover:bg-emerald-500 shadow-emerald-500/20' : 'bg-accent-blue hover:bg-accent-light shadow-accent-blue/20 transition-colors'
+                        className={`group relative flex items-center justify-center gap-2 px-8 py-4 rounded-xl text-white font-bold transition-all duration-300 w-full sm:w-auto whitespace-nowrap shadow-md ${hasScanned ? 'bg-emerald-600 hover:bg-emerald-500 shadow-emerald-500/10' : 'bg-accent-blue hover:bg-accent-light shadow-accent-blue/10 transition-colors'
                             }`}
                     >
                         {hasScanned ? (

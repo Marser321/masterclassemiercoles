@@ -86,7 +86,7 @@ export default function AuthoritySection() {
                                 whileInView={{ opacity: 1, scale: 1 }}
                                 viewport={{ once: true }}
                                 transition={{ duration: 0.8, delay: 0.3 }}
-                                className="text-7xl sm:text-8xl font-display-heavy text-[#00f3ff]/30"
+                                className="text-7xl sm:text-8xl font-display-heavy text-accent-blue/30"
                             >
                                 DF
                             </motion.div>
@@ -105,19 +105,19 @@ export default function AuthoritySection() {
                                 <motion.div
                                     animate={{
                                         boxShadow: [
-                                            "0 0 0px rgba(0,243,255,0)",
-                                            "0 0 20px rgba(0,243,255,0.3)",
-                                            "0 0 0px rgba(0,243,255,0)",
+                                            "0 0 0px rgba(0,212,230,0)",
+                                            "0 0 12px rgba(0,212,230,0.2)",
+                                            "0 0 0px rgba(0,212,230,0)",
                                         ]
                                     }}
                                     transition={{ duration: 3, repeat: Infinity }}
-                                    className="size-10 rounded-full bg-[#00f3ff] flex items-center justify-center text-black font-bold font-display text-sm"
+                                    className="size-10 rounded-full bg-accent-blue flex items-center justify-center text-black font-bold font-display text-sm"
                                 >
                                     DF
                                 </motion.div>
                                 <div>
                                     <p className="text-sm font-bold text-text-primary">Danger Fernandez</p>
-                                    <p className="text-xs text-[#00f3ff]">Revenue Systems Engineer</p>
+                                    <p className="text-xs text-accent-blue">Revenue Systems Engineer</p>
                                 </div>
                             </div>
                         </div>
@@ -132,7 +132,7 @@ export default function AuthoritySection() {
                     viewport={{ once: true }}
                     className="order-1 lg:order-2"
                 >
-                    <motion.p variants={itemVariants} className="text-[11px] font-semibold tracking-[0.2em] uppercase text-[#00f3ff] mb-4">
+                    <motion.p variants={itemVariants} className="text-[11px] font-semibold tracking-[0.2em] uppercase text-accent-blue mb-4">
                         CEO & Fundador
                     </motion.p>
 
@@ -154,7 +154,7 @@ export default function AuthoritySection() {
                     {/* Quote personal */}
                     <motion.blockquote
                         variants={itemVariants}
-                        className="border-l-2 border-[#00f3ff]/40 pl-5 mb-10 italic text-text-muted/80"
+                        className="border-l-2 border-accent-blue/40 pl-5 mb-10 italic text-text-muted/80"
                     >
                         &ldquo;Si tu agencia actual no puede hacer eso con una sola persona, tenés un equipo — no tenés un sistema.&rdquo;
                     </motion.blockquote>
@@ -171,7 +171,7 @@ export default function AuthoritySection() {
                                 <p className="text-2xl sm:text-3xl font-display font-bold text-text-primary">
                                     {stat.value}
                                 </p>
-                                <p className="text-[10px] text-[#00f3ff]/80 uppercase tracking-wider mt-1">{stat.label}</p>
+                                <p className="text-[10px] text-accent-blue/80 uppercase tracking-wider mt-1">{stat.label}</p>
                             </div>
                         ))}
                     </motion.div>
@@ -189,7 +189,7 @@ export default function AuthoritySection() {
                                     whileInView={{ opacity: 1, y: 0 }}
                                     viewport={{ once: true }}
                                     transition={{ delay: 0.3 + i * 0.08 }}
-                                    className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-white/[0.03] border border-white/[0.06] text-xs text-text-muted hover:text-[#00f3ff] hover:border-[#00f3ff]/20 transition-all duration-300"
+                                    className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-white/[0.03] border border-white/[0.06] text-xs text-text-muted hover:text-accent-blue hover:border-accent-blue/20 transition-all duration-300"
                                 >
                                     <tool.icon className="size-3.5" />
                                     {tool.label}

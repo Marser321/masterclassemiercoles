@@ -7,10 +7,10 @@ import * as THREE from "three";
 // ============================================================
 // Constantes — Revenue OS Palette (Neon/Cyan)
 // ============================================================
-const POINT_COUNT = 1200; // Increased density
+const POINT_COUNT = 600; // Optimizado para rendimiento
 const SPHERE_RADIUS = 2.5;
 const BASE_COLOR = new THREE.Color("#00A3FF"); // Cyan/Blue
-const HOVER_COLOR = new THREE.Color("#00F3FF"); // Neon
+const HOVER_COLOR = new THREE.Color("#00D4E6"); // Refined Cyan
 const BASE_SPEED = 0.05; // Cinematic slow
 const HOVER_SPEED = 0.2; // Gentle acceleration
 

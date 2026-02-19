@@ -7,9 +7,9 @@ import * as THREE from "three";
 // ============================================================
 // Constantes de configuración
 // ============================================================
-const PARTICLE_COUNT = 140;
+const PARTICLE_COUNT = 80;
 const SPREAD = 12;
-const CONNECTION_DISTANCE = 2.8;
+const CONNECTION_DISTANCE = 2.2;
 const PARTICLE_COLOR = new THREE.Color("#00D4FF");
 const LINE_COLOR = new THREE.Color("#00D4FF");
 const ROTATION_SPEED = 0.03;
@@ -178,7 +178,7 @@ export default function ParticleNetwork() {
         >
             <Canvas
                 camera={{ position: [0, 0, 7], fov: 60 }}
-                dpr={[1, 1.5]}
+                dpr={[1, 1.25]}
                 gl={{ antialias: false, alpha: true }}
                 style={{ background: "transparent" }}
             >
