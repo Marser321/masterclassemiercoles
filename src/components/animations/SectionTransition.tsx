@@ -40,6 +40,7 @@ export default function SectionTransition({
     // 4. Fog (Blurry gradient that dissipates)
     const fogOpacity = useTransform(scrollYProgress, [0, 0.5, 1], [0, 0.8, 0]);
     const fogBlur = useTransform(scrollYProgress, [0, 0.5, 1], [0, 20, 0]);
+    const fogFilter = useTransform(fogBlur, (v) => `blur(${v}px)`);
 
     return (
         <div ref={ref} className={`relative w-full overflow-hidden ${height} flex items-center justify-center -my-6 sm:-my-10 z-20 pointer-events-none ${className}`}>
@@ -69,7 +70,7 @@ export default function SectionTransition({
                 <motion.div 
                     style={{ 
                         opacity: fogOpacity,
-                        filter: useTransform(fogBlur, (v) => `blur(${v}px)`)
+                        filter: fogFilter
                     }}
                     className="absolute inset-0 bg-gradient-to-b from-transparent via-accent-blue/5 to-transparent mix-blend-screen"
                 />

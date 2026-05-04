@@ -46,6 +46,8 @@ const DESTINATION_NODES = [
     }
 ];
 
+type BlueprintNode = typeof SOURCE_NODE;
+
 export default function BlueprintSection() {
     const containerRef = useRef<HTMLElement>(null);
     const isInView = useInView(containerRef, { once: false, margin: "-100px" });
@@ -83,7 +85,7 @@ export default function BlueprintSection() {
                         className="inline-flex items-center gap-3 px-4 py-1.5 rounded-full bg-primary/5 border border-primary/20 mb-8"
                     >
                         <Activity className="size-4 text-primary animate-pulse" />
-                        <span className="text-[11px] font-bold font-mono text-primary uppercase tracking-[0.3em]">System.Blueprint_v4.0</span>
+                        <span className="text-[11px] font-bold font-mono text-primary uppercase tracking-[0.3em]">Arquitectura comercial</span>
                     </motion.div>
                     
                     <motion.h2 
@@ -261,7 +263,7 @@ export default function BlueprintSection() {
 // ============================================================
 // Helper Component: Node Card
 // ============================================================
-function NodeCard({ node }: { node: any }) {
+function NodeCard({ node }: { node: BlueprintNode }) {
     return (
         <div className="glass-premium p-10 rounded-[2.5rem] border-white/5 hover:border-primary/40 transition-all duration-700 w-full sm:w-80 shadow-2xl relative group-hover:scale-[1.02]">
             <div className="absolute top-6 left-6 size-3 border-t border-l border-primary/40" />

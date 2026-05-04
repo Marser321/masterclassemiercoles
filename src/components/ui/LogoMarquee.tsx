@@ -5,7 +5,6 @@ import {
     Target, 
     Search, 
     MessageCircle, 
-    Zap, 
     Bot, 
     Share2, 
     Workflow 
@@ -28,14 +27,10 @@ const PARTNERS = [
 
 export default function LogoMarquee() {
     return (
-        <div className="relative w-full py-12 overflow-hidden">
-            {/* Fade gradients sides — Softer to blend with Aurora */}
-            <div className="absolute inset-y-0 left-0 w-32 bg-gradient-to-r from-bg-deep/80 via-bg-deep/40 to-transparent z-10" />
-            <div className="absolute inset-y-0 right-0 w-32 bg-gradient-to-l from-bg-deep/80 via-bg-deep/40 to-transparent z-10" />
-
+        <div className="relative w-full py-10 overflow-hidden">
             <div className="flex flex-col items-center mb-8">
                 <span className="text-[10px] font-bold tracking-[0.3em] uppercase text-primary/70 mb-2">
-                    Mastering the Ecosystem
+                    Plataformas conectadas
                 </span>
                 <div className="h-px w-12 bg-primary/30" />
             </div>

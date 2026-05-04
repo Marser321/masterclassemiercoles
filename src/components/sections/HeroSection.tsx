@@ -1,12 +1,12 @@
 "use client";
 
-import { useState, useEffect, useRef } from "react";
+import { useRef } from "react";
+import type { CSSProperties } from "react";
 
 import dynamic from "next/dynamic";
-import FloatingIcons from "../ui/FloatingIcons";
 import { AuroraBackground } from "../ui/AuroraBackground";
-import { motion, useScroll, useTransform, AnimatePresence } from "framer-motion";
-import { ArrowDown, PlayCircle, Zap } from "lucide-react";
+import { motion, useScroll, useTransform } from "framer-motion";
+import { ArrowDown, PlayCircle } from "lucide-react";
 import { Button } from "@/components/ui/Button";
 import LogoMarquee from "../ui/LogoMarquee";
 
@@ -47,25 +47,7 @@ const itemVariants = {
 // Hero Section — "Revenue OS" with Cinematic Exit Parallax
 // ============================================================
 export default function HeroSection() {
-    const [mounted, setMounted] = useState(false);
-    const [isMobile, setIsMobile] = useState(false);
-    const [isBooted, setIsBooted] = useState(false);
     const sectionRef = useRef<HTMLElement>(null);
-
-    useEffect(() => {
-        setMounted(true);
-        const checkMobile = () => setIsMobile(window.innerWidth < 768);
-        checkMobile();
-        window.addEventListener("resize", checkMobile);
-
-        // Sequence boot-up effect
-        const timer = setTimeout(() => setIsBooted(true), 1500);
-
-        return () => {
-            window.removeEventListener("resize", checkMobile);
-            clearTimeout(timer);
-        };
-    }, []);
     const handleScrollToScanner = () => {
         const el = document.getElementById("contacto");
         if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
@@ -122,18 +104,16 @@ export default function HeroSection() {
             <div className="absolute inset-0 z-[1] texture-travertine opacity-20 mix-blend-soft-light transform-gpu pointer-events-none" />
 
             {/* 3. 3D Core Layer — Enabled on all devices per user request */}
-            {mounted && (
-                <motion.div 
-                    style={{ 
-                        scale: orbitalScale, 
-                        opacity: orbitalOpacity,
-                        mixBlendMode: "var(--hero-blend-mode)" as any
-                    }}
-                    className="absolute inset-0 z-[2] scale-90 sm:scale-100 will-change-transform pointer-events-none"
-                >
-                    <OrbitalCore />
-                </motion.div>
-            )}
+            <motion.div
+                style={{
+                    scale: orbitalScale,
+                    opacity: orbitalOpacity,
+                    mixBlendMode: "var(--hero-blend-mode)" as CSSProperties["mixBlendMode"]
+                }}
+                className="absolute inset-0 z-[2] scale-90 sm:scale-100 will-change-transform pointer-events-none"
+            >
+                <OrbitalCore />
+            </motion.div>
 
             {/* 4. Vignette & Lighting — Adjusted to avoid sharp bottom seams */}
             <div
@@ -153,28 +133,14 @@ export default function HeroSection() {
                 className="relative z-10 text-center px-4 sm:px-6 max-w-5xl mx-auto mt-0 sm:mt-10 will-change-transform"
             >
                 <div className="relative">
-                    {/* Tech Badge — Neutral Spanish Pass */}
                     <motion.div
                         variants={containerVariants}
                         initial="hidden"
                         animate="visible"
                     >
-                        <motion.div 
-                            variants={itemVariants} 
-                            style={{ y: badgeY }}
-                            className="mb-8 flex justify-center"
-                        >
-                            <div className="inline-flex items-center gap-2.5 px-5 py-2 rounded-full border border-primary/40 bg-primary/5 backdrop-blur-md shadow-lg shadow-primary/5">
-                                <Zap className="size-3.5 text-primary fill-primary animate-pulse" />
-                                <span className="text-[12px] font-bold tracking-[0.25em] uppercase text-primary text-glow-neon">
-                                    Sistema v2.0 en línea
-                                </span>
-                            </div>
-                        </motion.div>
-
                         <motion.h1
                             variants={itemVariants}
-                            style={{ y: textY }}
+                            style={{ y: badgeY }}
                             className="font-display-heavy text-2xl xs:text-4xl sm:text-6xl md:text-7xl lg:text-[5rem] tracking-tighter sm:tracking-tight leading-[1.2] sm:leading-[1.05] mb-8 text-foreground drop-shadow-2xl will-change-transform max-w-[15ch] sm:max-w-none mx-auto"
                         >
                             Tu marketing <span className="text-foreground/40">no funciona</span>. <br />
@@ -225,13 +191,16 @@ export default function HeroSection() {
 
                     {/* Logo Marquee — Slow parallax "sticky" feel */}
                     <motion.div
-                        initial={{ opacity: 0, y: 20 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ delay: 1.2, duration: 1 }}
                         style={{ y: marqueeY, opacity: marqueeOpacity }}
                         className="mt-8 sm:mt-24 w-full"
                     >
-                        <LogoMarquee />
+                        <motion.div
+                            initial={{ opacity: 0, y: 20 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{ delay: 1.2, duration: 1 }}
+                        >
+                            <LogoMarquee />
+                        </motion.div>
                     </motion.div>
                 </div>
             </motion.div>

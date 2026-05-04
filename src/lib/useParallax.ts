@@ -8,6 +8,8 @@ import {
     MotionValue,
 } from "framer-motion";
 
+type UseScrollOptions = NonNullable<Parameters<typeof useScroll>[0]>;
+
 // ============================================================
 // Parallax Hook System — AD Media Solution
 // Centralized scroll-linked animation utilities
@@ -19,7 +21,7 @@ import {
  */
 export function useSectionProgress(
     ref: React.RefObject<HTMLElement | null>,
-    offset: any = ["start end", "end start"]
+    offset: UseScrollOptions["offset"] = ["start end", "end start"]
 ) {
     const { scrollYProgress } = useScroll({
         target: ref,
@@ -47,10 +49,10 @@ export function useParallaxLayer(
     unit: "px" | "%" = "%"
 ) {
     const distance = speed * 30; // Base distance multiplied by speed
-    if (unit === "%") {
-        return useTransform(progress, [0, 1], [`0%`, `${distance}%`]);
-    }
-    return useTransform(progress, [0, 1], [0, distance]);
+    const percentY = useTransform(progress, [0, 1], [`0%`, `${distance}%`]);
+    const pixelY = useTransform(progress, [0, 1], [0, distance]);
+
+    return unit === "%" ? percentY : pixelY;
 }
 
 /**

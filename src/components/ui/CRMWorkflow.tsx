@@ -11,6 +11,7 @@ import {
     Target,
     Globe
 } from "lucide-react";
+import type { LucideIcon } from "lucide-react";
 import Image from "next/image";
 
 // ============================================================
@@ -180,7 +181,7 @@ export default function CRMWorkflow() {
     );
 }
 
-function Node({ icon: Icon, label, pos, color }: { icon: any, label: string, pos: string, color: 'blue' | 'cyan' | 'whatsapp' }) {
+function Node({ icon: Icon, label, pos, color }: { icon: LucideIcon, label: string, pos: string, color: 'blue' | 'cyan' | 'whatsapp' }) {
     const colorClass = color === 'blue' ? 'text-accent-blue' : color === 'cyan' ? 'text-accent-light' : 'text-[#25D366]';
     const borderClass = color === 'blue' ? 'border-accent-blue/20' : color === 'cyan' ? 'border-accent-light/20' : 'border-[#25D366]/20';
     
@@ -201,5 +202,4 @@ function Node({ icon: Icon, label, pos, color }: { icon: any, label: string, pos
         </motion.div>
     );
 }
-
 

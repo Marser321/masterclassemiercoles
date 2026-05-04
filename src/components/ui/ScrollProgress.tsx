@@ -1,7 +1,6 @@
 "use client";
 
 import { motion, useScroll, useSpring, useTransform } from "framer-motion";
-import { useEffect, useState } from "react";
 
 // ============================================================
 // ScrollProgress — Global thin progress bar at the top
@@ -21,11 +20,6 @@ export default function ScrollProgress() {
 
     // Position of the glowing dot
     const dotLeft = useTransform(scaleX, (v) => `calc(${v * 100}% - 2px)`);
-
-    const [mounted, setMounted] = useState(false);
-    useEffect(() => setMounted(true), []);
-
-    if (!mounted) return null;
 
     return (
         <motion.div

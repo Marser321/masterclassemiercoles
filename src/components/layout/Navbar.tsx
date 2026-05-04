@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { motion, useScroll, useMotionValueEvent, AnimatePresence } from "framer-motion";
@@ -16,13 +16,10 @@ export default function Navbar() {
     const { scrollY } = useScroll();
 
     useMotionValueEvent(scrollY, "change", (latest) => {
-        setScrolled(latest > 50);
+        const nextScrolled = latest > 50;
+        setScrolled(nextScrolled);
+        if (nextScrolled) setIsOpen(false);
     });
-
-    // Close menu on scroll
-    useEffect(() => {
-        if (scrolled && isOpen) setIsOpen(false);
-    }, [scrolled, isOpen]);
 
     const navLinks = ["Servicios", "CRM", "Infraestructura", "Portafolio", "Nosotros"];
 
@@ -136,7 +133,7 @@ export default function Navbar() {
                         <div className="h-px w-full bg-white/5 my-4" />
                         
                         <div className="text-xs font-mono text-muted-foreground/40 uppercase tracking-[0.2em]">
-                            System V2.0 // Online
+                            Ingeniería comercial activa
                         </div>
                     </motion.div>
                 )}
@@ -144,4 +141,3 @@ export default function Navbar() {
         </>
     );
 }
-

@@ -160,7 +160,7 @@ export default function CRMSection() {
                     {/* Technical Metadata Overlays */}
                     <div className="absolute top-6 right-6 z-50 flex items-center gap-2.5 px-4 py-2 rounded-xl bg-background/80 border border-white/10 backdrop-blur-xl shadow-2xl shadow-black">
                         <Activity className="size-3.5 text-primary animate-pulse" />
-                        <span className="text-[11px] font-bold font-mono text-primary/80 tracking-[0.25em] uppercase">Sistema Operativo v2.0</span>
+                        <span className="text-[11px] font-bold font-mono text-primary/80 tracking-[0.25em] uppercase">Centro de comando comercial</span>
                     </div>
                 </motion.div>
 

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useRef } from "react";
+import { useRef } from "react";
 import { motion, useScroll, useTransform, useInView, useMotionValue, useSpring } from "framer-motion";
 import Image from "next/image";
 import FloatingIcons from "../ui/FloatingIcons";
@@ -56,14 +56,9 @@ const TOOLS = [
 // Authority Section — Split Parallax Portrait
 // ============================================================
 export default function AuthoritySection() {
-    const [mounted, setMounted] = useState(false);
     const sectionRef = useRef<HTMLElement>(null);
     const quoteRef = useRef<HTMLQuoteElement>(null);
     const isQuoteInView = useInView(quoteRef, { once: true, margin: "-60px" });
-
-    useEffect(() => {
-        setMounted(true);
-    }, []);
 
     // Mouse tracking for interactive background glow
     const mouseX = useMotionValue(0);

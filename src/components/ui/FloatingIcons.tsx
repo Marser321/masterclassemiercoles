@@ -1,6 +1,6 @@
 "use client";
 
-import { motion, MotionValue, useScroll, useTransform } from "framer-motion";
+import { motion, MotionValue, useReducedMotion, useScroll, useTransform } from "framer-motion";
 import {
     Instagram,
     Facebook,
@@ -181,6 +181,7 @@ function FloatingIcon({
     color
 }: FloatingIconProps) {
     const yRange = useTransform(scrollYProgress, [0, 1], [0, -100 * parallaxSpeed]);
+    const shouldReduceMotion = useReducedMotion();
 
     return (
         <motion.div
@@ -191,32 +192,40 @@ function FloatingIcon({
                 opacity: "var(--icon-opacity, 1)",
                 color: "inherit"
             }}
-            initial={{ opacity: 0, scale: 0 }}
-            animate={{
-                opacity: 1,
-                scale: scale,
-                y: [0, -20, 0],
-                rotate: [0, 5, -5, 0]
-            }}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
             transition={{
-                opacity: { duration: 1, delay: delay },
-                scale: { duration: 1, delay: delay },
-                y: {
-                    duration: duration,
-                    repeat: Infinity,
-                    repeatType: "reverse",
-                    ease: "easeInOut"
-                },
-                rotate: {
-                    duration: duration * 1.5,
-                    repeat: Infinity,
-                    repeatType: "reverse",
-                    ease: "easeInOut"
-                }
+                opacity: { duration: 1, delay: delay }
             }}
             className={cn("absolute floating-icon", color)}
         >
-            <Icon size={48} strokeWidth={2.2} />
+            <motion.div
+                initial={{ scale: 0 }}
+                animate={shouldReduceMotion ? { scale } : {
+                    scale,
+                    y: [0, -20, 0],
+                    rotate: [0, 5, -5, 0]
+                }}
+                transition={shouldReduceMotion ? {
+                    scale: { duration: 0.4, delay }
+                } : {
+                    scale: { duration: 1, delay },
+                    y: {
+                        duration,
+                        repeat: Infinity,
+                        repeatType: "reverse",
+                        ease: "easeInOut"
+                    },
+                    rotate: {
+                        duration: duration * 1.5,
+                        repeat: Infinity,
+                        repeatType: "reverse",
+                        ease: "easeInOut"
+                    }
+                }}
+            >
+                <Icon size={48} strokeWidth={2.2} />
+            </motion.div>
         </motion.div>
     );
 }
