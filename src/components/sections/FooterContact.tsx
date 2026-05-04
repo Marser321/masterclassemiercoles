@@ -34,7 +34,7 @@ export default function FooterContact() {
     const submitButtonShadow = useTransform(buttonGlowValue, (v) => `0 0 ${v * 40}px rgba(72,142,255,${v})`);
 
     return (
-        <footer ref={footerRef} id="contacto" className="relative bg-background pt-12 sm:pt-16 pb-12 px-5 sm:px-6 overflow-hidden">
+        <footer ref={footerRef} id="contacto" className="relative bg-background pt-10 sm:pt-16 pb-10 px-5 sm:px-6 overflow-hidden">
 
             {/* Iconos flotantes — Social */}
             <FloatingIcons type="social" className="z-0 opacity-20" />

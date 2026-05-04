@@ -68,7 +68,7 @@ export default function CRMSection() {
         <section 
             ref={containerRef} 
             id="crm" 
-            className="relative py-16 sm:py-28 px-5 sm:px-6 bg-background overflow-hidden"
+            className="relative py-10 sm:py-28 px-5 sm:px-6 bg-background overflow-hidden"
         >
             {/* Background Atmosphere */}
             <motion.div 
@@ -79,7 +79,7 @@ export default function CRMSection() {
                 <div className="absolute bottom-1/4 right-1/4 w-[500px] h-[500px] bg-primary/5 blur-[100px] rounded-full animate-pulse-slow" style={{ animationDelay: "2s" }} />
             </motion.div>
 
-            <div className="relative z-10 max-w-7xl mx-auto grid lg:grid-cols-2 gap-20 lg:gap-28 items-center">
+            <div className="relative z-10 max-w-7xl mx-auto grid lg:grid-cols-2 gap-12 lg:gap-28 items-center">
                 
                 {/* Left Column: Narrative */}
                 <div className="order-2 lg:order-1">

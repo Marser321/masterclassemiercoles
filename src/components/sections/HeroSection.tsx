@@ -254,7 +254,7 @@ export default function HeroSection() {
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ delay: 1.2, duration: 1 }}
                         style={{ y: marqueeY, opacity: marqueeOpacity }}
-                        className="mt-12 sm:mt-24 w-full"
+                        className="mt-8 sm:mt-24 w-full"
                     >
                         <LogoMarquee />
                     </motion.div>

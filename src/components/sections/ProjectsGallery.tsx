@@ -272,7 +272,7 @@ export default function ProjectsGallery() {
         <section
             ref={sectionRef}
             id="portafolio"
-            className="relative py-16 sm:py-24 px-5 sm:px-6 overflow-hidden bg-background"
+            className="relative py-10 sm:py-24 px-5 sm:px-6 overflow-hidden bg-background"
         >
             {/* Iconos flotantes — Creativos */}
             <FloatingIcons type="creative" className="z-0 opacity-30" />

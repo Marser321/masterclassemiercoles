@@ -214,7 +214,7 @@ export default function ScrollytellingSection() {
         <section
             ref={sectionRef}
             id="estrategia"
-            className="relative py-16 sm:py-24 px-5 sm:px-6 bg-bg-deep overflow-hidden"
+            className="relative py-12 sm:py-24 px-5 sm:px-6 bg-bg-deep overflow-hidden"
         >
             {/* Background grid con parallax */}
             <motion.div

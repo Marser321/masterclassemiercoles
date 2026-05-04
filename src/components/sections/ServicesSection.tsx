@@ -61,7 +61,7 @@ export default function ServicesSection() {
     const divisorScale = useTransform(scrollYProgress, [0.8, 1], [0, 1]);
 
     return (
-        <section ref={sectionRef} id="servicios" className="relative py-16 sm:py-24 px-5 sm:px-6 bg-background overflow-hidden">
+        <section ref={sectionRef} id="servicios" className="relative py-10 sm:py-24 px-5 sm:px-6 bg-background overflow-hidden">
             {/* Background Texture - Grid with parallax */}
             <motion.div
                 style={{ y: gridY }}
