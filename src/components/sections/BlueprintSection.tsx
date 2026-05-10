@@ -203,26 +203,20 @@ export default function BlueprintSection() {
                             className="size-56 sm:size-72 rounded-[3.5rem] bg-background border-2 border-primary/60 flex items-center justify-center relative overflow-hidden group shadow-[0_0_50px_rgba(0,102,255,0.2)] mx-auto"
                         >
                             <div className="absolute inset-0 bg-primary/10 group-hover:bg-primary/20 transition-colors" />
-                            <div className="relative z-10 flex w-full max-w-[11rem] sm:max-w-[13.5rem] flex-col items-center rounded-3xl border border-primary/15 bg-white/75 px-6 py-7 shadow-[0_18px_45px_rgba(0,102,255,0.16)] backdrop-blur-md">
+                            <div className="relative z-30 flex w-full max-w-[11.5rem] sm:max-w-[14.5rem] items-center justify-center rounded-3xl border border-primary/15 bg-white/80 px-5 py-6 shadow-[0_18px_45px_rgba(0,102,255,0.16)] backdrop-blur-md">
                                 <Image 
-                                    src="/brand/logo-full.png" 
+                                    src="/brand/logo-crm.png" 
                                     alt="AD Media CRM logo" 
-                                    width={1920} 
-                                    height={229} 
-                                    className="h-auto w-full opacity-95 transition-opacity group-hover:opacity-100"
+                                    width={908} 
+                                    height={416} 
+                                    className="h-auto w-full object-contain opacity-95 transition-opacity group-hover:opacity-100"
                                 />
-                                <div className="mt-5 flex items-center gap-2 rounded-full border border-primary/20 bg-primary/10 px-4 py-2">
-                                    <span className="size-1.5 rounded-full bg-primary shadow-[0_0_10px_rgba(0,102,255,0.8)]" />
-                                    <span className="font-mono text-[12px] font-bold uppercase tracking-[0.36em] text-primary">
-                                        CRM
-                                    </span>
-                                </div>
                             </div>
                             
                             <motion.div 
                                 animate={{ top: ["-10%", "110%"] }}
                                 transition={{ duration: 3, repeat: Infinity, ease: "linear" }}
-                                className="absolute left-0 right-0 h-1 bg-gradient-to-r from-transparent via-primary/50 to-transparent z-20"
+                                className="absolute left-0 right-0 z-10 h-1 bg-gradient-to-r from-transparent via-primary/50 to-transparent"
                             />
                         </motion.div>
                     </div>
