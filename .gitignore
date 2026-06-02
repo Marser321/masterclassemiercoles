@@ -50,6 +50,13 @@ checklists/
 *.png
 !src/app/icon.png
 !public/
+!public/**/*.png
+!public/**/*.jpg
+!public/**/*.jpeg
+!public/**/*.svg
+!public/**/*.gif
+!public/**/*.webp
+!public/**/*.html
 
 # custom binaries and temp
 *.dmg
