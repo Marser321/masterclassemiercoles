@@ -60,12 +60,22 @@ export default function Navbar() {
                             transition={{ duration: 0.4, ease: "easeOut" }}
                             className="transform-gpu"
                         >
+                            {/* Logo de texto blanco para fondos oscuros (luxury/classic) */}
                             <Image
                                 src="/brand/logo-full-white.png"
                                 alt="Ad Media Solution"
                                 width={180}
                                 height={50}
-                                className={`relative h-auto object-contain transition-all duration-500 ${scrolled ? "w-28 sm:w-36" : "w-32 sm:w-44"}`}
+                                className={`logo-dark-bg relative h-auto object-contain transition-all duration-500 ${scrolled ? "w-28 sm:w-36" : "w-32 sm:w-44"}`}
+                                priority
+                            />
+                            {/* Logo de texto oscuro para el tema blanco */}
+                            <Image
+                                src="/brand/logo-full.png"
+                                alt="Ad Media Solution"
+                                width={180}
+                                height={50}
+                                className={`logo-light-bg relative h-auto object-contain transition-all duration-500 ${scrolled ? "w-28 sm:w-36" : "w-32 sm:w-44"}`}
                                 priority
                             />
                         </motion.div>

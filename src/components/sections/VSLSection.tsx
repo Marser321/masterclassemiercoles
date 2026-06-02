@@ -100,7 +100,7 @@ export default function VSLSection() {
         <section
             ref={sectionRef}
             id="vsl-masterclass"
-            className="relative py-24 sm:py-32 px-5 sm:px-6 bg-background overflow-hidden"
+            className="relative py-14 sm:py-32 px-5 sm:px-6 bg-background overflow-hidden"
         >
             {/* Background Grid Pattern */}
             <div className="absolute inset-0 z-0 pointer-events-none">

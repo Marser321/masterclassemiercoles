@@ -270,10 +270,10 @@ export default function ProjectsGallery() {
         <section
             ref={sectionRef}
             id="portafolio"
-            className="relative py-20 sm:py-32 px-5 sm:px-6 overflow-hidden bg-background"
+            className="relative py-14 sm:py-32 px-5 sm:px-6 overflow-hidden bg-background"
         >
-            {/* Iconos flotantes — Creativos */}
-            <FloatingIcons type="creative" className="z-0 opacity-[var(--floating-icon-opacity)]" />
+            {/* Iconos flotantes — Creativos (solo desktop: legibilidad + rendimiento) */}
+            <FloatingIcons type="creative" className="z-0 hidden md:block opacity-[var(--floating-icon-opacity)]" />
 
             {/* Global Aurora Background */}
             <AuroraBackground intensity="soft" className="opacity-30" />
@@ -285,7 +285,7 @@ export default function ProjectsGallery() {
                 {/* Header de la sección — Parallax slide-up */}
                 <motion.div
                     style={{ y: headerY, opacity: headerOpacity }}
-                    className="text-center mb-16 sm:mb-20"
+                    className="text-center mb-10 sm:mb-20"
                 >
                     <motion.div
                         initial={{ opacity: 0, y: 20 }}

@@ -531,6 +531,14 @@
   background: radial-gradient(circle at center, transparent 0%, #f1f5f9 100%);
 }
 
+/* === Intercambio de logo por tema ===
+   En fondos oscuros (luxury/classic) se usa el logo de texto blanco; en el tema
+   blanco se usa el de texto oscuro para mantener el contraste y la legibilidad. */
+.logo-dark-bg { display: block; }
+.logo-light-bg { display: none; }
+.theme-white .logo-dark-bg { display: none; }
+.theme-white .logo-light-bg { display: block; }
+
 /* Default / Classic Aurora Overrides */
 .theme-classic {
   --color-aurora-center: #0a0a0a;

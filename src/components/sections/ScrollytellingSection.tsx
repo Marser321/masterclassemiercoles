@@ -214,7 +214,7 @@ export default function ScrollytellingSection() {
         <section
             ref={sectionRef}
             id="estrategia"
-            className="relative py-20 sm:py-32 px-5 sm:px-6 bg-background overflow-hidden"
+            className="relative py-14 sm:py-32 px-5 sm:px-6 bg-background overflow-hidden"
         >
             {/* Background grid con parallax */}
             <motion.div
@@ -235,7 +235,7 @@ export default function ScrollytellingSection() {
 
             <div ref={contentRef} className="relative z-10 max-w-7xl mx-auto">
                 {/* Header */}
-                <div className="text-center mb-16 sm:mb-20">
+                <div className="text-center mb-10 sm:mb-20">
                     <motion.div
                         initial={{ opacity: 0, y: 20 }}
                         whileInView={{ opacity: 1, y: 0 }}
@@ -277,7 +277,7 @@ export default function ScrollytellingSection() {
                 </div>
 
                 {/* === Layout principal: 2 columnas === */}
-                <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 sm:gap-12 lg:gap-20 items-center mb-20">
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 sm:gap-12 lg:gap-20 items-center mb-12 sm:mb-20">
 
                     {/* Columna izquierda: Animación orbital — Scale up on scroll */}
                     <motion.div
@@ -339,7 +339,7 @@ export default function ScrollytellingSection() {
                 </div>
 
                 {/* === KPI Cards Grid — Dashboard loading effect === */}
-                <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-5 mb-20">
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-5 mb-12 sm:mb-20">
                     {KPIS.map((kpi, index) => (
                         <KPICard
                             key={kpi.label}

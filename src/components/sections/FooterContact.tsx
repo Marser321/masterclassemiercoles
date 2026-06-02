@@ -72,12 +72,20 @@ export default function FooterContact() {
                     transition={{ duration: 0.5 }}
                     className="mb-12 flex justify-center cursor-pointer will-change-transform"
                 >
+                    {/* Logo de texto blanco para fondos oscuros; de texto oscuro para el tema blanco */}
                     <Image
                         src="/brand/logo-full-white.png"
                         alt="AD Media Solution"
                         width={180}
                         height={50}
-                        className="h-10 w-auto object-contain opacity-80 hover:opacity-100 transition-opacity"
+                        className="logo-dark-bg h-10 w-auto object-contain opacity-80 hover:opacity-100 transition-opacity"
+                    />
+                    <Image
+                        src="/brand/logo-full.png"
+                        alt="AD Media Solution"
+                        width={180}
+                        height={50}
+                        className="logo-light-bg h-10 w-auto object-contain opacity-80 hover:opacity-100 transition-opacity"
                     />
                 </motion.div>
 

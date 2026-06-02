@@ -66,7 +66,7 @@ export default function CRMSection() {
         <section 
             ref={containerRef} 
             id="crm" 
-            className="relative pt-24 sm:pt-32 lg:pt-48 pb-10 sm:pb-28 px-5 sm:px-6 bg-background overflow-hidden"
+            className="relative pt-16 sm:pt-32 lg:pt-48 pb-10 sm:pb-28 px-5 sm:px-6 bg-background overflow-hidden"
         >
             {/* Background Atmosphere */}
             <motion.div 

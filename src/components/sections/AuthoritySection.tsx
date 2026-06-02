@@ -106,7 +106,7 @@ export default function AuthoritySection() {
             ref={sectionRef} 
             id="nosotros"
             onMouseMove={handleMouseMove}
-            className="relative py-20 sm:py-32 px-5 sm:px-6 bg-background overflow-hidden"
+            className="relative py-14 sm:py-32 px-5 sm:px-6 bg-background overflow-hidden"
         >
             {/* Global Aurora Background */}
             <AuroraBackground intensity="medium" className="opacity-15" />

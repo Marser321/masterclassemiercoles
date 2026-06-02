@@ -68,7 +68,7 @@ export default function ServicesSection() {
     const divisorScale = useTransform(scrollYProgress, [0.8, 1], [0, 1]);
 
     return (
-        <section ref={sectionRef} id="servicios" className="relative py-20 sm:py-32 px-5 sm:px-6 bg-background overflow-hidden">
+        <section ref={sectionRef} id="servicios" className="relative py-14 sm:py-32 px-5 sm:px-6 bg-background overflow-hidden">
             {/* Global Aurora Background */}
             <AuroraBackground intensity="medium" className="opacity-40" />
 

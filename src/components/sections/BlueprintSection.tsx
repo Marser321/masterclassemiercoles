@@ -63,7 +63,7 @@ export default function BlueprintSection() {
     return (
         <section 
             ref={containerRef}
-            className="relative py-20 sm:py-32 px-5 sm:px-6 bg-background overflow-hidden"
+            className="relative py-14 sm:py-32 px-5 sm:px-6 bg-background overflow-hidden"
             id="infraestructura"
         >
             {/* Global Aurora Background */}
@@ -85,7 +85,7 @@ export default function BlueprintSection() {
 
             <div className="relative z-10 max-w-7xl mx-auto">
                 {/* Header Narrative */}
-                <div className="text-center mb-16 sm:mb-40 max-w-3xl mx-auto">
+                <div className="text-center mb-10 sm:mb-40 max-w-3xl mx-auto">
                     <motion.div
                         initial={{ opacity: 0, y: 20 }}
                         whileInView={{ opacity: 1, y: 0 }}

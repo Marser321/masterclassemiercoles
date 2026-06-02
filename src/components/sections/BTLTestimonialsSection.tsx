@@ -57,7 +57,7 @@ const TESTIMONIALS: Testimonial[] = [
 
 export default function BTLTestimonialsSection() {
   return (
-    <section id="testimonios-btl" className="relative py-24 sm:py-32 px-5 sm:px-6 bg-background overflow-hidden">
+    <section id="testimonios-btl" className="relative py-14 sm:py-32 px-5 sm:px-6 bg-background overflow-hidden">
       {/* Background Glow */}
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-primary/5 rounded-full blur-[140px] pointer-events-none" />
       
@@ -80,7 +80,7 @@ export default function BTLTestimonialsSection() {
         </div>
 
         {/* Alternating Testimonials List */}
-        <div className="space-y-20 sm:space-y-32">
+        <div className="space-y-16 sm:space-y-32">
           {TESTIMONIALS.map((item, idx) => {
             const isEven = idx % 2 === 0;
             return (
