@@ -1,14 +1,17 @@
 import type { Metadata, Viewport } from "next";
-import { Inter } from "next/font/google";
+import { Montserrat } from "next/font/google";
 import { Toaster } from "sonner";
+import { Analytics } from "@vercel/analytics/react";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 import CustomCursor from "@/components/ui/CustomCursor";
 import "./globals.css";
 
-// Inter — Optimizada para lectura en pantalla
-const inter = Inter({
-  variable: "--font-inter",
+// Montserrat — Tipografía corporativa oficial de la marca
+const montserrat = Montserrat({
+  variable: "--font-montserrat",
   subsets: ["latin"],
   display: "swap",
+  weight: ["300", "400", "500", "600", "700", "800", "900"],
 });
 
 export const viewport: Viewport = {
@@ -20,16 +23,16 @@ export const viewport: Viewport = {
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://admediasolution.com"),
-  title: "AD Media Solution | Arquitectura de Ingresos y CRM Experto",
+  title: "AD Media Solution | Dirección de marketing y ventas para tu negocio",
   description:
-    "Especialistas en ingeniería de ingresos para negocios de alto impacto. Combinamos IA avanzada con supervisión experta para escalar tu facturación.",
+    "Le damos dirección de marketing y ventas a tu negocio: CRM personalizados, soporte y pauta en Meta y Google para ayudarte a facturar más.",
   keywords: [
-    "marketing de resultados",
-    "CRM automation",
-    "GoHighLevel",
-    "ingeniería de ingresos",
+    "dirección de marketing y ventas",
+    "CRM personalizado",
+    "Meta Ads",
+    "Google Ads",
     "AD Media Solution",
-    "Danger Fernandez",
+    "Danger Fernández",
     "automatización de ventas",
   ],
   authors: [{ name: "Danger Fernandez", url: "https://admediasolution.com" }],
@@ -41,9 +44,9 @@ export const metadata: Metadata = {
     telephone: false,
   },
   openGraph: {
-    title: "AD Media Solution | Arquitectura de Ingresos y CRM",
+    title: "AD Media Solution | Dirección de marketing y ventas",
     description:
-      "Transformamos tu infraestructura comercial con ingeniería de vanguardia. Resultados medibles, escalabilidad real.",
+      "Damos dirección de marketing y ventas a los negocios. CRM personalizados, soporte y pauta en Meta y Google para que factures más.",
     url: "https://admediasolution.com",
     siteName: "AD Media Solution",
     locale: "es_US",
@@ -59,8 +62,8 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "AD Media Solution | Arquitectura de Ingresos",
-    description: "Ingeniería de ingresos y automatización CRM para el mercado hispano en EE.UU.",
+    title: "AD Media Solution | Dirección de marketing y ventas",
+    description: "CRM personalizados, soporte y dirección de marketing para que tu negocio facture más.",
     images: ["/brand/logo-full.png"],
   },
   robots: {
@@ -85,15 +88,18 @@ export default function RootLayout({
     <html lang="es" className="dark scroll-smooth">
       <head>
         <link rel="icon" href="/icon.png" />
-        <link rel="preload" href="/brand/logo-full-white.png" as="image" />
-        <link rel="preload" href="/team/ceo.png" as="image" />
+        {/* Los logos y la foto del CEO se priorizan vía next/image (priority),
+            que sirve versiones optimizadas. Precargar los PNG crudos aquí
+            duplicaba la descarga (especialmente ceo.png ~2.2MB). */}
       </head>
       <body
-        className={`${inter.variable} font-sans antialiased bg-background text-foreground selection:bg-primary/30 selection:text-white relative`}
+        className={`${montserrat.variable} font-sans antialiased bg-background text-foreground selection:bg-primary/30 selection:text-white relative`}
       >
         <div className="bg-noise" />
         <CustomCursor />
         {children}
+        <Analytics />
+        <SpeedInsights />
         <Toaster richColors position="top-center" />
       </body>
     </html>
