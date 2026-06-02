@@ -242,7 +242,7 @@ export default function BlueprintSection() {
                                     alt="AD Media CRM logo" 
                                     width={908} 
                                     height={416} 
-                                    className="pointer-events-none h-auto w-full object-contain brightness-0 invert drop-shadow-[0_0_15px_rgba(255,255,255,0.65)] opacity-100 transition-opacity"
+                                    className="pointer-events-none h-auto w-full object-contain logo-crm-themed opacity-100 transition-opacity"
                                 />
                             </div>
                             

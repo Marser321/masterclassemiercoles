@@ -539,6 +539,16 @@
 .theme-white .logo-dark-bg { display: none; }
 .theme-white .logo-light-bg { display: block; }
 
+/* Logo de CRM sensible al tema */
+.logo-crm-themed {
+  filter: brightness(0) invert(1) drop-shadow(0 0 15px rgba(255, 255, 255, 0.65));
+  transition: filter 0.5s ease;
+}
+.theme-white .logo-crm-themed {
+  filter: drop-shadow(0 0 15px rgba(0, 102, 255, 0.15));
+}
+
+
 /* Default / Classic Aurora Overrides */
 .theme-classic {
   --color-aurora-center: #0a0a0a;
