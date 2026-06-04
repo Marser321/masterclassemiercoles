@@ -87,10 +87,10 @@ function KPICard({
                 y: cardY,
                 scale: cardScale,
             }}
-            className="group relative p-6 rounded-2xl bg-background border border-primary/25 hover:border-primary/50 transition-all duration-500 overflow-hidden sm:shadow-2xl will-change-transform"
+            className="group relative p-6 sm:p-7 lg:p-8 rounded-2xl bg-card/85 border border-primary/35 hover:border-primary/65 transition-all duration-500 overflow-hidden shadow-[0_20px_70px_rgba(0,102,255,0.16),inset_0_1px_0_rgba(255,255,255,0.08)] backdrop-blur-xl will-change-transform"
         >
             {/* Glow hover */}
-            <div className="absolute inset-0 bg-gradient-to-br from-accent-blue/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 rounded-2xl" />
+            <div className="absolute inset-0 bg-gradient-to-br from-accent-blue/14 via-primary/6 to-transparent opacity-70 group-hover:opacity-100 transition-opacity duration-500 rounded-2xl" />
 
             {/* Loading progress bar */}
             <motion.div
@@ -110,19 +110,19 @@ function KPICard({
                 </div>
 
                 {/* Label principal */}
-                <p className="text-sm font-semibold text-text-primary uppercase tracking-wider mb-2">
+                <p className="text-sm sm:text-base font-extrabold text-foreground uppercase tracking-wider mb-2">
                     {kpi.label}
                 </p>
 
                 {/* Descripción */}
-                <p className="text-sm text-text-muted leading-relaxed mb-4 font-light">
+                <p className="text-sm sm:text-[15px] text-sky-50/78 leading-relaxed mb-5 font-normal">
                     {kpi.description}
                 </p>
 
                 {/* Tech tag */}
                 <div className="flex items-center gap-2">
-                    <div className="h-px flex-1 bg-gradient-to-r from-accent-blue/20 to-transparent" />
-                    <span className="text-[10px] font-mono text-accent-blue/60 uppercase tracking-wider whitespace-nowrap">
+                    <div className="h-px flex-1 bg-gradient-to-r from-accent-blue/45 to-transparent" />
+                    <span className="text-[10px] sm:text-[11px] font-mono text-accent-light/90 uppercase tracking-wider whitespace-nowrap">
                         {kpi.techLabel}
                     </span>
                 </div>
@@ -169,7 +169,7 @@ export default function ScrollytellingSection() {
         <section
             ref={sectionRef}
             id="estrategia"
-            className="relative py-10 sm:py-20 lg:py-24 px-5 sm:px-6 bg-background overflow-hidden"
+            className="relative py-16 sm:py-24 lg:py-28 px-5 sm:px-6 bg-background overflow-hidden"
         >
             {/* Background grid con parallax */}
             <motion.div
@@ -184,19 +184,22 @@ export default function ScrollytellingSection() {
 
             {/* Fondo narrativo: curva de crecimiento / facturación */}
             <MetricBurst intensity="medium" />
+            <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_24%,rgba(2,6,23,0.12),rgba(2,6,23,0.48)_48%,rgba(2,6,23,0.72)_100%)] pointer-events-none" />
+            <div className="absolute inset-x-0 top-0 h-32 bg-gradient-to-b from-background via-background/72 to-transparent pointer-events-none" />
+            <div className="absolute inset-x-0 bottom-0 h-40 bg-gradient-to-t from-background via-background/70 to-transparent pointer-events-none" />
             
             {/* Divisor superior */}
             <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-accent-blue/10 to-transparent" />
 
             <div ref={contentRef} className="relative z-10 max-w-7xl mx-auto">
                 {/* Header */}
-                <div className="text-center mb-10 sm:mb-14 lg:mb-16">
+                <div className="text-center mb-12 sm:mb-16 lg:mb-20">
                     <motion.div
                         initial={{ opacity: 0, y: 20 }}
                         whileInView={{ opacity: 1, y: 0 }}
                         viewport={{ once: true }}
                         transition={{ duration: 0.8 }}
-                        className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/5 border border-primary/20 text-[11px] font-semibold tracking-[0.2em] uppercase text-primary mb-6 backdrop-blur-md"
+                        className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/15 border border-primary/40 text-[11px] sm:text-xs font-bold tracking-[0.22em] uppercase text-sky-100 mb-6 backdrop-blur-md shadow-[0_0_28px_rgba(0,102,255,0.18)]"
                     >
                         Resultados que damos
                     </motion.div>
@@ -206,14 +209,14 @@ export default function ScrollytellingSection() {
                         whileInView={{ opacity: 1, y: 0 }}
                         viewport={{ once: true }}
                         transition={{ duration: 1, delay: 0.1, ease: [0.22, 1, 0.36, 1] }}
-                        className="font-display-heavy text-3xl sm:text-5xl md:text-6xl lg:text-7xl font-bold tracking-tight mb-5 sm:mb-7 text-text-primary"
+                        className="font-display-heavy text-4xl sm:text-6xl md:text-7xl lg:text-8xl font-black tracking-tight leading-[0.98] sm:leading-[0.95] mb-5 sm:mb-7 text-foreground drop-shadow-[0_8px_38px_rgba(0,0,0,0.4)]"
                     >
                         Te ayudamos a{" "}
-                        <span className="text-primary relative inline-block drop-shadow-[0_0_15px_rgba(0,102,255,0.3)]">
+                        <span className="text-primary relative inline-block drop-shadow-[0_0_20px_rgba(0,102,255,0.48)]">
                             facturar más
                             {/* Scroll-drawn underline */}
                             <motion.div
-                                className="absolute bottom-1 left-0 w-full h-[3px] bg-gradient-to-r from-primary to-accent-light shadow-[0_2px_10px_rgba(0,102,255,0.4)]"
+                                className="absolute -bottom-1 sm:bottom-1 left-0 w-full h-[3px] sm:h-[4px] bg-gradient-to-r from-primary to-accent-light shadow-[0_2px_18px_rgba(0,102,255,0.58)]"
                                 style={{ scaleX: underlineDraw, transformOrigin: "left" }}
                             />
                         </span>
@@ -224,7 +227,7 @@ export default function ScrollytellingSection() {
                         whileInView={{ opacity: 1, y: 0 }}
                         viewport={{ once: true }}
                         transition={{ duration: 0.8, delay: 0.2 }}
-                        className="text-base sm:text-lg text-text-muted max-w-2xl mx-auto leading-relaxed font-light"
+                        className="text-lg sm:text-xl md:text-2xl text-sky-50/78 max-w-3xl mx-auto leading-relaxed font-normal"
                     >
                         CRM, soporte y dirección de marketing trabajando juntos
                         para que tu negocio venda más, mes a mes.
@@ -232,12 +235,12 @@ export default function ScrollytellingSection() {
                 </div>
 
                 {/* === Layout principal: 2 columnas === */}
-                <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 sm:gap-10 lg:gap-16 items-center mb-10 sm:mb-14">
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 sm:gap-12 lg:gap-16 items-center mb-12 sm:mb-16">
 
                     {/* Columna izquierda: Animación orbital — Scale up on scroll */}
                     <motion.div
                         style={{ scale: orbitScale, opacity: orbitOpacity, y: orbitY }}
-                        className="order-2 lg:order-1 flex justify-center will-change-transform md:drop-shadow-[0_0_50px_rgba(0,102,255,0.15)]"
+                        className="order-2 lg:order-1 flex justify-center will-change-transform opacity-95 md:drop-shadow-[0_0_70px_rgba(0,102,255,0.24)]"
                     >
                         <TechEcosystemOrbit />
                     </motion.div>
@@ -248,15 +251,15 @@ export default function ScrollytellingSection() {
                         whileInView={{ opacity: 1, x: 0 }}
                         viewport={{ once: true }}
                         transition={{ duration: 0.8, delay: 0.3 }}
-                        className="order-1 lg:order-2 space-y-6 sm:space-y-8"
+                        className="order-1 lg:order-2 space-y-7 sm:space-y-9 rounded-3xl border border-primary/18 bg-background/28 p-6 sm:p-8 shadow-[0_22px_80px_rgba(0,102,255,0.12)] backdrop-blur-sm"
                     >
                         <div className="space-y-5">
-                            <h3 className="font-display-heavy text-2xl sm:text-3xl text-text-primary leading-tight">
+                            <h3 className="font-display-heavy text-3xl sm:text-4xl lg:text-5xl text-foreground leading-[0.95] tracking-tight">
                                 Cada pieza suma<br />
                                 <span className="text-accent-light">a tus ventas.</span>
                             </h3>
 
-                            <p className="text-base text-text-muted leading-relaxed font-light">
+                            <p className="text-base sm:text-lg text-sky-50/78 leading-relaxed font-normal max-w-xl">
                                 Conectamos tus campañas, tu CRM y tu seguimiento para que nada se pierda
                                 y todo apunte a una sola cosa: que vendas más.
                             </p>
@@ -267,7 +270,7 @@ export default function ScrollytellingSection() {
                             {/* Vertical timeline connector */}
                             <motion.div
                                 style={{ height: timelineHeight }}
-                                className="absolute left-[18px] top-[12px] w-[1px] bg-gradient-to-b from-accent-blue/30 to-accent-blue/5"
+                                className="absolute left-[20px] top-[12px] w-[2px] bg-gradient-to-b from-accent-blue/70 to-accent-light/10"
                             />
                             {[
                                 { step: "01", text: "Diagnóstico de tu negocio y tus números" },
@@ -281,10 +284,10 @@ export default function ScrollytellingSection() {
                                     transition={{ duration: 0.6, delay: 0.5 + i * 0.15 }}
                                     className="flex items-center gap-4 group relative z-10"
                                 >
-                                    <span className="text-xs font-bold text-primary font-mono bg-primary/5 border border-primary/20 rounded-lg px-2.5 py-1.5 group-hover:bg-primary/10 transition-colors">
+                                    <span className="text-xs sm:text-sm font-extrabold text-sky-100 font-mono bg-primary/18 border border-primary/45 rounded-lg px-3 py-2 shadow-[0_0_20px_rgba(0,102,255,0.15)] group-hover:bg-primary/25 transition-colors">
                                         {item.step}
                                     </span>
-                                    <span className="text-sm text-text-muted group-hover:text-text-primary transition-colors">
+                                    <span className="text-sm sm:text-base text-sky-50/78 group-hover:text-foreground transition-colors">
                                         {item.text}
                                     </span>
                                 </motion.div>
@@ -294,7 +297,7 @@ export default function ScrollytellingSection() {
                 </div>
 
                 {/* === KPI Cards Grid — Dashboard loading effect === */}
-                <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-5 mb-10 sm:mb-14">
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-5 lg:gap-6 mb-12 sm:mb-16">
                     {KPIS.map((kpi, index) => (
                         <KPICard
                             key={kpi.label}
@@ -311,7 +314,7 @@ export default function ScrollytellingSection() {
                     style={{ y: ctaY, opacity: ctaOpacity }}
                     className="text-center"
                 >
-                    <p className="text-sm text-text-muted mb-6 tracking-wide uppercase">
+                    <p className="text-sm sm:text-base text-sky-50/72 mb-6 tracking-wide uppercase font-semibold">
                         ¿Listo para vender más?
                     </p>
                     <Button

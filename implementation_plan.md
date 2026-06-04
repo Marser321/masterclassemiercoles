@@ -602,6 +602,32 @@ Para facilitar que el modelo de 1M de contexto implemente la lógica compleja de
 
 ---
 
+## 25. Feedback del Anotador: Legibilidad de Resultados que Damos
+
+<browser_feedback_resolution status="approved_by_browser_comment">
+  <source>Comentario sobre `section#estrategia` en Home.</source>
+  <request>Repensar la seccion para aumentar tamanos, opacidades y legibilidad general.</request>
+
+  <implementation_scope>
+    <item>Actualizar `src/components/sections/ScrollytellingSection.tsx` para reforzar jerarquia del titular, descripcion, bloque de proceso y tarjetas KPI.</item>
+    <item>Aumentar contraste/opacidad de textos secundarios, bordes, fondos de tarjetas y elementos de proceso.</item>
+    <item>Reducir la competencia visual del fondo narrativo mediante overlays internos y mejor profundidad sin removerlo.</item>
+    <item>Mantener el contenido, CTAs, animaciones principales y navegacion hacia `/planificacion`.</item>
+  </implementation_scope>
+
+  <validation>
+    <item>Ejecutar ESLint sobre `ScrollytellingSection.tsx`.</item>
+    <item>Ejecutar TypeScript y build de Next.js.</item>
+    <item>Verificar visualmente Home desktop/mobile para confirmar lectura clara y sin solapes.</item>
+  </validation>
+
+  <business_benefit>
+    <item>Mejora la capacidad de escaneo de la propuesta comercial y hace mas evidente el valor: CRM, soporte, marketing y ventas conectados para facturar mas.</item>
+  </business_benefit>
+</browser_feedback_resolution>
+
+---
+
 ## 21. Semantica SEO y QA Visual de Claims
 
 <pending_vibe_approval>
