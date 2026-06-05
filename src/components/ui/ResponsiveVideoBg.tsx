@@ -89,7 +89,11 @@ export default function ResponsiveVideoBg({
                 <video
                     key={`${isDesktop ? "desktop" : "mobile"}-${currentMp4}`} // Remonta el video al cambiar de viewport
                     ref={videoRef}
-                    className={cn("absolute inset-0 h-full w-full object-cover", videoClassName)}
+                    className={cn(
+                        "absolute inset-0 h-full w-full",
+                        isDesktop ? "object-cover" : "object-fill",
+                        videoClassName
+                    )}
                     autoPlay
                     muted
                     loop
