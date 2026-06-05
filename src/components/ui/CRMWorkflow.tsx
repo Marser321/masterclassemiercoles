@@ -13,11 +13,14 @@ import {
 } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 import Image from "next/image";
+import { useHydratedReducedMotion } from "@/lib/useHydratedReducedMotion";
 
 // ============================================================
 // CRM Workflow Visualization — High Fidelity Neural System
 // ============================================================
 export default function CRMWorkflow() {
+    const shouldReduceMotion = useHydratedReducedMotion();
+
     return (
         <div className="relative w-full h-full bg-background rounded-3xl border border-primary/10 overflow-hidden group">
             
@@ -35,7 +38,10 @@ export default function CRMWorkflow() {
             {/* Central Engine — Core */}
             <div className="absolute inset-0 flex items-center justify-center">
                 <motion.div 
-                    animate={{ 
+                    animate={shouldReduceMotion ? {
+                        scale: 1,
+                        boxShadow: "0 0 28px rgba(72,142,255,0.16)"
+                    } : { 
                         scale: [1, 1.02, 1],
                         boxShadow: [
                             "0 0 20px rgba(72,142,255,0.1)",
@@ -43,7 +49,7 @@ export default function CRMWorkflow() {
                             "0 0 20px rgba(72,142,255,0.1)"
                         ]
                     }}
-                    transition={{ duration: 4, repeat: Infinity }}
+                    transition={shouldReduceMotion ? { duration: 0 } : { duration: 4, repeat: Infinity }}
                     className="size-32 rounded-[2.5rem] bg-background border border-primary/10 flex items-center justify-center relative z-20 p-4 shadow-xl"
                 >
                     {/* Internal Multi-Port Grid */}
@@ -65,10 +71,12 @@ export default function CRMWorkflow() {
                     {/* Central Fusion Point — AD Media Isotype */}
                     <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
                         <motion.div 
-                            animate={{ 
+                            animate={shouldReduceMotion ? {
+                                filter: "drop-shadow(0 0 14px rgba(72,142,255,0.35))"
+                            } : { 
                                 filter: ["drop-shadow(0 0 10px rgba(72,142,255,0.3))", "drop-shadow(0 0 20px rgba(72,142,255,0.5))", "drop-shadow(0 0 10px rgba(72,142,255,0.3))"]
                             }}
-                            transition={{ duration: 3, repeat: Infinity }}
+                            transition={shouldReduceMotion ? { duration: 0 } : { duration: 3, repeat: Infinity }}
                             className="size-16 flex items-center justify-center"
                         >
                             <Image 
@@ -83,13 +91,13 @@ export default function CRMWorkflow() {
                     
                     {/* Orbital Rings */}
                     <motion.div 
-                        animate={{ rotate: 360 }}
-                        transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
+                        animate={{ rotate: shouldReduceMotion ? 0 : 360 }}
+                        transition={shouldReduceMotion ? { duration: 0 } : { duration: 20, repeat: Infinity, ease: "linear" }}
                         className="absolute -inset-10 border border-primary/5 rounded-full"
                     />
                     <motion.div 
-                        animate={{ rotate: -360 }}
-                        transition={{ duration: 30, repeat: Infinity, ease: "linear" }}
+                        animate={{ rotate: shouldReduceMotion ? 0 : -360 }}
+                        transition={shouldReduceMotion ? { duration: 0 } : { duration: 30, repeat: Infinity, ease: "linear" }}
                         className="absolute -inset-24 border border-primary/5 rounded-full border-dashed opacity-50"
                     />
                 </motion.div>
@@ -119,26 +127,37 @@ export default function CRMWorkflow() {
                 <path id="path-whatsapp" d="M350 350 Q 300 350 222 222" fill="none" stroke="#25D366" strokeWidth="1" strokeDasharray="4 4" className="opacity-[0.08]" />
 
                 {/* Animated Particles — Synchronized Flow using Native SVG animateMotion */}
-                <circle r="3.5" fill="#488EFF" filter="url(#neon-glow)">
-                    <animateMotion dur="2.5s" repeatCount="indefinite" begin="0s">
-                        <mpath href="#path-meta" />
-                    </animateMotion>
-                </circle>
-                <circle r="3.5" fill="#81E7FF" filter="url(#neon-glow)">
-                    <animateMotion dur="2.5s" repeatCount="indefinite" begin="0s">
-                        <mpath href="#path-google" />
-                    </animateMotion>
-                </circle>
-                <circle r="3.5" fill="#488EFF" filter="url(#neon-glow)">
-                    <animateMotion dur="2.5s" repeatCount="indefinite" begin="0s">
-                        <mpath href="#path-referrals" />
-                    </animateMotion>
-                </circle>
-                <circle r="3.5" fill="#25D366" filter="url(#neon-glow)">
-                    <animateMotion dur="2.5s" repeatCount="indefinite" begin="0s">
-                        <mpath href="#path-whatsapp" />
-                    </animateMotion>
-                </circle>
+                {shouldReduceMotion ? (
+                    <>
+                        <circle cx="178" cy="178" r="3.5" fill="#488EFF" filter="url(#neon-glow)" />
+                        <circle cx="178" cy="222" r="3.5" fill="#81E7FF" filter="url(#neon-glow)" />
+                        <circle cx="222" cy="178" r="3.5" fill="#488EFF" filter="url(#neon-glow)" />
+                        <circle cx="222" cy="222" r="3.5" fill="#25D366" filter="url(#neon-glow)" />
+                    </>
+                ) : (
+                    <>
+                        <circle r="3.5" fill="#488EFF" filter="url(#neon-glow)">
+                            <animateMotion dur="2.5s" repeatCount="indefinite" begin="0s">
+                                <mpath href="#path-meta" />
+                            </animateMotion>
+                        </circle>
+                        <circle r="3.5" fill="#81E7FF" filter="url(#neon-glow)">
+                            <animateMotion dur="2.5s" repeatCount="indefinite" begin="0s">
+                                <mpath href="#path-google" />
+                            </animateMotion>
+                        </circle>
+                        <circle r="3.5" fill="#488EFF" filter="url(#neon-glow)">
+                            <animateMotion dur="2.5s" repeatCount="indefinite" begin="0s">
+                                <mpath href="#path-referrals" />
+                            </animateMotion>
+                        </circle>
+                        <circle r="3.5" fill="#25D366" filter="url(#neon-glow)">
+                            <animateMotion dur="2.5s" repeatCount="indefinite" begin="0s">
+                                <mpath href="#path-whatsapp" />
+                            </animateMotion>
+                        </circle>
+                    </>
+                )}
             </svg>
 
             {/* Inbound Nodes */}
@@ -149,8 +168,8 @@ export default function CRMWorkflow() {
 
             {/* Floating Status Cards */}
             <motion.div 
-                animate={{ y: [0, -10, 0] }}
-                transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
+                animate={{ y: shouldReduceMotion ? 0 : [0, -10, 0] }}
+                transition={shouldReduceMotion ? { duration: 0 } : { duration: 5, repeat: Infinity, ease: "easeInOut" }}
                 className="absolute top-1/2 left-4 sm:left-8 -translate-y-1/2 p-3 glass-premium rounded-xl border-accent-blue/20 z-30 shadow-2xl"
             >
                 <div className="flex items-center gap-2">
@@ -163,8 +182,8 @@ export default function CRMWorkflow() {
             </motion.div>
 
             <motion.div 
-                animate={{ y: [0, 10, 0] }}
-                transition={{ duration: 6, repeat: Infinity, ease: "easeInOut", delay: 1 }}
+                animate={{ y: shouldReduceMotion ? 0 : [0, 10, 0] }}
+                transition={shouldReduceMotion ? { duration: 0 } : { duration: 6, repeat: Infinity, ease: "easeInOut", delay: 1 }}
                 className="absolute top-1/2 right-4 sm:right-8 -translate-y-1/2 p-3 glass-premium rounded-xl border-emerald-500/20 z-30 shadow-2xl"
             >
                 <div className="flex items-center gap-2">
@@ -177,8 +196,8 @@ export default function CRMWorkflow() {
             </motion.div>
 
             <motion.div 
-                animate={{ scale: [1, 1.1, 1], opacity: [0.5, 1, 0.5] }}
-                transition={{ duration: 3, repeat: Infinity }}
+                animate={shouldReduceMotion ? { scale: 1, opacity: 0.82 } : { scale: [1, 1.1, 1], opacity: [0.5, 1, 0.5] }}
+                transition={shouldReduceMotion ? { duration: 0 } : { duration: 3, repeat: Infinity }}
                 className="absolute bottom-6 left-1/2 -translate-x-1/2 flex items-center gap-1.5 px-3 py-1 rounded-full bg-accent-blue/10 border border-accent-blue/20"
             >
                 <Star className="size-3 text-amber-400 fill-amber-400" />

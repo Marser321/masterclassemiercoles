@@ -1,175 +1,194 @@
 "use client";
 
-import { useRef } from "react";
-import { motion, useScroll, useTransform } from "framer-motion";
-import { 
-    Zap, 
-    ShieldCheck, 
-    Users, 
-    ArrowRight,
+import { useRouter } from "next/navigation";
+import { motion } from "framer-motion";
+import {
+  Activity,
+  ArrowRight,
+  Plug,
+  ShieldCheck,
+  Sparkles,
 } from "lucide-react";
 import { Button } from "@/components/ui/Button";
-import { useRouter } from "next/navigation";
-import CRMWorkflow from "../ui/CRMWorkflow";
-import GhlLogoBackground from "@/components/ui/GhlLogoBackground";
-import FlowField from "@/components/backgrounds/FlowField";
 import { KineticContainer, KineticItem } from "@/components/animations/KineticEntrance";
+import CRMWorkflow from "@/components/ui/CRMWorkflow";
+import GhlLogoBackground from "@/components/ui/GhlLogoBackground";
 
-// ============================================================
-// CRM Feature Data
-// ============================================================
-const CRM_FEATURES = [
-    {
-        id: "automations",
-        icon: Zap,
-        label: "Automatización 24/7",
-        description: "Tu CRM da seguimiento y agenda citas solo, de día y de noche. Cero clientes perdidos.",
-        color: "text-accent-blue",
-        bg: "bg-accent-blue/10"
-    },
-    {
-        id: "branding",
-        icon: ShieldCheck,
-        label: "Tu marca, tu sistema",
-        description: "Tu logo, tus colores, tu dominio. El sistema es tuyo y de tu negocio, no de un tercero.",
-        color: "text-accent-light",
-        bg: "bg-accent-light/10"
-    },
-    {
-        id: "reputation",
-        icon: Users,
-        label: "Gestión de reseñas",
-        description: "Pedimos y gestionamos las reseñas de tus clientes para que destaques en Google sin esfuerzo.",
-        color: "text-accent-warm",
-        bg: "bg-accent-warm/10"
-    }
+const SYSTEM_STEPS = [
+  {
+    label: "Entrada",
+    description: "Pauta, formularios, WhatsApp y referidos.",
+  },
+  {
+    label: "CRM",
+    description: "Prospectos, etapas y conversaciones centralizadas.",
+  },
+  {
+    label: "Follow-up",
+    description: "Recordatorios, tareas y respuestas con ruta clara.",
+  },
+  {
+    label: "Agenda",
+    description: "Citas listas para que ventas trabaje con foco.",
+  },
 ];
 
-// ============================================================
-// CRM Section — The Engine Room
-// ============================================================
+const BENEFITS = [
+  {
+    title: "Menos caos operativo",
+    description: "Cada lead entra al sistema con una ruta clara de seguimiento.",
+  },
+  {
+    title: "Mas visibilidad comercial",
+    description: "Tu equipo sabe que esta pendiente, que se atendio y que debe pasar despues.",
+  },
+  {
+    title: "Soporte para sostenerlo",
+    description: "No solo instalamos herramientas: acompanamos la operacion para que siga funcionando.",
+  },
+];
+
 export default function CRMSection() {
-    const containerRef = useRef<HTMLElement>(null);
-    const router = useRouter();
+  const router = useRouter();
+  const goToPlanning = () => router.push("/planificacion");
 
-    const { scrollYProgress } = useScroll({
-        target: containerRef,
-        offset: ["start end", "end start"],
-    });
+  return (
+    <section
+      id="crm"
+      className="relative scroll-mt-24 overflow-hidden bg-background px-5 py-14 sm:scroll-mt-28 sm:px-6 sm:py-20 lg:py-24"
+    >
+      <div className="absolute inset-0 pointer-events-none">
+        <div className="texture-grid opacity-[0.018]" />
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_70%_18%,rgba(0,102,255,0.18),transparent_42%),radial-gradient(circle_at_16%_78%,rgba(16,208,86,0.08),transparent_34%)]" />
+        <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-primary/20 to-transparent" />
+      </div>
 
-    // Parallax & Reveal animations
-    const dashboardScale = useTransform(scrollYProgress, [0, 0.5], [0.9, 1]);
-    const dashboardOpacity = useTransform(scrollYProgress, [0, 0.4], [0, 1]);
-
-    return (
-        <section 
-            ref={containerRef} 
-            id="crm" 
-            className="relative py-10 sm:py-20 lg:py-24 px-5 sm:px-6 bg-background overflow-hidden"
-        >
-            {/* Fondo narrativo: leads convergiendo hacia el núcleo CRM */}
-            <FlowField intensity="medium" />
-
-            <div className="relative z-10 max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-8 sm:gap-10 lg:gap-20 items-center">
-                
-                {/* Left Column: Narrative */}
-                <div className="relative">
-                    <KineticContainer className="space-y-6 sm:space-y-8">
-                        {/* Status Badge */}
-                        <KineticItem type="subtitle-top">
-                            <div className="inline-flex items-center gap-2.5 px-4 py-1.5 rounded-full bg-primary/5 border border-primary/20 w-fit">
-                                <span className="relative flex h-2 w-2">
-                                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75"></span>
-                                    <span className="relative inline-flex rounded-full h-2 w-2 bg-primary"></span>
-                                </span>
-                                <span className="text-[11px] font-bold font-mono text-primary uppercase tracking-[0.2em]">CRM personalizados</span>
-                            </div>
-                        </KineticItem>
-
-                        {/* Title */}
-                        <KineticItem type="title-right">
-                            <h2 className="text-3xl sm:text-5xl md:text-6xl font-display-heavy leading-[1.1] text-foreground">
-                                AD Media <span className="text-primary italic">CRM</span>. <br />
-                                Hecho a la medida de tu negocio.
-                            </h2>
-                        </KineticItem>
-
-                        {/* Description */}
-                        <KineticItem type="body-bottom">
-                            <p className="text-base sm:text-lg lg:text-xl text-muted-foreground font-light leading-relaxed max-w-xl">
-                                No es un CRM genérico. Es <span className="text-foreground font-bold border-b border-primary/30">tu sistema de ventas</span>: tus clientes, su seguimiento y tus citas en un solo lugar, con soporte que de verdad responde.
-                            </p>
-                        </KineticItem>
-
-                        {/* Feature List */}
-                        <div className="space-y-5 sm:space-y-6">
-                            {CRM_FEATURES.map((feature) => (
-                                <KineticItem 
-                                    key={feature.id}
-                                    type="body-bottom"
-                                    className="flex gap-5 group"
-                                >
-                                    <div className="mt-1 p-3 rounded-xl bg-primary/5 border border-border group-hover:border-primary/40 transition-all duration-500 shadow-inner">
-                                        <feature.icon className="size-6 text-primary" />
-                                    </div>
-                                    <div>
-                                        <h4 className="text-lg sm:text-xl font-bold text-foreground mb-1.5 transition-colors group-hover:text-primary">{feature.label}</h4>
-                                        <p className="text-sm sm:text-base text-muted-foreground leading-relaxed">{feature.description}</p>
-                                    </div>
-                                </KineticItem>
-                            ))}
-                        </div>
-
-                        {/* CTAs */}
-                        <KineticItem type="btn-left">
-                            <div className="flex flex-col sm:flex-row items-center gap-6 sm:gap-8 pt-2">
-                                <Button variant="primary" size="lg" glow onClick={() => router.push("/planificacion")} className="group w-full sm:w-auto">
-                                    <span className="flex items-center gap-2 font-bold tracking-tight">
-                                        AGENDAR DEMO GRATIS
-                                        <ArrowRight className="size-5 transition-transform group-hover:translate-x-1" />
-                                    </span>
-                                </Button>
-                                <div className="flex items-center gap-4">
-                                    <div className="flex -space-x-3">
-                                        {[1, 2, 3, 4].map(i => (
-                                            <div key={i} className="size-10 rounded-full border-2 border-background bg-zinc-800 shadow-lg" />
-                                        ))}
-                                    </div>
-                                    <p className="text-xs text-muted-foreground leading-tight">
-                                        <span className="text-foreground font-bold block">+150 negocios</span>
-                                        con su CRM funcionando
-                                    </p>
-                                </div>
-                            </div>
-                        </KineticItem>
-                    </KineticContainer>
-                </div>
-
-                {/* Right Column: High Fidelity Workflow Animation */}
-                <motion.div 
-                    style={{ scale: dashboardScale, opacity: dashboardOpacity }}
-                    className="relative w-full max-w-[320px] xs:max-w-[370px] sm:max-w-[450px] lg:max-w-[500px] xl:max-w-[540px] mx-auto mt-10 sm:mt-16 lg:mt-0"
-                >
-                    <div className="absolute -inset-10 bg-primary/5 blur-[120px] rounded-full animate-pulse-slow pointer-events-none" />
-                    
-                    {/* Inner wrapper with responsive padding-top to reserve space for the GHL logo and prevent clipping */}
-                    <div className="relative pt-[45%] sm:pt-[54%] lg:pt-[60%] w-full">
-                        {/* GHL Logo Crown: integrated as the "roof" of the CRM workflow card */}
-                        <div className="absolute top-0 left-1/2 -translate-x-1/2 z-20 w-[72%] sm:w-[80%] lg:w-[85%] pointer-events-none">
-                            <GhlLogoBackground 
-                                showGlow={false}
-                                className="w-full h-auto opacity-100 drop-shadow-[0_0_20px_rgba(31,136,229,0.5)] drop-shadow-[0_0_8px_rgba(16,208,86,0.3)]"
-                            />
-                        </div>
-                        
-                        {/* The CRM Workflow card */}
-                        <div className="w-full aspect-square">
-                            <CRMWorkflow />
-                        </div>
-                    </div>
-                </motion.div>
-
+      <div className="relative z-10 mx-auto grid max-w-7xl grid-cols-1 items-center gap-10 lg:grid-cols-[minmax(0,0.82fr)_minmax(0,1.18fr)] lg:gap-16">
+        <KineticContainer className="space-y-6 text-center lg:text-left">
+          <KineticItem type="subtitle-top">
+            <div className="mx-auto inline-flex w-fit items-center gap-2 rounded-full border border-primary/20 bg-primary/10 px-4 py-1.5 lg:mx-0">
+              <Activity className="size-3.5 text-primary" />
+              <span className="font-mono text-[11px] font-bold uppercase tracking-[0.22em] text-primary">
+                Sistema comercial
+              </span>
             </div>
-        </section>
-    );
+          </KineticItem>
+
+          <KineticItem type="title-right">
+            <h2 className="font-display-heavy text-3xl leading-[1.08] tracking-tight text-foreground sm:text-5xl lg:text-6xl">
+              Tu marketing, tu CRM y tu agenda trabajando como una sola operacion.
+            </h2>
+          </KineticItem>
+
+          <KineticItem type="body-bottom">
+            <p className="mx-auto max-w-2xl text-base font-light leading-relaxed text-muted-foreground sm:text-lg lg:mx-0">
+              Conectamos captacion, seguimiento y citas para que el equipo deje
+              de perseguir informacion suelta y pueda enfocarse en vender mejor.
+            </p>
+          </KineticItem>
+
+          <KineticItem type="fade-in" className="hidden lg:block">
+            <BenefitsList />
+          </KineticItem>
+
+          <KineticItem type="btn-left" className="hidden lg:block">
+            <CTAGroup onPlan={goToPlanning} />
+          </KineticItem>
+        </KineticContainer>
+
+        <motion.div
+          initial={{ opacity: 0, y: 24, scale: 0.98 }}
+          whileInView={{ opacity: 1, y: 0, scale: 1 }}
+          viewport={{ once: true, margin: "-10%" }}
+          transition={{ duration: 0.55, ease: "easeOut" }}
+          className="relative mx-auto w-full max-w-[760px]"
+        >
+          <div className="absolute -inset-8 rounded-[2rem] bg-primary/10 blur-3xl" />
+          <div className="absolute -right-4 -top-8 z-30 hidden h-40 w-40 rounded-full bg-primary/10 blur-2xl sm:block" />
+          <GhlLogoBackground
+            showGlow={false}
+            className="pointer-events-none absolute left-1/2 top-0 z-30 w-[118px] -translate-x-1/2 opacity-95 drop-shadow-[0_18px_45px_rgba(31,136,229,0.35)] sm:w-[210px] lg:w-[240px]"
+          />
+
+          <div className="relative z-10 h-[520px] pt-[92px] sm:h-[640px] sm:pt-[150px] lg:h-[680px] lg:pt-[170px]">
+            <CRMWorkflow />
+          </div>
+
+          <div className="relative z-20 -mt-6 grid grid-cols-2 gap-2 sm:grid-cols-4">
+            {SYSTEM_STEPS.map((step, index) => (
+              <motion.div
+                key={step.label}
+                initial={{ opacity: 0, y: 14 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: 0.12 + index * 0.07, duration: 0.32 }}
+                className="min-h-[84px] rounded-lg border border-primary/15 bg-background/85 p-3 shadow-xl shadow-primary/5 backdrop-blur-md"
+              >
+                <div className="mb-2 flex items-center gap-2">
+                  <div className="flex size-6 items-center justify-center rounded-md bg-primary/10 text-primary">
+                    {index === 0 ? <Plug className="size-3.5" /> : <Sparkles className="size-3.5" />}
+                  </div>
+                  <p className="font-mono text-[10px] font-bold uppercase tracking-[0.16em] text-primary">
+                    {step.label}
+                  </p>
+                </div>
+                <p className="text-[11px] leading-relaxed text-muted-foreground">
+                  {step.description}
+                </p>
+              </motion.div>
+            ))}
+          </div>
+        </motion.div>
+
+        <div className="relative z-10 mx-auto w-full max-w-2xl space-y-7 lg:hidden">
+          <BenefitsList />
+          <CTAGroup onPlan={goToPlanning} />
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function BenefitsList() {
+  return (
+    <div className="grid gap-4 pt-1 text-left sm:grid-cols-3 lg:grid-cols-1">
+      {BENEFITS.map((benefit, index) => (
+        <div key={benefit.title} className="flex gap-3">
+          <div className="mt-1 flex size-7 shrink-0 items-center justify-center rounded-full border border-primary/25 bg-primary/10 font-mono text-[10px] font-bold text-primary">
+            0{index + 1}
+          </div>
+          <div>
+            <h3 className="text-sm font-bold text-foreground">{benefit.title}</h3>
+            <p className="mt-1 text-xs leading-relaxed text-muted-foreground">
+              {benefit.description}
+            </p>
+          </div>
+        </div>
+      ))}
+    </div>
+  );
+}
+
+function CTAGroup({ onPlan }: { onPlan: () => void }) {
+  return (
+    <div className="flex flex-col items-center gap-5 pt-2 sm:flex-row lg:justify-start">
+      <Button
+        variant="primary"
+        size="lg"
+        glow
+        aurora={false}
+        shimmer={false}
+        pulse={false}
+        onClick={onPlan}
+        className="h-14 w-full px-8 sm:w-auto"
+      >
+        Agendar diagnostico
+        <ArrowRight className="size-5" />
+      </Button>
+      <div className="flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.16em] text-muted-foreground">
+        <ShieldCheck className="size-4 text-primary" />
+        Revision sin costo
+      </div>
+    </div>
+  );
 }

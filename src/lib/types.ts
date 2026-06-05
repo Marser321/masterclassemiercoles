@@ -9,6 +9,20 @@ export interface Testimonial {
   btlConcept?: string; // Concepto Below The Line asociado
 }
 
+export type VideoOrientation = "vertical" | "horizontal";
+
+export interface TestimonialVideo {
+  id: string;
+  client: string;
+  category: string;
+  duration: string;
+  durationSeconds: number;
+  orientation: VideoOrientation;
+  poster: string;
+  videoSrc: string;
+  featured: boolean;
+}
+
 export interface FeatureItem {
   text: string;
   included: boolean;

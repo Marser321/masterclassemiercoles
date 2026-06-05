@@ -1,315 +1,164 @@
 "use client";
 
-import { useRef, useState, useEffect } from "react";
+import { useState } from "react";
 import Image from "next/image";
-import { motion, AnimatePresence, useScroll, useTransform } from "framer-motion";
-import { Play, Volume2, VolumeX, ShieldCheck, Calendar, Activity, Loader2, Sparkles } from "lucide-react";
-import { Button } from "../ui/Button";
+import { motion, useScroll, useTransform } from "framer-motion";
+import { Activity, Calendar, Gauge, Play, ShieldCheck, Sparkles } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { KineticContainer, KineticItem } from "@/components/animations/KineticEntrance";
+import { Button } from "@/components/ui/Button";
 
-// ============================================================
-// Subtitles timed data matching the diagnostic video script.
-// ============================================================
-const SUBTITLES = [
-    { text: "Si tienes una empresa de trámites migratorios y quieres escalar tus ventas...", duration: 4000 },
-    { text: "...hemos ayudado a muchas como la tuya y esto es lo que tienen que decir de nosotros.", duration: 4000 },
-    { text: "Y la manera en que lo hemos hecho te la mostramos con nuestro sistema comercial.", duration: 4000 },
-    { text: "Vas a aprender cómo traer clientes potenciales de calidad, cerrar más ventas...", duration: 4000 },
-    { text: "...y entregar tus procesos de forma automática y todo con un CRM de trámites migratorios.", duration: 4500 },
-    { text: "Haz clic en el botón de abajo y agenda una cita para revisar tu operación.", duration: 4500 }
-];
+const VSL_POSTER = "/media/vsl/vsl-8min-poster.jpg";
+const VSL_WEB = "/media/vsl/vsl-8min-web.mp4";
+const VSL_MOBILE = "/media/vsl/vsl-8min-mobile.mp4";
 
 export default function VSLSection() {
-    const sectionRef = useRef<HTMLElement>(null);
-    const bufferTimerRef = useRef<number | null>(null);
-    const router = useRouter();
+  const [videoActive, setVideoActive] = useState(false);
+  const router = useRouter();
 
-    const [isPlaying, setIsPlaying] = useState(false);
-    const [isBuffering, setIsBuffering] = useState(false);
-    const [isMuted, setIsMuted] = useState(false);
-    const [subtitleIndex, setSubtitleIndex] = useState(0);
-    const [progress, setProgress] = useState(0);
+  const { scrollYProgress } = useScroll({
+    offset: ["start end", "end start"],
+  });
+  const yParallax = useTransform(scrollYProgress, [0, 1], [24, -24]);
 
-    const { scrollYProgress } = useScroll({
-        target: sectionRef,
-        offset: ["start end", "end start"],
-    });
+  return (
+    <section
+      id="vsl-masterclass"
+      className="relative overflow-hidden bg-background px-5 py-12 sm:px-6 sm:py-20 lg:py-24"
+    >
+      <div className="absolute inset-0 z-0 pointer-events-none">
+        <div className="texture-grid opacity-[0.025]" />
+        <div className="absolute inset-0 bg-gradient-to-b from-background via-transparent to-background" />
+      </div>
+      <div className="absolute left-0 right-0 top-0 h-px bg-gradient-to-r from-transparent via-primary/20 to-transparent" />
 
-    const yParallax = useTransform(scrollYProgress, [0, 1], [30, -30]);
+      <div className="relative z-10 mx-auto grid max-w-7xl grid-cols-1 items-center gap-10 lg:grid-cols-12 lg:gap-16">
+        <div className="lg:col-span-5">
+          <KineticContainer className="space-y-6 text-center lg:text-left">
+            <KineticItem type="subtitle-top">
+              <div className="mx-auto inline-flex w-fit items-center gap-2 rounded-full border border-primary/20 bg-primary/5 px-4 py-1.5 backdrop-blur-md lg:mx-0">
+                <span className="size-2 rounded-full bg-primary" />
+                <span className="font-mono text-[10px] font-bold uppercase tracking-[0.22em] text-primary sm:text-[11px]">
+                  VSL principal
+                </span>
+              </div>
+            </KineticItem>
 
-    const clearBufferTimer = () => {
-        if (!bufferTimerRef.current) return;
-        window.clearTimeout(bufferTimerRef.current);
-        bufferTimerRef.current = null;
-    };
+            <KineticItem type="title-right">
+              <h2 className="font-display-heavy text-3xl leading-[1.08] tracking-tight text-foreground sm:text-5xl lg:text-6xl">
+                Mira como ordenamos ventas, seguimiento y clientes para escalar tu{" "}
+                <span className="text-primary italic">operacion</span>
+              </h2>
+            </KineticItem>
 
-    const resetPlayback = () => {
-        clearBufferTimer();
-        setIsPlaying(false);
-        setIsBuffering(false);
-        setProgress(0);
-        setSubtitleIndex(0);
-    };
+            <KineticItem type="body-bottom">
+              <p className="mx-auto max-w-xl text-base font-light leading-relaxed text-muted-foreground sm:text-lg lg:mx-0">
+                Una explicacion directa del sistema comercial: embudo, CRM,
+                seguimiento y agenda trabajando como una sola estructura.
+              </p>
+            </KineticItem>
 
-    // Handle play state with simulated buffering
-    const handlePlayClick = () => {
-        if (isPlaying || isBuffering) {
-            resetPlayback();
-        } else {
-            setIsBuffering(true);
-            bufferTimerRef.current = window.setTimeout(() => {
-                setIsBuffering(false);
-                setIsPlaying(true);
-            }, 1200);
-        }
-    };
-
-    useEffect(() => {
-        return () => clearBufferTimer();
-    }, []);
-
-    // Subtitle sequence looping & progress bar simulation
-    useEffect(() => {
-        if (!isPlaying) return;
-
-        const progressInterval = window.setInterval(() => {
-            setProgress((prev) => {
-                const nextProgress = prev + 0.5;
-                if (nextProgress >= 100) {
-                    setIsPlaying(false);
-                    setSubtitleIndex(0);
-                    return 0;
-                }
-                return nextProgress;
-            });
-        }, 120);
-
-        const subtitleTimer = window.setTimeout(() => {
-            setSubtitleIndex((prev) => (
-                prev < SUBTITLES.length - 1 ? prev + 1 : 0
-            ));
-        }, SUBTITLES[subtitleIndex].duration);
-
-        return () => {
-            window.clearTimeout(subtitleTimer);
-            window.clearInterval(progressInterval);
-        };
-    }, [isPlaying, subtitleIndex]);
-
-    return (
-        <section
-            ref={sectionRef}
-            id="vsl-masterclass"
-            className="relative py-10 sm:py-20 lg:py-24 px-5 sm:px-6 bg-background overflow-hidden"
-        >
-            {/* Background Grid Pattern */}
-            <div className="absolute inset-0 z-0 pointer-events-none">
-                <div className="texture-grid opacity-[0.02]" />
-                <div className="absolute inset-0 bg-gradient-to-b from-background via-transparent to-background" />
-            </div>
-
-            {/* Divisor superior */}
-            <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-primary/20 to-transparent" />
-
-            <div className="relative z-10 max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-8 sm:gap-10 lg:gap-16 items-center">
-                
-                {/* Left Column: CTA & Copywriting */}
-                <div className="lg:col-span-6 flex flex-col justify-center text-center lg:text-left">
-                    <KineticContainer className="space-y-6 sm:space-y-8">
-                        {/* Status Badge */}
-                        <KineticItem type="subtitle-top">
-                            <div className="inline-flex items-center gap-2.5 px-4 py-1.5 rounded-full bg-primary/5 border border-primary/20 backdrop-blur-md mx-auto lg:mx-0 w-fit">
-                                <span className="relative flex h-2 w-2">
-                                    <span className="absolute inline-flex h-full w-full rounded-full bg-primary opacity-35"></span>
-                                    <span className="relative inline-flex rounded-full h-2 w-2 bg-primary"></span>
-                                </span>
-                                <span className="text-[10px] sm:text-[11px] font-bold font-mono text-primary uppercase tracking-[0.2em]">
-                                    Diagnóstico comercial
-                                </span>
-                            </div>
-                        </KineticItem>
-
-                        {/* Title */}
-                        <KineticItem type="title-right">
-                            <h2 className="text-3xl sm:text-5xl lg:text-6xl font-display-heavy leading-[1.1] text-foreground tracking-tight">
-                                Cómo ordenar ventas, seguimiento y clientes para escalar tu <span className="text-primary italic">negocio</span>
-                            </h2>
-                        </KineticItem>
-
-                        {/* Description */}
-                        <KineticItem type="body-bottom">
-                            <p className="text-base sm:text-lg text-muted-foreground font-light leading-relaxed max-w-xl mx-auto lg:mx-0">
-                                Te mostramos la arquitectura de embudo, CRM y seguimiento que usamos para automatizar procesos, cerrar más ventas y reducir el caos operativo.
-                            </p>
-                        </KineticItem>
-
-                        {/* Diagnostic CTA Button */}
-                        <KineticItem type="btn-left" className="space-y-6">
-                            <div className="flex flex-col sm:flex-row items-center gap-6 justify-center lg:justify-start pt-2">
-                                <Button
-                                    variant="primary"
-                                    size="lg"
-                                    glow
-                                    aurora={false}
-                                    shimmer={false}
-                                    pulse={false}
-                                    onClick={() => router.push("/planificacion")}
-                                    className="group w-full sm:w-auto px-10 h-16 sm:h-18"
-                                >
-                                    <span className="flex items-center justify-center gap-3 font-bold tracking-wide">
-                                        AGENDAR DIAGNÓSTICO GRATIS
-                                        <Calendar className="size-5 text-primary-foreground group-hover:scale-110 transition-transform" />
-                                    </span>
-                                </Button>
-                            </div>
-
-                            {/* Bullet Metrics */}
-                            <div className="grid grid-cols-2 gap-4 max-w-sm pt-6 border-t border-border/60 mx-auto lg:mx-0">
-                                <div className="flex items-center gap-2.5 text-xs text-muted-foreground font-medium">
-                                    <ShieldCheck className="size-4.5 text-primary" />
-                                    <span>Revisión personalizada</span>
-                                </div>
-                                <div className="flex items-center gap-2.5 text-xs text-muted-foreground font-medium">
-                                    <Sparkles className="size-4.5 text-accent-light" />
-                                    <span>Cita 100% gratuita</span>
-                                </div>
-                            </div>
-                        </KineticItem>
-                    </KineticContainer>
-                </div>
-
-                {/* Right Column: High Fidelity Cinematic VSL Video Player Mockup */}
-                <motion.div
-                    style={{ y: yParallax }}
-                    className="lg:col-span-6 w-full max-w-2xl mx-auto will-change-transform"
+            <KineticItem type="btn-left">
+              <div className="flex flex-col items-center gap-5 pt-2 sm:flex-row lg:justify-start">
+                <Button
+                  variant="primary"
+                  size="lg"
+                  glow
+                  aurora={false}
+                  shimmer={false}
+                  pulse={false}
+                  onClick={() => router.push("/planificacion")}
+                  className="h-14 w-full px-8 sm:w-auto"
                 >
-                    <div 
-                        onClick={handlePlayClick}
-                        className="relative aspect-video w-full rounded-3xl glass-premium border border-primary/20 shadow-2xl overflow-hidden group cursor-pointer"
-                    >
-                        {/* Video Mockup Background (Abstract Dark Gradient and grid center) */}
-                        <div className="absolute inset-0 bg-gradient-to-br from-slate-950 via-[#030c24] to-slate-950 flex items-center justify-center z-0 select-none">
-                            <div className="absolute inset-0 texture-grid opacity-[0.04]" />
-                            <div className="absolute size-96 bg-primary/10 blur-[80px] rounded-full" />
-                            
-                            {/* Inner abstract branding layout simulating video source */}
-                            {!isPlaying && !isBuffering && (
-                                <div className="absolute inset-0 flex flex-col items-center justify-center text-center p-6 bg-slate-950/20 backdrop-blur-[1px]">
-                                    <div className="relative w-[140px] h-[39px] opacity-45 group-hover:opacity-70 transition-opacity duration-500">
-                                        <Image
-                                            src="/brand/logo-full-white.png" 
-                                            alt="AD Media Logo Background" 
-                                            fill
-                                            sizes="140px"
-                                            className="object-contain brightness-0 invert"
-                                        />
-                                    </div>
-                                    <p className="text-[10px] font-mono text-primary/70 uppercase tracking-[0.25em] mt-4">
-                                        ADM-STREAM-SOURCE_01
-                                    </p>
-                                </div>
-                            )}
-                        </div>
+                  Agendar diagnostico
+                  <Calendar className="size-5 text-primary-foreground" />
+                </Button>
+                <div className="flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.16em] text-muted-foreground">
+                  <ShieldCheck className="size-4 text-primary" />
+                  Cita sin costo
+                </div>
+              </div>
+            </KineticItem>
+          </KineticContainer>
+        </div>
 
-                        {/* Top Notch bar bar */}
-                        <div className="absolute top-4 inset-x-0 flex justify-between px-6 z-30 text-[9px] font-mono text-white/70 pointer-events-none">
-                            <span className="flex items-center gap-1.5 bg-slate-950/65 border border-white/5 px-2.5 py-1 rounded-md backdrop-blur-sm">
-                                <Activity className="size-3 text-primary" />
-                                ADM-SYSTEM-LIVE
-                            </span>
-                            <span className="flex items-center gap-1.5 bg-slate-950/65 border border-white/5 px-2.5 py-1 rounded-md backdrop-blur-sm">
-                                <span className="w-1.5 h-1.5 rounded-full bg-red-500" />
-                                {isPlaying ? "TRANSMITIENDO" : "STANDBY"}
-                            </span>
-                        </div>
-
-                        {/* Buffer Loading Spinner Overlay */}
-                        <AnimatePresence>
-                            {isBuffering && (
-                                <motion.div 
-                                    initial={{ opacity: 0 }}
-                                    animate={{ opacity: 1 }}
-                                    exit={{ opacity: 0 }}
-                                    className="absolute inset-0 z-40 bg-slate-950/90 backdrop-blur-md flex flex-col items-center justify-center gap-4 text-center"
-                                >
-                                    <Loader2 className="size-10 text-primary animate-spin" />
-                                    <div>
-                                        <p className="text-xs font-mono text-primary tracking-widest uppercase">CONECTANDO A REVENUE OS...</p>
-                                        <p className="text-[10px] text-muted-foreground/60 mt-1">Estableciendo flujo cifrado de datos</p>
-                                    </div>
-                                </motion.div>
-                            )}
-                        </AnimatePresence>
-
-                        {/* Central Glowing Play Button */}
-                        {!isPlaying && !isBuffering && (
-                            <div className="absolute inset-0 flex items-center justify-center z-20 pointer-events-none">
-                                <div className="w-18 h-18 rounded-full bg-primary/70 border border-primary/80 flex items-center justify-center text-white shadow-2xl shadow-primary/30 backdrop-blur-md group-hover:scale-110 group-hover:bg-primary/85 group-hover:border-primary/90 transition-all duration-300 pointer-events-auto">
-                                    <Play className="w-8 h-8 fill-current ml-1" />
-                                </div>
-                            </div>
-                        )}
-
-                        {/* Widescreen Video Overlay Gradient */}
-                        <div className="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent to-primary/5 z-10 pointer-events-none" />
-
-                        {/* Subtitles Track Overlay at the bottom */}
-                        <AnimatePresence>
-                            {isPlaying && (
-                                <motion.div 
-                                    initial={{ opacity: 0, y: 15 }}
-                                    animate={{ opacity: 1, y: 0 }}
-                                    exit={{ opacity: 0, y: 15 }}
-                                    transition={{ duration: 0.4 }}
-                                    className="absolute bottom-16 inset-x-6 z-30 text-center px-4 py-3 bg-slate-950/55 border border-white/5 backdrop-blur-md rounded-2xl pointer-events-none"
-                                >
-                                    <p className="text-white text-xs sm:text-sm font-semibold tracking-wide leading-relaxed drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)]">
-                                        &ldquo;{SUBTITLES[subtitleIndex].text}&rdquo;
-                                    </p>
-                                </motion.div>
-                            )}
-                        </AnimatePresence>
-
-                        {/* Bottom Media Controls Bar */}
-                        <div className="absolute bottom-0 inset-x-0 h-14 bg-gradient-to-t from-slate-950 to-slate-950/90 border-t border-white/5 flex items-center justify-between px-6 z-30 pointer-events-auto">
-                            {/* Play/Pause indicator */}
-                            <div className="flex items-center gap-4">
-                                <div className="text-white opacity-80 hover:opacity-100 transition-opacity">
-                                    <Play className={`size-4 ${isPlaying ? "fill-white" : ""}`} />
-                                </div>
-                                <span className="text-[10px] font-mono text-muted-foreground select-none">
-                                    {isPlaying ? "0:12" : "0:00"} / 8:40
-                                </span>
-                            </div>
-
-                            {/* Center-aligned Interactive Progress bar */}
-                            <div className="flex-1 mx-6 h-1 bg-white/10 rounded-full overflow-hidden relative cursor-pointer hidden sm:block">
-                                <div 
-                                    className="h-full bg-primary rounded-full transition-all duration-300"
-                                    style={{ width: `${progress}%` }}
-                                />
-                            </div>
-
-                            {/* Volume and fullscreen buttons */}
-                            <div className="flex items-center gap-4 text-white/70">
-                                <button 
-                                    onClick={(e) => { e.stopPropagation(); setIsMuted(!isMuted); }}
-                                    className="hover:text-white transition-colors"
-                                >
-                                    {isMuted ? <VolumeX className="size-4" /> : <Volume2 className="size-4" />}
-                                </button>
-                                <span className="text-[9px] font-mono border border-white/20 px-2 py-0.5 rounded uppercase leading-none select-none">
-                                    1080P
-                                </span>
-                            </div>
-                        </div>
-                    </div>
-                </motion.div>
+        <motion.div
+          style={{ y: yParallax }}
+          className="mx-auto w-full max-w-3xl will-change-transform lg:col-span-7"
+        >
+          <div className="relative overflow-hidden rounded-lg border border-primary/25 bg-card shadow-2xl shadow-primary/10">
+            <div className="relative aspect-video bg-black">
+              {videoActive ? (
+                <video
+                  className="h-full w-full bg-black object-contain"
+                  controls
+                  autoPlay
+                  playsInline
+                  preload="metadata"
+                  poster={VSL_POSTER}
+                >
+                  <source src={VSL_MOBILE} type="video/mp4" media="(max-width: 640px)" />
+                  <source src={VSL_WEB} type="video/mp4" />
+                </video>
+              ) : (
+                <button
+                  type="button"
+                  onClick={() => setVideoActive(true)}
+                  className="group absolute inset-0 cursor-pointer text-left"
+                  aria-label="Reproducir VSL de AD Media Solution"
+                >
+                  <Image
+                    src={VSL_POSTER}
+                    alt="VSL de AD Media Solution"
+                    fill
+                    sizes="(max-width: 1024px) 100vw, 760px"
+                    className="object-cover transition-transform duration-700 group-hover:scale-[1.02]"
+                    priority
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/35 to-transparent" />
+                  <div className="absolute left-4 top-4 flex flex-wrap gap-2 text-[10px] font-mono uppercase tracking-[0.18em] text-white/85 sm:left-5 sm:top-5">
+                    <span className="inline-flex items-center gap-1.5 rounded-md border border-white/10 bg-slate-950/70 px-2.5 py-1 backdrop-blur-sm">
+                      <Activity className="size-3 text-primary" />
+                      8 min
+                    </span>
+                    <span className="inline-flex items-center gap-1.5 rounded-md border border-white/10 bg-slate-950/70 px-2.5 py-1 backdrop-blur-sm">
+                      <Gauge className="size-3 text-accent-light" />
+                      Sistema comercial
+                    </span>
+                  </div>
+                  <div className="absolute inset-0 flex items-center justify-center">
+                    <span className="inline-flex size-18 items-center justify-center rounded-full border border-primary/80 bg-primary/80 text-white shadow-2xl shadow-primary/30 transition-transform duration-300 group-hover:scale-110">
+                      <Play className="ml-1 size-8 fill-current" />
+                    </span>
+                  </div>
+                  <div className="absolute inset-x-0 bottom-0 p-5 sm:p-6">
+                    <p className="max-w-md text-sm font-semibold leading-relaxed text-white sm:text-base">
+                      Sistema comercial, seguimiento y agenda en una sola explicacion.
+                    </p>
+                  </div>
+                </button>
+              )}
             </div>
 
-            {/* Divisor inferior */}
-            <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-primary/20 to-transparent" />
-        </section>
-    );
+            <div className="hidden gap-3 border-t border-primary/15 bg-slate-950/70 p-4 text-xs text-muted-foreground sm:grid sm:grid-cols-3 sm:p-5">
+              <div className="flex items-center gap-2">
+                <Sparkles className="size-4 text-primary" />
+                Estrategia clara
+              </div>
+              <div className="flex items-center gap-2">
+                <ShieldCheck className="size-4 text-primary" />
+                CRM y seguimiento
+              </div>
+              <div className="flex items-center gap-2">
+                <Gauge className="size-4 text-primary" />
+                Agenda comercial
+              </div>
+            </div>
+          </div>
+        </motion.div>
+      </div>
+
+      <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-primary/20 to-transparent" />
+    </section>
+  );
 }

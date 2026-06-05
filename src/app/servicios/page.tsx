@@ -88,7 +88,7 @@ function PlanCard({ plan }: { plan: ServicePlan }) {
             className={`flex items-center justify-center gap-2 w-full py-3.5 px-4 rounded-xl font-semibold text-sm transition-all duration-300 ${
               isPopular
                 ? "bg-primary text-primary-foreground hover:bg-primary/95 shadow-md shadow-primary/10"
-                : "bg-muted text-foreground hover:bg-muted/80"
+                : "action-secondary hover:-translate-y-0.5"
             }`}
           >
             Seleccionar Plan
@@ -180,7 +180,7 @@ export default function ServiciosPage() {
                     className={`flex shrink-0 snap-start items-center gap-2 px-5 py-3 rounded-xl font-medium text-sm transition-all duration-300 cursor-pointer ${
                       isActive
                         ? "bg-primary text-primary-foreground shadow-lg shadow-primary/20 scale-[1.02]"
-                        : "hover:bg-muted/50 text-muted-foreground hover:text-foreground"
+                        : "text-foreground/80 hover:bg-muted/70 hover:text-foreground"
                     }`}
                   >
                     <Icon className="w-4 h-4" />
@@ -318,7 +318,7 @@ export default function ServiciosPage() {
                     Optimización Semanal y Configuración de API
                   </h3>
                   <p className="text-muted-foreground text-sm leading-relaxed mt-4 font-light">
-                    No solo lanzamos anuncios; estructuramos embudos de venta robustos. Gestionamos campañas avanzadas en <strong>Meta Ads</strong> (Facebook e Instagram) y <strong>Google Ads</strong> (Búsqueda, Display, YouTube) integrando de forma óptima el píxel y la API de conversión para máxima trazabilidad y ROI.
+                    No solo lanzamos anuncios; estructuramos campañas conectadas al sistema comercial. Gestionamos pauta en <strong>Meta Ads</strong> (Facebook e Instagram) y <strong>Google Ads</strong> (Búsqueda, Display, YouTube) con medición, seguimiento y revisión continua.
                   </p>
                 </div>
                 <div className="w-full md:w-[320px] aspect-video sm:aspect-square rounded-2xl bg-slate-900 border border-border flex items-center justify-center relative overflow-hidden shrink-0 group">

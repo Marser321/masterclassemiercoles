@@ -238,7 +238,7 @@ export default function PlanificacionPage() {
                       <button
                         type="button"
                         onClick={prevStep}
-                        className="flex-1 py-3.5 bg-muted text-foreground font-semibold rounded-xl hover:bg-muted/80 transition-colors cursor-pointer text-center"
+                        className="action-secondary flex-1 rounded-xl py-3.5 text-center font-semibold transition-colors cursor-pointer"
                       >
                         Atrás
                       </button>

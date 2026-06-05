@@ -4,6 +4,117 @@ Este plan de integración detalla la estrategia controlada para implementar el f
 
 ---
 
+## 14. Sesion Local con Anotador
+
+<pending_approval_plan>
+  <summary>
+    Levantar el sitio en local para revisar el feedback visual con el anotador y ejecutar cambios concretos de forma controlada.
+  </summary>
+
+  <business_goal>
+    <item>Convertir observaciones visuales del anotador en mejoras puntuales del sitio sin abrir una refactorizacion amplia.</item>
+    <item>Acelerar el ciclo de decision: ver, anotar, corregir y validar en navegador local.</item>
+  </business_goal>
+
+  <read_only_context>
+    <item>Proyecto Next.js con scripts `dev`, `build`, `lint` y auditorias Playwright.</item>
+    <item>Worktree ya contiene cambios previos en multiples archivos y `implementation_plan.md` ya estaba modificado antes de esta sesion.</item>
+  </read_only_context>
+
+  <execution_scope>
+    <item>Arrancar el servidor local con `npm run dev`, usando otro puerto si `3000` esta ocupado.</item>
+    <item>Abrir el sitio en navegador local para que el anotador pueda marcar cambios concretos.</item>
+    <item>Implementar solo los cambios explicitamente derivados de esas anotaciones.</item>
+    <item>Validar cada ajuste con navegador y checks automaticos proporcionales al alcance.</item>
+  </execution_scope>
+
+  <guardrails>
+    <item>No revertir cambios existentes del worktree que no pertenezcan a esta sesion.</item>
+    <item>No tocar claims, metricas, testimonios, enlaces o assets sensibles sin instruccion concreta.</item>
+    <item>No escribir secretos ni credenciales en codigo, prompts persistentes o archivos versionados.</item>
+    <item>Mantener una tarea por vez: local, anotacion, implementacion y validacion.</item>
+  </guardrails>
+
+  <validation>
+    <item>Verificar visualmente en navegador local la ruta afectada por cada anotacion.</item>
+    <item>Ejecutar `npm run lint` y, si el cambio toca rutas o componentes criticos, `npm run build`.</item>
+    <item>Declarar cualquier limitacion si una validacion externa o automatica no puede ejecutarse.</item>
+  </validation>
+</pending_approval_plan>
+
+---
+
+## 15. Feedback del Anotador: Sistema Comercial Animado
+
+<pending_approval_plan>
+  <source>Comentario visual sobre la seccion `#crm` en la home local.</source>
+
+  <request>
+    Recuperar el protagonismo de las animaciones SVG del CRM: flechas flotantes, diagrama animado y sensacion de sistema vivo, evitando que la seccion quede reducida a tarjetas planas.
+  </request>
+
+  <business_goal>
+    <item>Hacer que la seccion explique visualmente como funciona el sistema comercial antes de que el usuario lea cada tarjeta.</item>
+    <item>Reforzar percepcion premium y valor tecnologico del CRM con movimiento util, no decoracion gratuita.</item>
+  </business_goal>
+
+  <implementation_scope>
+    <item>Reintegrar `CRMWorkflow` como visual principal dentro de `CRMSection`.</item>
+    <item>Usar `GhlLogoBackground` o sus flechas SVG flotantes como capa ambiental visible sobre/detras del diagrama.</item>
+    <item>Reducir el peso visual de las tarjetas actuales para que funcionen como leyenda o beneficios secundarios.</item>
+    <item>Mantener la seccion en una sola pieza, pero con jerarquia clara: copy, diagrama animado, beneficios y CTA.</item>
+    <item>Conservar responsive mobile/desktop y evitar overlaps entre textos, nodos y animaciones.</item>
+  </implementation_scope>
+
+  <guardrails>
+    <item>No restaurar secciones completas antiguas si duplican contenido o rompen el flujo actual Home, VSL, Testimonios, CRM.</item>
+    <item>No inventar metricas, resultados, integraciones o claims nuevos.</item>
+    <item>Respetar preferencias de reduced motion donde los componentes ya lo soportan o donde se agregue movimiento infinito.</item>
+    <item>No revertir cambios existentes ajenos a esta anotacion.</item>
+  </guardrails>
+
+  <validation>
+    <item>Verificar `http://localhost:3000/#crm` en desktop y mobile con Playwright/headless si el navegador integrado no esta disponible.</item>
+    <item>Ejecutar `lint` y `build` si el cambio afecta imports o estructura de componentes.</item>
+  </validation>
+</pending_approval_plan>
+
+---
+
+## 16. Feedback del Anotador: Flechas Centradas en Tarjeta CRM
+
+<pending_approval_plan>
+  <source>Comentario visual sobre el visual `CENTRO DE COMANDO COMERCIAL` dentro de `#crm`.</source>
+
+  <request>
+    Reposicionar las tres flechas SVG para que vuelvan a estar centradas en la parte superior de la tarjeta animada del CRM, funcionando como corona visual del diagrama y no como elemento desplazado hacia la derecha.
+  </request>
+
+  <business_goal>
+    <item>Recuperar la composicion original que comunicaba crecimiento y niveles ascendentes directamente sobre el sistema comercial.</item>
+    <item>Hacer que la animacion se perciba integrada al CRM, no flotando accidentalmente fuera del diagrama.</item>
+  </business_goal>
+
+  <implementation_scope>
+    <item>Ajustar la posicion de `GhlLogoBackground` dentro de `CRMSection` para centrarlo horizontalmente sobre `CRMWorkflow`.</item>
+    <item>Revisar tamaños desktop, tablet y mobile para evitar que tape el badge `Centro de comando comercial` o los nodos superiores.</item>
+    <item>Mantener el diagrama como protagonista y conservar las tarjetas de leyenda debajo.</item>
+  </implementation_scope>
+
+  <guardrails>
+    <item>No cambiar copy, beneficios, CTA ni estructura general de la seccion.</item>
+    <item>No reemplazar el SVG ni crear assets nuevos.</item>
+    <item>No tocar otras secciones de la home.</item>
+  </guardrails>
+
+  <validation>
+    <item>Verificar `http://localhost:3000/#crm` en desktop y mobile con captura visual.</item>
+    <item>Ejecutar ESLint si se edita JSX/TSX.</item>
+  </validation>
+</pending_approval_plan>
+
+---
+
 ## 1. Fase de Limpieza e Higiene del Código (Código Viejo)
 
 Antes de añadir nuevas funcionalidades, sanearemos el espacio de trabajo para evitar "ruido cognitivo" en los modelos de lenguaje:
@@ -135,6 +246,44 @@ Para facilitar que el modelo de 1M de contexto implemente la lógica compleja de
   </validation>
 </approved_execution_plan>
 
+---
+
+## 13. Refinamiento de Home, Claims y Despliegue
+
+<approved_execution_plan>
+  <summary>
+    Simplificar el sitio desplegado para reducir ruido visual, retirar claims no verificados y dejar una base mas limpia para los siguientes refinamientos de copy, portafolio, equipo y videos.
+  </summary>
+
+  <business_goal>
+    <item>Reducir secciones repetitivas en la home para que el usuario entienda mejor el sistema comercial sin sentirse saturado.</item>
+    <item>Mantener la prueba social real ya integrada: VSL optimizado, testimonios destacados y biblioteca `/casos`.</item>
+    <item>Evitar promesas numericas o casos escritos no verificados hasta recibir datos reales del CEO.</item>
+  </business_goal>
+
+  <implementation_scope>
+    <item>Reemplazar el bloque `CRMSection + BlueprintSection + ScrollytellingSection` por una unica seccion de sistema comercial/CRM.</item>
+    <item>Retirar `ProjectsGallery` del flujo publico de la home porque contiene casos y metricas placeholder.</item>
+    <item>Limpiar claims no verificados en `/danger`, `/servicios`, detalles de servicios y `/comunidad`.</item>
+    <item>Eliminar assets no referenciados en `public/` que no aportan al despliegue final.</item>
+    <item>Actualizar `.gitignore` para evitar subir carpetas fuente pesadas como `VSL/` y `Testimonios/`.</item>
+  </implementation_scope>
+
+  <guardrails>
+    <item>No borrar ni mover fuentes originales grandes en esta pasada.</item>
+    <item>No tocar `public/media/` porque contiene VSL y testimonios optimizados.</item>
+    <item>No crear rutas nuevas ni cambiar la funcion de `/casos` como biblioteca oficial de testimonios.</item>
+    <item>No romper la identidad premium; reducir repeticion de efectos, no apagar el sitio.</item>
+  </guardrails>
+
+  <validation>
+    <item>Ejecutar lint y build con Node empaquetado si el `npm` global falla.</item>
+    <item>Verificar home, `/casos`, `/danger`, `/servicios` y `/comunidad` en navegador local.</item>
+    <item>Confirmar que el VSL sigue cargando solo bajo clic y que `/casos` conserva 18 testimonios.</item>
+    <item>Comparar peso de `public/` antes/despues de limpiar assets no usados.</item>
+  </validation>
+</approved_execution_plan>
+
 ## 7. Feedback del Anotador: Home Directo a VSL
 
 <browser_feedback_resolution>
@@ -149,6 +298,41 @@ Para facilitar que el modelo de 1M de contexto implemente la lógica compleja de
 </browser_feedback_resolution>
 
 ---
+
+## 12. Integracion Profesional de VSL y Testimonios
+
+<approved_execution_plan>
+  <summary>
+    Integrar el VSL real y una coleccion curada de testimonios optimizados para elevar prueba social sin penalizar velocidad de carga.
+  </summary>
+
+  <business_goal>
+    <item>Reordenar la home para que el flujo principal sea Hero, VSL real, testimonios destacados y luego el resto del sitio.</item>
+    <item>Reutilizar `/casos` como biblioteca completa de testimonios/casos para evitar URLs competidoras.</item>
+    <item>Publicar solo videos optimizados en `public/media`, manteniendo los originales fuera del render publico.</item>
+  </business_goal>
+
+  <implementation_scope>
+    <item>Sustituir el mockup de `VSLSection` por un reproductor real con poster, carga bajo clic y CTA a `/planificacion`.</item>
+    <item>Rehacer `BTLTestimonialsSection` como franja curada de 6 a 8 testimonios con tarjetas ligeras y modal de reproduccion.</item>
+    <item>Convertir `/casos` en libreria completa con filtros simples, grilla de videos optimizados y lightbox.</item>
+    <item>Crear un registro tipado de videos con `id`, `client`, `category`, `duration`, `orientation`, `poster`, `videoSrc` y `featured`.</item>
+    <item>Deduplicar `TEST_LFIVE_.mp4` y no inventar citas, metricas ni claims no verificados.</item>
+  </implementation_scope>
+
+  <asset_optimization>
+    <item>Generar version web del VSL con `faststart`, poster y variante ligera mobile.</item>
+    <item>Normalizar testimonios verticales a formato web, priorizando 720x1280, audio AAC y bitrate moderado.</item>
+    <item>Generar posters por video para que la pagina cargue imagenes primero y MP4 solo bajo interaccion.</item>
+  </asset_optimization>
+
+  <validation>
+    <item>Ejecutar `npm run lint` y `npm run build`.</item>
+    <item>Verificar home y `/casos` en desktop/mobile con navegador.</item>
+    <item>Confirmar que los MP4 no se descargan en carga inicial antes de interactuar.</item>
+    <item>Probar VSL, testimonios destacados, lightbox, pausa/cierre y CTA a `/planificacion`.</item>
+  </validation>
+</approved_execution_plan>
 
 ## 8. Feedback del Anotador: Legibilidad del Footer
 
@@ -520,6 +704,125 @@ Para facilitar que el modelo de 1M de contexto implemente la lógica compleja de
 
   <business_benefit>
     <item>Convierte las secciones de mayor conversion en explicaciones visuales del sistema comercial, corrigiendo fondos genericos sin aumentar riesgo reputacional por claims no aprobados.</item>
+  </business_benefit>
+</pending_vibe_approval>
+
+---
+
+## 29. Feedback del Anotador: Auditoria de Contraste por Modos de Color
+
+<pending_vibe_approval>
+  <summary>
+    Auditar y corregir los problemas de legibilidad que aparecen al cambiar al modo blanco desde el `IslandBar`, cubriendo CTAs de planes, navegacion global, badges/eyebrows y textos introductorios sobre fondos claros o de video.
+  </summary>
+
+  <contrast_guardrails>
+    <item>No cambiar copy, precios, planes, tabs, rutas, CTAs ni comportamiento de navegacion.</item>
+    <item>No eliminar los modos `luxury`, `classic`, `sky` o `white`; solo estabilizar su contraste.</item>
+    <item>Priorizar botones, tarjetas, navegacion, badges de orientacion, bajadas introductorias y controles donde el usuario decide, navega o convierte.</item>
+    <item>Mantener la estetica premium de vidrio, pero sin sacrificar lectura en fondos claros.</item>
+    <item>Evitar fixes aislados que mejoren un tema y rompan otro.</item>
+  </contrast_guardrails>
+
+  <implementation_scope>
+    <item>Corregir el CTA secundario de `PlanCard` en `src/app/servicios/page.tsx`, que hoy usa `bg-muted text-foreground` y queda poco legible en modo blanco.</item>
+    <item>Corregir links desktop de `src/components/layout/Navbar.tsx`, que hoy usan `text-muted-foreground` sobre navbar transparente y pierden contraste en paginas como `/comunidad`.</item>
+    <item>Revisar dropdown de Servicios en `Navbar`, asegurando que sus items tengan fondo y texto legibles en modo blanco y modo sky.</item>
+    <item>Revisar el menu mobile de `Navbar` para que los links y sublinks mantengan contraste sobre `bg-background/95` en todos los modos.</item>
+    <item>Revisar `IslandBar` como control de cambio de modo para asegurar que sus botones sigan siendo distinguibles en modos claros.</item>
+    <item>Revisar el contraste de los tabs de servicios y tarjetas de planes en `theme-white`, `theme-sky`, `theme-classic` y modo base.</item>
+    <item>Corregir badges/eyebrows de seccion como `AD Media Community` y `Biblioteca de Workshops` en `src/app/comunidad/page.tsx`, que hoy usan `text-primary` con fondos muy transparentes.</item>
+    <item>Corregir la bajada del hero de `/comunidad` (`Grupo privado de WhatsApp...`) que hoy usa `text-muted-foreground` y pierde contraste sobre el video en casi todos los modos.</item>
+    <item>Crear o aplicar una utilidad reusable para textos introductorios sobre fondos visuales, con color, opacidad y sombra ajustados por tema.</item>
+    <item>Crear o aplicar una utilidad reusable para badges contrastados, evitando repetir combinaciones fragiles de `text-primary bg-primary/10` en headers internos.</item>
+    <item>Revisar los badges equivalentes en paginas principales (`/servicios`, `/planificacion`, `/about-us`, `/equipo`, `/danger`) sin cambiar copy ni estructura.</item>
+    <item>Revisar patrones equivalentes de botones secundarios en `/planificacion`, especialmente `bg-muted text-foreground`.</item>
+    <item>Si corresponde, agregar clases o utilidades tematicas especificas en `globals.css` para botones secundarios y badges sobre fondos claros.</item>
+    <item>Mantener los CTAs primarios en azul de marca con texto blanco.</item>
+  </implementation_scope>
+
+  <validation>
+    <item>Ejecutar ESLint sobre los archivos tocados.</item>
+    <item>Verificar visualmente `/servicios?tab=web-development` en modo blanco: botones `Seleccionar Plan`, cards, tabs y texto deben ser legibles.</item>
+    <item>Verificar visualmente `/comunidad` en modo blanco y sky: `Navbar` desktop debe ser legible antes y despues de scroll.</item>
+    <item>Verificar visualmente `/comunidad` en modo blanco y sky: `AD Media Community`, la bajada `Grupo privado de WhatsApp...`, `Acceso Privado Exclusivo` y `Biblioteca de Workshops` deben ser legibles sobre el video.</item>
+    <item>Verificar una pagina adicional con badge similar (`/servicios` o `/planificacion`) para confirmar que la utilidad reusable no rompe la estetica.</item>
+    <item>Verificar dropdown de Servicios en desktop y menu mobile de `Navbar` en modo claro.</item>
+    <item>Verificar rapidamente los otros modos desde el `IslandBar` para confirmar que no se degradan CTAs ni tabs.</item>
+    <item>Verificar mobile en `/servicios?tab=web-development` para asegurar que los cambios no generen overflow ni solapes.</item>
+    <item>Confirmar que no aparezcan errores de consola ni overlay de Next.</item>
+  </validation>
+
+  <business_benefit>
+    <item>Protege la conversion en la pagina de planes: si el usuario cambia de vibe visual, los botones de seleccion siguen siendo claros, clicables y confiables.</item>
+  </business_benefit>
+</pending_vibe_approval>
+
+---
+
+## 28. Feedback del Anotador: Encaje Profesional de Imagen en Popup
+
+<pending_vibe_approval>
+  <summary>
+    Ajustar el popup de diagnostico para que la imagen `ad-media-diagnostic-glass.png` se vea completa, proporcionada y mas profesional dentro del modal.
+  </summary>
+
+  <visual_guardrails>
+    <item>No cambiar copy, CTA, delay de apertura, destino de agenda ni comportamiento de cierre del popup.</item>
+    <item>No reemplazar la imagen ni generar claims nuevos.</item>
+    <item>Evitar recortes visibles del asset cuadrado `1254x1254` causados por el contenedor horizontal y `object-cover`.</item>
+    <item>Mantener el look premium glassmorphism, brillo azul y jerarquia visual actual.</item>
+  </visual_guardrails>
+
+  <implementation_scope>
+    <item>Actualizar `src/components/ui/PromoPopup.tsx` para que el contenedor de imagen use una proporcion compatible con el asset cuadrado.</item>
+    <item>Cambiar el ajuste de imagen de recorte agresivo a encaje controlado, preservando fondo, borde y overlay.</item>
+    <item>Revisar espaciados internos y altura maxima del modal para que siga entrando bien en desktop y mobile.</item>
+    <item>Asegurar que la etiqueta `Sistema Comercial` quede integrada sin tapar partes importantes de la imagen.</item>
+  </implementation_scope>
+
+  <validation>
+    <item>Verificar en navegador local que el popup renderiza sin imagen cortada en el viewport actual `1967x1215`.</item>
+    <item>Verificar al menos un viewport mobile para confirmar que el modal no queda demasiado alto ni pierde el CTA.</item>
+    <item>Confirmar que no aparezcan errores de consola ni overlay de Next.</item>
+  </validation>
+
+  <business_benefit>
+    <item>Un popup mas pulido mejora la percepcion de calidad en el primer punto de conversion y evita que el diagnostico gratis se vea como una pieza improvisada.</item>
+  </business_benefit>
+</pending_vibe_approval>
+
+---
+
+## 27. Ejecucion Local para Feedback Real
+
+<pending_vibe_approval>
+  <summary>
+    Levantar el sitio en entorno local para que el vibe pueda revisar la experiencia real en navegador y priorizar mejoras con feedback visual directo.
+  </summary>
+
+  <execution_guardrails>
+    <item>No editar componentes, copy, estilos, rutas ni configuracion durante esta fase.</item>
+    <item>No escribir secretos, tokens, API keys ni credenciales en archivos versionados o prompts persistentes.</item>
+    <item>Si el puerto 3000 esta ocupado, usar el siguiente puerto libre y comunicar la URL exacta.</item>
+    <item>Separar ejecucion local, verificacion visual y cambios posteriores en fases distintas.</item>
+  </execution_guardrails>
+
+  <implementation_scope>
+    <item>Detectar el comando local correcto desde `package.json`.</item>
+    <item>Arrancar `npm run dev` para servir la app Next.js en local.</item>
+    <item>Abrir la URL local en navegador para comprobar que la home renderiza y queda lista para feedback.</item>
+    <item>Registrar errores visibles de consola o compilacion si aparecen, sin corregirlos hasta nueva aprobacion.</item>
+  </implementation_scope>
+
+  <validation>
+    <item>Confirmar que el servidor responde en navegador.</item>
+    <item>Verificar que la pagina principal carga sin pantalla en blanco.</item>
+    <item>Dejar el servidor corriendo mientras el vibe revisa y comenta.</item>
+  </validation>
+
+  <business_benefit>
+    <item>Permite evaluar la propuesta comercial como la veria un prospecto real, reduciendo decisiones abstractas y acelerando iteraciones de conversion.</item>
   </business_benefit>
 </pending_vibe_approval>
 

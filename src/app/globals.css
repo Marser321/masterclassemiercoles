@@ -106,6 +106,15 @@
   --button-primary-from: #0066FF;
   --button-primary-mid: #0044CC;
   --button-primary-to: #020617;
+  --nav-link-color: rgba(226, 232, 240, 0.82);
+  --nav-link-hover: #ffffff;
+  --nav-link-shadow: 0 1px 12px rgba(2, 6, 23, 0.72);
+  --nav-link-active-shadow: 0 0 16px rgba(0, 102, 255, 0.34);
+  --secondary-action-bg: #1e293b;
+  --secondary-action-hover: #334155;
+  --secondary-action-fg: #f8fafc;
+  --secondary-action-border: rgba(148, 163, 184, 0.26);
+  --secondary-action-shadow: 0 12px 30px rgba(2, 6, 23, 0.18);
   --sidebar: #020617;
   --sidebar-foreground: #ffffff;
   --sidebar-primary: #0066FF;
@@ -143,6 +152,15 @@
   --button-primary-from: #0066FF;
   --button-primary-mid: #0044CC;
   --button-primary-to: #020617;
+  --nav-link-color: rgba(226, 232, 240, 0.82);
+  --nav-link-hover: #ffffff;
+  --nav-link-shadow: 0 1px 12px rgba(2, 6, 23, 0.72);
+  --nav-link-active-shadow: 0 0 16px rgba(0, 102, 255, 0.34);
+  --secondary-action-bg: #1e293b;
+  --secondary-action-hover: #334155;
+  --secondary-action-fg: #f8fafc;
+  --secondary-action-border: rgba(148, 163, 184, 0.26);
+  --secondary-action-shadow: 0 12px 30px rgba(2, 6, 23, 0.18);
 }
 
 @layer utilities {
@@ -395,6 +413,42 @@
     inset 0 0 32px 0 rgba(255, 255, 255, 0.02);
 }
 
+.nav-link-contrast {
+  color: var(--nav-link-color);
+  text-shadow: var(--nav-link-shadow);
+}
+
+.nav-link-contrast:hover {
+  color: var(--nav-link-hover);
+}
+
+.nav-link-contrast-active {
+  color: var(--primary);
+  text-shadow: var(--nav-link-active-shadow);
+}
+
+.nav-dropdown-link {
+  color: var(--nav-link-color);
+  text-shadow: var(--nav-link-shadow);
+}
+
+.nav-dropdown-link:hover {
+  color: var(--primary);
+  background: color-mix(in srgb, var(--primary) 10%, transparent);
+}
+
+.action-secondary {
+  color: var(--secondary-action-fg);
+  background: var(--secondary-action-bg);
+  border: 1px solid var(--secondary-action-border);
+  box-shadow: var(--secondary-action-shadow);
+}
+
+.action-secondary:hover {
+  color: var(--secondary-action-fg);
+  background: var(--secondary-action-hover);
+}
+
 /* Iluminación Brand (Blue Glow) */
 .light-rembrandt {
   background: radial-gradient(circle at 50% 0%,
@@ -496,6 +550,15 @@
   --button-primary-from: #3b82f6;
   --button-primary-mid: #1d4ed8;
   --button-primary-to: #050505;
+  --nav-link-color: rgba(226, 232, 240, 0.8);
+  --nav-link-hover: #ffffff;
+  --nav-link-shadow: 0 1px 12px rgba(0, 0, 0, 0.82);
+  --nav-link-active-shadow: 0 0 16px rgba(59, 130, 246, 0.42);
+  --secondary-action-bg: #18181b;
+  --secondary-action-hover: #27272a;
+  --secondary-action-fg: #f8fafc;
+  --secondary-action-border: rgba(255, 255, 255, 0.12);
+  --secondary-action-shadow: 0 12px 30px rgba(0, 0, 0, 0.26);
 }
 
 /* === Experimental Sky Theme Overrides === */
@@ -531,6 +594,15 @@
   --button-primary-from: #38bdf8;
   --button-primary-mid: #0284c7;
   --button-primary-to: #075985;
+  --nav-link-color: #06253d;
+  --nav-link-hover: #020617;
+  --nav-link-shadow: 0 1px 10px rgba(255, 255, 255, 0.88), 0 0 1px rgba(6, 37, 61, 0.46);
+  --nav-link-active-shadow: 0 1px 10px rgba(255, 255, 255, 0.85), 0 0 14px rgba(2, 132, 199, 0.28);
+  --secondary-action-bg: #06253d;
+  --secondary-action-hover: #0b3154;
+  --secondary-action-fg: #ffffff;
+  --secondary-action-border: rgba(2, 132, 199, 0.36);
+  --secondary-action-shadow: 0 14px 32px rgba(2, 132, 199, 0.18);
   --color-glass-bg: rgba(234, 250, 255, 0.72);
   --color-glass-bg-mobile: rgba(238, 252, 255, 0.96);
   --border-glass: rgba(14, 165, 233, 0.34);
@@ -559,11 +631,31 @@
   --color-bg-charcoal: #e2e8f0;
   --border: rgba(0, 102, 255, 0.15);
   --primary: #0066FF;
+  --primary-foreground: #ffffff;
   --card: rgba(255, 255, 255, 0.9);
-  --muted-foreground: #475569;
+  --card-foreground: #020617;
+  --popover: rgba(255, 255, 255, 0.98);
+  --popover-foreground: #020617;
+  --secondary: #f1f5f9;
+  --secondary-foreground: #020617;
+  --muted: #e2e8f0;
+  --muted-foreground: #1e293b;
+  --accent: #dbeafe;
+  --accent-foreground: #020617;
+  --input: rgba(0, 102, 255, 0.12);
+  --ring: #0066FF;
   --button-primary-from: #0066FF;
   --button-primary-mid: #0ea5e9;
   --button-primary-to: #1d4ed8;
+  --nav-link-color: #020617;
+  --nav-link-hover: #0066FF;
+  --nav-link-shadow: 0 1px 10px rgba(255, 255, 255, 0.9), 0 0 1px rgba(2, 6, 23, 0.55);
+  --nav-link-active-shadow: 0 1px 10px rgba(255, 255, 255, 0.88), 0 0 14px rgba(0, 102, 255, 0.28);
+  --secondary-action-bg: #0f172a;
+  --secondary-action-hover: #1e293b;
+  --secondary-action-fg: #ffffff;
+  --secondary-action-border: rgba(2, 6, 23, 0.14);
+  --secondary-action-shadow: 0 14px 34px rgba(15, 23, 42, 0.2);
   
   /* Glass & Shadows Overrides — High-Ticket Definition */
   --color-glass-bg: rgba(255, 255, 255, 0.98); /* Near-solid glass for maximum definition */

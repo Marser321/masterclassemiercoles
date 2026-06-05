@@ -24,7 +24,6 @@ type Theme = "luxury" | "classic" | "sky" | "white";
 const THEMES: Theme[] = ["luxury", "classic", "sky", "white"];
 const SCROLL_DELTA_THRESHOLD = 18;
 const EXPAND_COLLAPSE_COOLDOWN = 420;
-const NAV_CLICK_LOCK_MS = 900;
 const FOOTER_LEGAL_SELECTOR = "[data-footer-legal]";
 
 function isTheme(value: string | null): value is Theme {
@@ -208,7 +207,7 @@ export default function IslandBar() {
                 ${expanded ? "sm:w-auto sm:min-w-10 sm:px-3" : "sm:w-10 sm:px-0"}
                 ${isActive
                                     ? "text-primary"
-                                    : "text-muted-foreground hover:text-foreground"
+                                    : "nav-link-contrast"
                                 }
               `}
                             aria-label={item.label}
@@ -254,7 +253,7 @@ export default function IslandBar() {
                     onClick={toggleTheme}
                     className={`
                         relative flex items-center justify-center rounded-full transition-[color,background-color] duration-300 size-8 sm:size-9
-                        ${theme === "luxury" ? "text-primary" : "text-muted-foreground"}
+                        ${theme === "luxury" ? "text-primary" : "nav-link-contrast"}
                     `}
                     title={`Switch Vibe (Current: ${theme})`}
                 >

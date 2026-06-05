@@ -257,14 +257,13 @@ export default function AuthoritySection() {
                             </motion.span>
                         </motion.blockquote>
 
-                        {/* Stats Grid — Sequential reveal left to right */}
+                        {/* Capability Grid — Sequential reveal left to right */}
                         <motion.div variants={itemVariants} className="grid grid-cols-2 sm:grid-cols-4 gap-4 sm:gap-6 border-t border-primary/10 pt-7 sm:pt-8 mb-8">
-                            {/* PLACEHOLDER: validar cifras reales con el CEO */}
                             {[
-                                { value: "+10", label: "Años de experiencia" },
-                                { value: "+150", label: "Negocios" },
-                                { value: "$30K+", label: "Facturación objetivo" },
-                                { value: "100%", label: "Soporte" },
+                                { value: "Software", label: "Base técnica" },
+                                { value: "Ventas", label: "Dirección comercial" },
+                                { value: "CRM", label: "Sistemas a medida" },
+                                { value: "Soporte", label: "Acompañamiento" },
                             ].map((stat, i) => (
                                 <StatItem key={i} stat={stat} index={i} />
                             ))}

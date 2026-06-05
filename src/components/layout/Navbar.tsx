@@ -110,7 +110,7 @@ export default function Navbar() {
                                         <Link
                                             href={item.href}
                                             className={`text-[10px] xl:text-[11px] font-semibold flex items-center gap-1 transition-all duration-300 relative group tracking-wider uppercase whitespace-nowrap ${
-                                                active ? "text-primary" : "text-muted-foreground hover:text-foreground"
+                                                active ? "nav-link-contrast-active" : "nav-link-contrast"
                                             }`}
                                         >
                                             {item.name}
@@ -123,7 +123,7 @@ export default function Navbar() {
                                                     <Link
                                                         key={sub.name}
                                                         href={sub.href}
-                                                        className="block px-4 py-3 text-[10px] xl:text-[11px] font-semibold text-muted-foreground hover:text-primary rounded-xl hover:bg-primary/10 transition-all duration-200 uppercase tracking-wider"
+                                                        className="nav-dropdown-link block rounded-xl px-4 py-3 text-[10px] font-semibold uppercase tracking-wider transition-all duration-200 xl:text-[11px]"
                                                     >
                                                         {sub.name}
                                                     </Link>
@@ -139,7 +139,7 @@ export default function Navbar() {
                                     key={item.name}
                                     href={item.href}
                                     className={`text-[10px] xl:text-[11px] font-semibold transition-all duration-300 relative group tracking-wider uppercase whitespace-nowrap py-2 ${
-                                        active ? "text-primary" : "text-muted-foreground hover:text-foreground"
+                                        active ? "nav-link-contrast-active" : "nav-link-contrast"
                                     }`}
                                 >
                                     {item.name}
@@ -167,7 +167,7 @@ export default function Navbar() {
                         {/* Mobile Menu Toggle */}
                         <button 
                             onClick={() => setIsOpen(!isOpen)}
-                            className="lg:hidden p-2.5 text-foreground/80 hover:text-primary transition-colors z-[70]"
+                            className="nav-link-contrast z-[70] p-2.5 transition-colors lg:hidden"
                             aria-label="Toggle menu"
                         >
                             {isOpen ? <X className="size-6" /> : <Menu className="size-6" />}
@@ -201,13 +201,13 @@ export default function Navbar() {
                                                 <Link
                                                     href={item.href}
                                                     onClick={() => setIsOpen(false)}
-                                                    className={`text-lg font-display-heavy tracking-tight ${active ? "text-primary" : "text-foreground/90 hover:text-primary"}`}
+                                                    className={`text-lg font-display-heavy tracking-tight ${active ? "nav-link-contrast-active" : "nav-link-contrast"}`}
                                                 >
                                                     {item.name}
                                                 </Link>
                                                 <button
                                                     onClick={() => setServicesExpanded(!servicesExpanded)}
-                                                    className="p-2 text-foreground/70 hover:text-primary"
+                                                    className="nav-link-contrast p-2"
                                                     aria-label="Expand services"
                                                 >
                                                     <ChevronDown className={`size-5 transition-transform duration-300 ${servicesExpanded ? "rotate-180" : ""}`} />
@@ -227,7 +227,7 @@ export default function Navbar() {
                                                                 key={sub.name}
                                                                 href={sub.href}
                                                                 onClick={() => setIsOpen(false)}
-                                                                className="text-sm font-semibold text-muted-foreground hover:text-primary py-1.5 block"
+                                                                className="nav-dropdown-link block py-1.5 text-sm font-semibold"
                                                             >
                                                                 {sub.name}
                                                             </Link>
@@ -249,7 +249,7 @@ export default function Navbar() {
                                         <Link
                                             href={item.href}
                                             onClick={() => setIsOpen(false)}
-                                            className={`text-lg font-display-heavy tracking-tight block py-1 ${active ? "text-primary" : "text-foreground/90 hover:text-primary"}`}
+                                            className={`block py-1 text-lg font-display-heavy tracking-tight ${active ? "nav-link-contrast-active" : "nav-link-contrast"}`}
                                         >
                                             {item.name}
                                         </Link>

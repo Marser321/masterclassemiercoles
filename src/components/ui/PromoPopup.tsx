@@ -48,22 +48,23 @@ export default function PromoPopup() {
   return (
     <AnimatePresence>
       {isOpen && (
-        <div className="fixed inset-0 bg-background/75 backdrop-blur-xl z-[100] flex items-center justify-center p-4">
-          <motion.div
-            initial={{ opacity: 0, scale: 0.9, y: 20 }}
-            animate={{ opacity: 1, scale: 1, y: 0 }}
-            exit={{ opacity: 0, scale: 0.9, y: 20 }}
-            transition={{ type: "spring", duration: 0.5 }}
-            className="relative max-w-[35rem] w-full rounded-[2rem] p-[1.5px] shadow-[0_0_34px_rgba(56,189,248,0.22),0_28px_100px_rgba(0,102,255,0.32)] overflow-hidden"
-          >
+        <div className="fixed inset-0 z-[100] overflow-y-auto bg-background/75 p-3 backdrop-blur-xl sm:p-4">
+          <div className="flex min-h-full items-start justify-center sm:items-center">
             <motion.div
-              aria-hidden="true"
-              className="absolute -inset-28 bg-[conic-gradient(from_90deg,transparent_0deg,transparent_55deg,rgba(56,189,248,0.95)_92deg,rgba(0,102,255,1)_116deg,rgba(125,211,252,0.98)_138deg,transparent_178deg,transparent_360deg)]"
-              animate={prefersReducedMotion ? undefined : { rotate: 360 }}
-              transition={prefersReducedMotion ? undefined : { duration: 5.5, repeat: Infinity, ease: "linear" }}
-            />
+              initial={{ opacity: 0, scale: 0.9, y: 20 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.9, y: 20 }}
+              transition={{ type: "spring", duration: 0.5 }}
+              className="relative w-full max-w-[35rem] overflow-hidden rounded-[2rem] p-[1.5px] shadow-[0_0_34px_rgba(56,189,248,0.22),0_28px_100px_rgba(0,102,255,0.32)]"
+            >
+              <motion.div
+                aria-hidden="true"
+                className="absolute -inset-28 bg-[conic-gradient(from_90deg,transparent_0deg,transparent_55deg,rgba(56,189,248,0.95)_92deg,rgba(0,102,255,1)_116deg,rgba(125,211,252,0.98)_138deg,transparent_178deg,transparent_360deg)]"
+                animate={prefersReducedMotion ? undefined : { rotate: 360 }}
+                transition={prefersReducedMotion ? undefined : { duration: 5.5, repeat: Infinity, ease: "linear" }}
+              />
 
-            <div className="relative rounded-[calc(2rem-1px)] border border-sky-300/35 bg-slate-950/95 px-4 py-4 text-center shadow-[inset_0_1px_0_rgba(255,255,255,0.2),inset_0_0_34px_rgba(56,189,248,0.08)] ring-1 ring-sky-300/20 backdrop-blur-2xl sm:px-5 sm:py-5 overflow-hidden">
+              <div className="relative overflow-hidden rounded-[calc(2rem-1px)] border border-sky-300/35 bg-slate-950/95 px-4 py-4 text-center shadow-[inset_0_1px_0_rgba(255,255,255,0.2),inset_0_0_34px_rgba(56,189,248,0.08)] ring-1 ring-sky-300/20 backdrop-blur-2xl sm:px-5 sm:py-5">
               <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_0%,rgba(56,189,248,0.2),transparent_34%),radial-gradient(circle_at_85%_100%,rgba(0,102,255,0.2),transparent_36%),linear-gradient(135deg,rgba(255,255,255,0.12),rgba(255,255,255,0.02)_35%,rgba(255,255,255,0.08))] pointer-events-none" />
               <div className="absolute inset-x-8 top-0 h-px bg-gradient-to-r from-transparent via-sky-200/80 to-transparent pointer-events-none" />
               <div className="absolute -left-24 top-10 h-40 w-40 rounded-full bg-sky-400/15 blur-3xl pointer-events-none" />
@@ -81,18 +82,18 @@ export default function PromoPopup() {
 
               <div className="relative z-10 flex flex-col items-center">
                 <div className="relative w-full overflow-hidden rounded-[1.6rem] border border-sky-200/25 bg-slate-950/70 shadow-[0_18px_55px_rgba(0,102,255,0.24),inset_0_1px_0_rgba(255,255,255,0.18)]">
-                  <div className="relative aspect-[1.22/1] w-full">
+                  <div className="relative aspect-square w-full">
                     <Image
                       src="/popups/ad-media-diagnostic-glass.png"
                       alt="Sistema visual de CRM, ads, WhatsApp, agenda y ventas de AD Media Solution"
                       fill
                       sizes="(max-width: 640px) 92vw, 520px"
-                      className="object-cover"
+                      className="object-contain"
                       priority
                     />
                     <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(2,6,23,0.02),rgba(2,6,23,0.18)_62%,rgba(2,6,23,0.68)),radial-gradient(circle_at_50%_46%,transparent_0%,transparent_42%,rgba(2,6,23,0.24)_78%)]" />
                     <div className="absolute inset-x-6 top-0 h-px bg-gradient-to-r from-transparent via-white/70 to-transparent" />
-                    <div className="absolute bottom-3 left-1/2 flex -translate-x-1/2 items-center gap-2 rounded-full border border-sky-200/20 bg-slate-950/55 px-3 py-1.5 text-[10px] font-bold uppercase tracking-[0.18em] text-sky-100 shadow-[0_0_24px_rgba(56,189,248,0.18)] backdrop-blur-md">
+                    <div className="absolute bottom-4 left-1/2 flex max-w-[calc(100%-2rem)] -translate-x-1/2 items-center gap-2 rounded-full border border-sky-200/20 bg-slate-950/55 px-3 py-1.5 text-[10px] font-bold uppercase tracking-[0.18em] text-sky-100 shadow-[0_0_24px_rgba(56,189,248,0.18)] backdrop-blur-md">
                       <ShieldCheck className="size-3 text-sky-300" />
                       Sistema Comercial
                     </div>
@@ -140,8 +141,9 @@ export default function PromoPopup() {
                   </button>
                 </div>
               </div>
-            </div>
-          </motion.div>
+              </div>
+            </motion.div>
+          </div>
         </div>
       )}
     </AnimatePresence>

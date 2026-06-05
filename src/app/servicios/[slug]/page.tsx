@@ -26,8 +26,8 @@ function SlugBackground({ slug }: { slug: string }) {
   }
 }
 
-// Si la stat es puramente numérica ("100%", "0", "+2") la anima con contador;
-// si no ("24/7", "Real", "Meta", "ROI") la deja como texto.
+// Si la stat es puramente numérica la anima con contador; el contenido actual
+// usa etiquetas cualitativas hasta validar métricas reales.
 function StatValue({ value }: { value: string }) {
   const match = value.match(/^(\+?)(\d+)(%?)$/);
   if (match) {
@@ -45,7 +45,6 @@ function StatValue({ value }: { value: string }) {
 
 // ============================================================
 // Detalle de servicios. Los slugs se conservan para no romper enlaces.
-// PLACEHOLDER: validar las métricas (stats) con datos reales.
 // ============================================================
 const SERVICES_DATA = {
     "embudos-neurales": {
@@ -59,9 +58,9 @@ const SERVICES_DATA = {
             "Reportes claros de tus ventas",
         ],
         stats: [
-            { label: "Seguimiento", value: "24/7" },
-            { label: "Clientes organizados", value: "100%" },
-            { label: "Leads perdidos", value: "0" },
+            { label: "Seguimiento", value: "Flujos" },
+            { label: "Clientes", value: "Orden" },
+            { label: "Agenda", value: "Citas" },
         ],
         icon: Database,
         gradient: "from-primary to-accent-light",
@@ -77,9 +76,9 @@ const SERVICES_DATA = {
             "Reportes de rendimiento",
         ],
         stats: [
-            { label: "Disponibilidad", value: "24/7" },
-            { label: "Soporte humano", value: "Real" },
-            { label: "Sistemas al día", value: "100%" },
+            { label: "Soporte", value: "Humano" },
+            { label: "Mantenimiento", value: "Activo" },
+            { label: "Mejoras", value: "Continuas" },
         ],
         icon: LifeBuoy,
         gradient: "from-accent-warm to-accent-stone",
@@ -87,17 +86,17 @@ const SERVICES_DATA = {
     "contenido-generativo": {
         title: "Dirección de marketing",
         subtitle: "Meta, Google y redes con estrategia",
-        description: "Te decimos qué hacer y lo ejecutamos: Meta Ads, Google Ads, redes sociales y contenido con una estrategia clara y orientada a resultados. Somos Business Partner de Meta.",
+        description: "Te ayudamos a decidir qué hacer y cómo ejecutarlo: Meta Ads, Google Ads, redes sociales y contenido con una estrategia clara y revisable.",
         features: [
             "Campañas en Meta y Google Ads",
             "Gestión de redes sociales (Instagram, Facebook)",
             "Producción de contenido por nicho",
-            "Estrategia orientada a ROI",
+            "Estrategia orientada a decisiones medibles",
         ],
         stats: [
-            { label: "Foco en resultados", value: "ROI" },
-            { label: "Business Partner", value: "Meta" },
-            { label: "Plataformas", value: "+2" },
+            { label: "Pauta", value: "Meta" },
+            { label: "Busqueda", value: "Google" },
+            { label: "Contenido", value: "Redes" },
         ],
         icon: Megaphone,
         gradient: "from-primary to-accent-light",

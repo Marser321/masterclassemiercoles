@@ -61,6 +61,8 @@ checklists/
 # custom binaries and temp
 *.dmg
 *.opus
+VSL/
+Testimonios/
 test-results/
 .claude/
 
@@ -69,5 +71,4 @@ test_audio_openrouter.py
 transcribe_all.py
 guion_original*.txt
 prompt_base_marca.json
-
 
