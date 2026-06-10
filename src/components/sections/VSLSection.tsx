@@ -10,9 +10,9 @@ import { Button } from "@/components/ui/Button";
 import SectionDivider from "@/components/ui/SectionDivider";
 import { useMediaQuery } from "@/lib/useMediaQuery";
 
-const VSL_POSTER = "/media/vsl/vsl-8min-poster.jpg";
-const VSL_WEB = "/media/vsl/vsl-8min-web.mp4";
-const VSL_MOBILE = "/media/vsl/vsl-8min-mobile.mp4";
+const VSL_POSTER = "/media/vsl/vsl-v2-poster.jpg";
+const VSL_WEB = "/media/vsl/vsl-v2-web.mp4";
+const VSL_MOBILE = "/media/vsl/vsl-v2-mobile.mp4";
 
 export default function VSLSection() {
   const [videoActive, setVideoActive] = useState(false);
@@ -122,7 +122,7 @@ export default function VSLSection() {
                   <div className="absolute left-4 top-4 flex flex-wrap gap-2 text-[10px] font-mono uppercase tracking-[0.18em] text-white/85 sm:left-5 sm:top-5">
                     <span className="inline-flex items-center gap-1.5 rounded-md border border-white/10 bg-slate-950/70 px-2.5 py-1 backdrop-blur-sm">
                       <Activity className="size-3 text-primary" />
-                      8 min
+                      1 min
                     </span>
                     <span className="inline-flex items-center gap-1.5 rounded-md border border-white/10 bg-slate-950/70 px-2.5 py-1 backdrop-blur-sm">
                       <Gauge className="size-3 text-accent-light" />

@@ -43,7 +43,7 @@ next-env.d.ts
 # build & temp
 build_log_*.txt
 *.zip
-V3/
+/V3/
 check_logos.py
 checklists/
 *.jpg
@@ -58,13 +58,13 @@ checklists/
 !public/**/*.webp
 !public/**/*.html
 
-# custom binaries and temp
+# custom binaries and temp (anclados a la raíz: NO deben tapar public/media/vsl)
 /*.mp4
 /*.mov
 *.dmg
 *.opus
-VSL/
-Testimonios/
+/VSL/
+/Testimonios/
 test-results/
 .claude/
 
