@@ -317,6 +317,15 @@ function DesktopCarousel({
   hoveredRoadmapIndex,
   setHoveredRoadmapIndex,
 }: DesktopCarouselProps) {
+  // Los overlays del roadmap (~1.3 MB c/u en origen) solo se montan tras el
+  // primer hover de su nodo; antes de eso no se descargan.
+  const [revealedBgs, setRevealedBgs] = useState<boolean[]>(() => Array(5).fill(false));
+  const handleRoadmapHover = (index: number | null) => {
+    setHoveredRoadmapIndex(index);
+    if (index !== null) {
+      setRevealedBgs((prev) => (prev[index] ? prev : prev.map((v, j) => (j === index ? true : v))));
+    }
+  };
   return (
     /* Horizontal Carousel Section (Vertical Scroll Trigger) */
     <div
@@ -354,14 +363,15 @@ function DesktopCarousel({
                   <div
                     className={`absolute inset-0 transition-opacity duration-700 ${isActive ? "opacity-[0.18]" : "opacity-0"}`}
                   >
-                    <Image
-                      src={bg.src}
-                      alt="Roadmap background"
-                      fill
-                      className="object-cover"
-                      sizes="100vw"
-                      loading="lazy"
-                    />
+                    {(isActive || revealedBgs[index]) && (
+                      <Image
+                        src={bg.src}
+                        alt="Roadmap background"
+                        fill
+                        className="object-cover"
+                        sizes="100vw"
+                      />
+                    )}
                   </div>
                   {/* Ambient Glow */}
                   <div className={`absolute top-1/3 left-1/2 -translate-x-1/2 w-[600px] h-[600px] ${bg.glow} rounded-full blur-[140px] transition-all duration-700 ${isActive ? "opacity-100 scale-105" : "opacity-0 scale-95"}`} />
@@ -389,7 +399,7 @@ function DesktopCarousel({
               </p>
 
               {/* Synergy Roadmap Component */}
-              <SynergyRoadmap hoveredIndex={hoveredRoadmapIndex} setHoveredIndex={setHoveredRoadmapIndex} />
+              <SynergyRoadmap hoveredIndex={hoveredRoadmapIndex} setHoveredIndex={handleRoadmapHover} />
 
               <div className="mt-6 sm:mt-8 flex justify-center items-center gap-2 text-primary font-bold animate-pulse text-xs md:text-sm">
                 <span>Comenzar recorrido</span>

@@ -120,7 +120,6 @@ export default function ResponsiveVideoBg({
                     loop
                     playsInline
                     preload="metadata"
-                    poster={currentPoster}
                     aria-hidden="true"
                     onPlaying={() => setPlayingSource(currentSourceKey)}
                 >
