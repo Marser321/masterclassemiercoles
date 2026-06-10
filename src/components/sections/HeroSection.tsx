@@ -137,8 +137,9 @@ export default function HeroSection() {
                     desktopPoster="/hero/ad-media-logo-waves-poster.jpg"
                     posterClassName="opacity-[0.45] sm:opacity-[0.55]"
                     videoClassName="opacity-[0.45] sm:opacity-[0.58] md:opacity-[0.64]"
-                    mobilePosterClassName="bg-[position:50%_46%]"
+                    mobilePosterClassName="object-[50%_46%]"
                     mobileVideoClassName="object-[50%_46%]"
+                    posterPriority
                 />
                 <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_45%,rgba(2,6,23,0.04),rgba(2,6,23,0.44)_48%,rgba(2,6,23,0.88)_100%)]" />
                 <div className="absolute inset-0 bg-gradient-to-b from-background/20 via-background/35 to-background/90" />

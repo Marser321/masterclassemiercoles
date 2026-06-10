@@ -1,6 +1,7 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
+import { useInView } from "framer-motion";
 
 // ============================================================
 // Contrato compartido de los fondos contextuales.
@@ -51,4 +52,17 @@ export function useResolvedDensity(requested: CtxDensity = "mid"): CtxDensity {
         return () => mq.removeEventListener("change", update);
     }, []);
     return isDesktop ? requested : "low";
+}
+
+/**
+ * Gating común de animación: solo anima si el contenedor intersecta el
+ * viewport (además de respetar `paused` y reduced-motion). Colgar `ref`
+ * del div raíz del fondo. Patrón original de FlowField.
+ */
+export function useCtxLive(paused: boolean, reduce: boolean | null) {
+    const ref = useRef<HTMLDivElement>(null);
+    const inView = useInView(ref, { once: false, margin: "-10%" });
+    // `inView` queda expuesto para animaciones de entrada (draw-in) que deben
+    // correr aunque reduced-motion congele los loops.
+    return { ref, inView, live: inView && !paused && !reduce };
 }

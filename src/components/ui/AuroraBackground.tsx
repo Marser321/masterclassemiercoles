@@ -3,19 +3,28 @@
 import React from "react";
 import { motion, useReducedMotion } from "framer-motion";
 import { cn } from "@/lib/utils";
+import { useCtxLive } from "@/components/backgrounds/types";
 
 interface AuroraBackgroundProps {
     className?: string;
     opacity?: number;
     intensity?: "soft" | "medium" | "strong";
+    /** Cantidad de elementos — aceptado por compatibilidad con ContextBackgroundProps. */
+    density?: "low" | "mid" | "high";
+    /** Congela los loops decorativos (p.ej. al abrir un modal). */
+    paused?: boolean;
 }
 
-export const AuroraBackground = ({ 
-    className, 
+export const AuroraBackground = ({
+    className,
     opacity = 0.3,
-    intensity = "medium"
+    intensity = "medium",
+    paused = false,
 }: AuroraBackgroundProps) => {
-    const shouldReduceMotion = useReducedMotion();
+    const reduce = useReducedMotion();
+    const { ref, live } = useCtxLive(paused, reduce);
+    // Pose estática (fuera de viewport o reduced-motion); los loops solo corren visibles.
+    const shouldReduceMotion = !live;
 
     const intensityMap = {
         soft: { blur: "blur(64px)", scale: 1 },
@@ -31,7 +40,8 @@ export const AuroraBackground = ({
     };
 
     return (
-        <div 
+        <div
+            ref={ref}
             data-motion-audit="decorative-background"
             className={cn("absolute inset-0 overflow-hidden pointer-events-none z-0", className)}
             style={{

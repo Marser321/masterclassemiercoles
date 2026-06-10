@@ -2,7 +2,7 @@
 
 import { motion, useReducedMotion } from "framer-motion";
 import { cn } from "@/lib/utils";
-import { ContextBackgroundProps, INTENSITY } from "./types";
+import { ContextBackgroundProps, INTENSITY, useCtxLive } from "./types";
 
 // ============================================================
 // BlueprintLayer — Metáfora sistema / arquitectura por etapas.
@@ -28,7 +28,7 @@ export default function BlueprintLayer({
 }: BlueprintLayerProps) {
     const reduce = useReducedMotion();
     const layerOpacity = INTENSITY[intensity];
-    const loop = !paused && !reduce;
+    const { ref, live: loop } = useCtxLive(paused, reduce);
 
     const W = 1000;
     const H = 600;
@@ -43,6 +43,7 @@ export default function BlueprintLayer({
 
     return (
         <div
+            ref={ref}
             data-motion-audit="decorative-background"
             className={cn(
                 "absolute inset-0 overflow-hidden pointer-events-none z-0",

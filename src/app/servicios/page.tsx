@@ -142,7 +142,7 @@ export default function ServiciosPage() {
           className="z-0 h-[620px] sm:h-[720px] lg:h-[780px] bottom-auto"
           posterClassName="opacity-[0.4] sm:opacity-[0.5]"
           videoClassName="opacity-[0.4] sm:opacity-[0.5] md:opacity-[0.55]"
-          mobilePosterClassName="bg-[position:50%_30%]"
+          mobilePosterClassName="object-[50%_30%]"
           mobileVideoClassName="object-[50%_30%]"
         >
           <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_18%,rgba(2,6,23,0.04),rgba(2,6,23,0.5)_48%,rgba(2,6,23,0.92)_100%)]" />

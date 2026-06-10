@@ -8,6 +8,7 @@ import {
     ContextBackgroundProps,
     INTENSITY,
     DENSITY_STEPS,
+    useCtxLive,
     useResolvedDensity,
 } from "./types";
 
@@ -57,10 +58,11 @@ export default function MetricBurst({
 
     const particleCount = reduce ? 0 : 4 + DENSITY_STEPS[resolved] * 4; // low=8, mid=12, high=16
     const particles = useMemo(() => makeParticles(particleCount), [particleCount]);
-    const burst = !paused && !reduce;
+    const { ref, live: burst } = useCtxLive(paused, reduce);
 
     return (
         <div
+            ref={ref}
             data-motion-audit="decorative-background"
             className={cn(
                 "absolute inset-0 overflow-hidden pointer-events-none z-0",

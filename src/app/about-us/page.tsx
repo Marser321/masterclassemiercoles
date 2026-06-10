@@ -415,13 +415,13 @@ function MilestoneSlide({
               videoClassName="opacity-85 transition-transform duration-700 group-hover:scale-105"
             />
           ) : (
-            <Image 
-              src={item.imageUrl} 
-              alt={item.title} 
+            <Image
+              src={item.imageUrl}
+              alt={item.title}
               fill
-              className="object-cover opacity-85 group-hover:scale-105 transition-transform duration-700" 
-              sizes="(max-w-1024px) 100vw, 45vw"
-              priority
+              className="object-cover opacity-85 group-hover:scale-105 transition-transform duration-700"
+              sizes="(max-width: 1024px) 100vw, 45vw"
+              priority={idx === 0}
             />
           )}
         </motion.div>

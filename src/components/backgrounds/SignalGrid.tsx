@@ -7,6 +7,7 @@ import {
     ContextBackgroundProps,
     INTENSITY,
     DENSITY_STEPS,
+    useCtxLive,
     useResolvedDensity,
 } from "./types";
 
@@ -41,10 +42,11 @@ export default function SignalGrid({
         () => Array.from({ length: cols * rows }, (_, i) => i),
         [cols, rows]
     );
-    const loop = !paused && !reduce;
+    const { ref, live: loop } = useCtxLive(paused, reduce);
 
     return (
         <div
+            ref={ref}
             data-motion-audit="decorative-background"
             className={cn(
                 "absolute inset-0 overflow-hidden pointer-events-none z-0",

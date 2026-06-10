@@ -7,6 +7,7 @@ import {
     ContextBackgroundProps,
     INTENSITY,
     DENSITY_STEPS,
+    useCtxLive,
     useResolvedDensity,
 } from "./types";
 
@@ -120,10 +121,11 @@ export default function PresenceField({
     const count = 5 + DENSITY_STEPS[resolved] * 4; // low=9, mid=13, high=17
     const people = useMemo(() => makePeople(count), [count]);
     const arcs = useMemo(() => makeArcs(people), [people]);
-    const live = !paused && !reduce;
+    const { ref, live } = useCtxLive(paused, reduce);
 
     return (
         <div
+            ref={ref}
             data-motion-audit="decorative-background"
             className={cn(
                 "absolute inset-0 overflow-hidden pointer-events-none z-0",

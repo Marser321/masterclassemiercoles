@@ -7,6 +7,7 @@ import {
     ContextBackgroundProps,
     INTENSITY,
     DENSITY_STEPS,
+    useCtxLive,
     useResolvedDensity,
 } from "./types";
 
@@ -69,10 +70,11 @@ export default function ConstellationField({
     const nodeCount = 6 + DENSITY_STEPS[resolved] * 6; // low=12, mid=18, high=24
     const nodes = useMemo(() => makeNodes(nodeCount), [nodeCount]);
     const edges = useMemo(() => makeEdges(nodes), [nodes]);
-    const twinkle = !paused && !reduce;
+    const { ref, live: twinkle } = useCtxLive(paused, reduce);
 
     return (
         <div
+            ref={ref}
             data-motion-audit="decorative-background"
             className={cn(
                 "absolute inset-0 overflow-hidden pointer-events-none z-0",

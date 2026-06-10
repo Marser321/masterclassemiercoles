@@ -7,6 +7,7 @@ import { Activity, Calendar, Gauge, Play, ShieldCheck, Sparkles } from "lucide-r
 import { useRouter } from "next/navigation";
 import { KineticContainer, KineticItem } from "@/components/animations/KineticEntrance";
 import { Button } from "@/components/ui/Button";
+import { useMediaQuery } from "@/lib/useMediaQuery";
 
 const VSL_POSTER = "/media/vsl/vsl-8min-poster.jpg";
 const VSL_WEB = "/media/vsl/vsl-8min-web.mp4";
@@ -15,6 +16,8 @@ const VSL_MOBILE = "/media/vsl/vsl-8min-mobile.mp4";
 export default function VSLSection() {
   const [videoActive, setVideoActive] = useState(false);
   const router = useRouter();
+  // El video se monta recién al click (post-hidratación), así que el media query ya es real
+  const isSmallScreen = useMediaQuery("(max-width: 640px)");
 
   const { scrollYProgress } = useScroll({
     offset: ["start end", "end start"],
@@ -97,8 +100,7 @@ export default function VSLSection() {
                   preload="metadata"
                   poster={VSL_POSTER}
                 >
-                  <source src={VSL_MOBILE} type="video/mp4" media="(max-width: 640px)" />
-                  <source src={VSL_WEB} type="video/mp4" />
+                  <source src={isSmallScreen ? VSL_MOBILE : VSL_WEB} type="video/mp4" />
                 </video>
               ) : (
                 <button

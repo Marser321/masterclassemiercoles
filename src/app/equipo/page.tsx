@@ -335,7 +335,7 @@ function DesktopCarousel({
                       fill
                       className="object-cover"
                       sizes="100vw"
-                      priority={index === 0}
+                      loading="lazy"
                     />
                   </div>
                   {/* Ambient Glow */}
@@ -437,7 +437,7 @@ function TeamMemberSlide({
                 fill
                 className="object-cover object-top transition-transform duration-500 group-hover:scale-105"
                 sizes="(max-width: 1024px) 100vw, 35vw"
-                priority
+                priority={idx === 0}
               />
             </div>
           ) : (
@@ -603,7 +603,7 @@ function MobileTeamCard({ member, idx, total, reduceMotion }: MobileTeamCardProp
             fill
             className="object-cover object-top transition-transform duration-500 group-hover:scale-105"
             sizes="(max-width: 768px) 100vw, 400px"
-            priority
+            priority={idx === 0}
           />
         ) : (
           <div className="w-28 h-28 rounded-full bg-primary/10 border border-primary/20 flex items-center justify-center shadow-xl relative z-20">

@@ -1,12 +1,12 @@
 "use client";
 
-import { useRef } from "react";
-import { motion, useReducedMotion, useInView } from "framer-motion";
+import { motion, useReducedMotion } from "framer-motion";
 import { cn } from "@/lib/utils";
 import {
     ContextBackgroundProps,
     INTENSITY,
     DENSITY_STEPS,
+    useCtxLive,
     useResolvedDensity,
 } from "./types";
 
@@ -45,14 +45,12 @@ export default function FlowField({
 }: ContextBackgroundProps) {
     const reduce = useReducedMotion();
     const resolved = useResolvedDensity(density);
-    const ref = useRef<HTMLDivElement>(null);
-    const inView = useInView(ref, { once: false, margin: "-10%" });
+    const { ref, inView, live: animate } = useCtxLive(paused, reduce);
 
     // Cuántos leads dibujar según densidad.
     const count = Math.min(SOURCES.length, 2 + DENSITY_STEPS[resolved]);
     const sources = SOURCES.slice(0, count);
     const layerOpacity = INTENSITY[intensity];
-    const animate = inView && !paused && !reduce;
 
     return (
         <div

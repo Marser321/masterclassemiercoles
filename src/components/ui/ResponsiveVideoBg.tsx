@@ -2,6 +2,7 @@
 
 import { useRef, useState, useSyncExternalStore } from "react";
 import type { ReactNode } from "react";
+import Image from "next/image";
 import { cn } from "@/lib/utils";
 import { useVideoInView } from "@/lib/useVideoInView";
 import { useMediaQuery } from "@/lib/useMediaQuery";
@@ -19,6 +20,9 @@ interface ResponsiveVideoBgProps {
 
     // Breakpoint en píxeles para conmutar a desktop (por defecto 1024px)
     breakpoint?: number;
+
+    // Prioriza la carga del póster (solo para el hero above-the-fold: es el LCP)
+    posterPriority?: boolean;
 
     className?: string;
     posterClassName?: string;
@@ -42,6 +46,7 @@ export default function ResponsiveVideoBg({
     desktopMp4Src,
     desktopPoster,
     breakpoint = 1024,
+    posterPriority = false,
     className,
     posterClassName,
     videoClassName,
@@ -78,18 +83,27 @@ export default function ResponsiveVideoBg({
             className={cn("absolute inset-0 overflow-hidden pointer-events-none", className)}
             aria-hidden="true"
         >
-            {/* Capa estática de póster */}
+            {/* Capa estática de póster (next/image: AVIF/WebP + preload scanner → mejora LCP) */}
             <div
                 className={cn(
-                    "absolute inset-0 bg-cover bg-center transition-opacity duration-700",
+                    "absolute inset-0 transition-opacity duration-700",
                     posterClassName,
-                    isDesktop ? desktopPosterClassName : mobilePosterClassName,
                 )}
-                style={{
-                    backgroundImage: `url('${currentPoster}')`,
-                    opacity: videoPlaying ? 0 : undefined,
-                }}
-            />
+                style={{ opacity: videoPlaying ? 0 : undefined }}
+            >
+                <Image
+                    src={currentPoster}
+                    alt=""
+                    fill
+                    sizes="100vw"
+                    quality={75}
+                    priority={posterPriority}
+                    className={cn(
+                        "object-cover object-center",
+                        isDesktop ? desktopPosterClassName : mobilePosterClassName,
+                    )}
+                />
+            </div>
 
             {/* Capa de video (solo se monta si se puede reproducir en este breakpoint) */}
             {canPlayVideo && (currentWebm || currentMp4) && (

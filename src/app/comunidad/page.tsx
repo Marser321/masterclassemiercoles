@@ -40,7 +40,7 @@ export default function ComunidadPage() {
           className="z-0 h-[640px] bottom-auto"
           posterClassName="opacity-[0.35] sm:opacity-[0.45]"
           videoClassName="opacity-[0.35] sm:opacity-[0.45]"
-          mobilePosterClassName="bg-[position:50%_42%]"
+          mobilePosterClassName="object-[50%_42%]"
           mobileVideoClassName="object-[50%_42%]"
         >
           <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_26%,rgba(2,6,23,0.05),rgba(2,6,23,0.45)_55%,rgba(2,6,23,0.88)_100%)]" />

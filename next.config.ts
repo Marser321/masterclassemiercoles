@@ -12,6 +12,21 @@ const nextConfig: NextConfig = {
   experimental: {
     optimizePackageImports: ["lucide-react"],
   },
+  // Videos y media son assets versionados por nombre: si se reemplaza uno,
+  // hay que renombrarlo (immutable hace que el navegador nunca revalide).
+  async headers() {
+    return [
+      {
+        source: "/:dir(videos|media|hero)/:path*",
+        headers: [
+          {
+            key: "Cache-Control",
+            value: "public, max-age=31536000, immutable",
+          },
+        ],
+      },
+    ];
+  },
   async redirects() {
     return [
       {
