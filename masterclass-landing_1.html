@@ -1,0 +1,919 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Masterclass Gratuita — Danger Fernández | AD Media Solution</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Syne:wght@700;800&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --black: #0A0A0A;
+    --white: #FFFFFF;
+    --accent: #FF4D00;
+    --accent-soft: #FF6B2B;
+    --gold: #F5C842;
+    --surface: #111111;
+    --surface2: #181818;
+    --border: rgba(255,255,255,0.08);
+    --text-muted: rgba(255,255,255,0.5);
+    --text-mid: rgba(255,255,255,0.75);
+    --radius: 12px;
+    --font-display: 'Syne', sans-serif;
+    --font-body: 'Inter', sans-serif;
+  }
+
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--black);
+    color: var(--white);
+    font-family: var(--font-body);
+    font-size: 16px;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* ── ANNOUNCEMENT BAR ── */
+  .topbar {
+    background: var(--accent);
+    text-align: center;
+    padding: 10px 16px;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+  .topbar span { opacity: 0.85; margin: 0 6px; }
+
+  /* ── NAV ── */
+  nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 18px 40px;
+    border-bottom: 1px solid var(--border);
+    position: sticky;
+    top: 0;
+    background: rgba(10,10,10,0.92);
+    backdrop-filter: blur(12px);
+    z-index: 100;
+  }
+  .logo { font-family: var(--font-display); font-size: 18px; font-weight: 800; letter-spacing: -0.02em; }
+  .logo em { color: var(--accent); font-style: normal; }
+  .nav-badge {
+    background: rgba(255,77,0,0.12);
+    border: 1px solid rgba(255,77,0,0.3);
+    color: var(--accent-soft);
+    font-size: 12px;
+    font-weight: 700;
+    padding: 6px 16px;
+    border-radius: 99px;
+    letter-spacing: 0.04em;
+  }
+
+  /* ── HERO ── */
+  .hero {
+    max-width: 860px;
+    margin: 0 auto;
+    padding: 80px 24px 60px;
+    text-align: center;
+  }
+  .eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(245,200,66,0.1);
+    border: 1px solid rgba(245,200,66,0.25);
+    color: var(--gold);
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 7px 16px;
+    border-radius: 99px;
+    margin-bottom: 28px;
+  }
+  .eyebrow::before { content: '●'; font-size: 8px; animation: pulse 1.5s infinite; }
+  @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.3} }
+
+  h1 {
+    font-family: var(--font-display);
+    font-size: clamp(36px, 6vw, 68px);
+    font-weight: 800;
+    line-height: 1.05;
+    letter-spacing: -0.03em;
+    margin-bottom: 24px;
+  }
+  h1 .highlight {
+    color: var(--accent);
+    position: relative;
+    display: inline-block;
+  }
+  h1 .highlight::after {
+    content: '';
+    position: absolute;
+    bottom: 4px;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: var(--accent);
+    border-radius: 2px;
+    opacity: 0.4;
+  }
+
+  .hero-sub {
+    font-size: clamp(16px, 2vw, 20px);
+    color: var(--text-mid);
+    max-width: 620px;
+    margin: 0 auto 36px;
+    font-weight: 400;
+    line-height: 1.7;
+  }
+
+  /* ── EVENT DETAILS STRIP ── */
+  .event-strip {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 32px;
+    flex-wrap: wrap;
+    padding: 20px 24px;
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 40px;
+    font-size: 14px;
+    color: var(--text-mid);
+  }
+  .event-item { display: flex; align-items: center; gap: 8px; font-weight: 500; }
+  .event-item .icon { font-size: 18px; }
+  .event-item strong { color: var(--white); }
+
+  /* ── CTA BUTTON ── */
+  .btn-primary {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    background: var(--accent);
+    color: var(--white);
+    font-family: var(--font-body);
+    font-size: 17px;
+    font-weight: 800;
+    padding: 18px 40px;
+    border-radius: 8px;
+    border: none;
+    cursor: pointer;
+    text-decoration: none;
+    letter-spacing: -0.01em;
+    transition: transform 0.15s, box-shadow 0.15s;
+    box-shadow: 0 0 40px rgba(255,77,0,0.35);
+  }
+  .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 0 60px rgba(255,77,0,0.5); }
+  .btn-primary:active { transform: translateY(0); }
+  .btn-note {
+    display: block;
+    text-align: center;
+    margin-top: 12px;
+    font-size: 13px;
+    color: var(--text-muted);
+  }
+  .btn-note strong { color: var(--text-mid); }
+
+  /* ── COUNTDOWN ── */
+  .countdown-wrap {
+    margin: 48px 0 0;
+    text-align: center;
+  }
+  .countdown-label {
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    margin-bottom: 16px;
+  }
+  .countdown {
+    display: inline-flex;
+    gap: 8px;
+    align-items: center;
+  }
+  .cd-unit {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 16px 20px;
+    min-width: 72px;
+    text-align: center;
+  }
+  .cd-num {
+    font-family: var(--font-display);
+    font-size: 36px;
+    font-weight: 800;
+    line-height: 1;
+    color: var(--white);
+    display: block;
+  }
+  .cd-lbl {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    margin-top: 6px;
+    display: block;
+  }
+  .cd-sep { font-size: 28px; font-weight: 900; color: var(--accent); line-height: 1; }
+
+  /* ── SOCIAL PROOF BAR ── */
+  .proof-bar {
+    background: var(--surface);
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+    padding: 20px 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 48px;
+    flex-wrap: wrap;
+  }
+  .proof-item { text-align: center; }
+  .proof-num {
+    font-family: var(--font-display);
+    font-size: 28px;
+    font-weight: 800;
+    color: var(--white);
+    line-height: 1;
+  }
+  .proof-num em { color: var(--accent); font-style: normal; }
+  .proof-desc { font-size: 13px; color: var(--text-muted); margin-top: 4px; }
+
+  /* ── SECTIONS SHARED ── */
+  section { padding: 80px 24px; }
+  .section-inner { max-width: 900px; margin: 0 auto; }
+  .section-tag {
+    display: inline-block;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 16px;
+  }
+  h2 {
+    font-family: var(--font-display);
+    font-size: clamp(28px, 4vw, 44px);
+    font-weight: 800;
+    letter-spacing: -0.025em;
+    line-height: 1.1;
+    margin-bottom: 16px;
+  }
+  .section-sub {
+    font-size: 17px;
+    color: var(--text-mid);
+    max-width: 600px;
+    margin-bottom: 48px;
+    line-height: 1.7;
+  }
+
+  /* ── WHAT YOU LEARN ── */
+  .learn-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 16px;
+  }
+  .learn-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 24px;
+    transition: border-color 0.2s, transform 0.2s;
+    position: relative;
+    overflow: hidden;
+  }
+  .learn-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    background: var(--accent);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.3s;
+  }
+  .learn-card:hover { border-color: rgba(255,77,0,0.3); transform: translateY(-2px); }
+  .learn-card:hover::before { transform: scaleX(1); }
+  .learn-icon { font-size: 28px; margin-bottom: 14px; display: block; }
+  .learn-title { font-size: 15px; font-weight: 700; margin-bottom: 6px; color: var(--white); }
+  .learn-desc { font-size: 13px; color: var(--text-muted); line-height: 1.6; margin-bottom: 14px; }
+  .learn-tag-number { font-family: var(--font-display); font-size: 11px; font-weight: 800; letter-spacing: 0.1em; color: var(--accent); opacity: 0.6; margin-bottom: 8px; }
+  .learn-outcome { font-size: 12px; font-weight: 700; color: var(--accent-soft); border-top: 1px solid var(--border); padding-top: 12px; }
+
+  /* ── WHO IS THIS FOR ── */
+  .for-section { background: var(--surface); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+  .for-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+  }
+  @media(max-width:600px){ .for-grid { grid-template-columns: 1fr; } }
+  .for-col { }
+  .for-col-title {
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    margin-bottom: 20px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid var(--border);
+  }
+  .for-yes .for-col-title { color: #4ade80; }
+  .for-no .for-col-title { color: var(--text-muted); }
+  .for-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    margin-bottom: 14px;
+    font-size: 14px;
+    line-height: 1.5;
+    color: var(--text-mid);
+  }
+  .for-item .check { flex-shrink: 0; font-size: 16px; margin-top: 1px; }
+
+  /* ── MENTOR ── */
+  .mentor-layout {
+    display: grid;
+    grid-template-columns: 220px 1fr;
+    gap: 48px;
+    align-items: start;
+  }
+  @media(max-width:650px){ .mentor-layout { grid-template-columns: 1fr; } }
+  .mentor-img-wrap {
+    position: relative;
+  }
+  .mentor-img-placeholder {
+    width: 100%;
+    aspect-ratio: 1;
+    border-radius: var(--radius);
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 64px;
+    color: var(--text-muted);
+    overflow: hidden;
+  }
+  .mentor-badge {
+    position: absolute;
+    bottom: -12px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--accent);
+    color: white;
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    padding: 6px 16px;
+    border-radius: 99px;
+    white-space: nowrap;
+  }
+  .mentor-name {
+    font-family: var(--font-display);
+    font-size: 38px;
+    font-weight: 800;
+    letter-spacing: -0.03em;
+    margin-bottom: 6px;
+  }
+  .mentor-title { font-size: 14px; color: var(--accent); font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 20px; }
+  .mentor-bio { font-size: 16px; color: var(--text-mid); line-height: 1.75; margin-bottom: 28px; }
+  .mentor-stats {
+    display: flex;
+    gap: 24px;
+    flex-wrap: wrap;
+  }
+  .m-stat { }
+  .m-stat-num {
+    font-family: var(--font-display);
+    font-size: 26px;
+    font-weight: 800;
+    color: var(--white);
+  }
+  .m-stat-num em { color: var(--accent); font-style: normal; }
+  .m-stat-lbl { font-size: 13px; color: var(--text-muted); }
+
+  /* ── TESTIMONIALS ── */
+  .testimonials-section { background: var(--surface); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+  .testi-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 16px;
+  }
+  .testi-card {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 24px;
+  }
+  .testi-stars { color: var(--gold); font-size: 14px; margin-bottom: 12px; letter-spacing: 2px; }
+  .testi-text { font-size: 15px; color: var(--text-mid); line-height: 1.65; margin-bottom: 16px; font-style: italic; }
+  .testi-author { display: flex; align-items: center; gap: 12px; }
+  .testi-avatar {
+    width: 36px; height: 36px; border-radius: 50%;
+    background: var(--accent);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 14px; font-weight: 800; flex-shrink: 0;
+  }
+  .testi-name { font-size: 14px; font-weight: 700; }
+  .testi-role { font-size: 12px; color: var(--text-muted); }
+
+  /* ── URGENCY CLOSER ── */
+  .urgency-section {
+    text-align: center;
+    background: linear-gradient(135deg, rgba(255,77,0,0.08) 0%, transparent 60%);
+    border-top: 1px solid rgba(255,77,0,0.15);
+  }
+  .urgency-box {
+    max-width: 640px;
+    margin: 0 auto;
+  }
+  .urgency-title {
+    font-family: var(--font-display);
+    font-size: clamp(28px, 4vw, 42px);
+    font-weight: 800;
+    letter-spacing: -0.025em;
+    margin-bottom: 16px;
+  }
+  .urgency-sub { font-size: 17px; color: var(--text-mid); margin-bottom: 36px; line-height: 1.7; }
+  .spots-indicator {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    background: rgba(255,77,0,0.1);
+    border: 1px solid rgba(255,77,0,0.25);
+    padding: 10px 20px;
+    border-radius: 99px;
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--accent-soft);
+    margin-bottom: 28px;
+  }
+  .spots-dot { width: 8px; height: 8px; background: var(--accent); border-radius: 50%; animation: pulse 1.5s infinite; }
+
+  /* ── FAQ ── */
+  .faq-list { max-width: 680px; margin: 0 auto; }
+  .faq-item {
+    border-bottom: 1px solid var(--border);
+    padding: 20px 0;
+  }
+  .faq-q {
+    font-size: 16px;
+    font-weight: 700;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 16px;
+  }
+  .faq-q::after { content: '+'; font-size: 20px; color: var(--accent); flex-shrink: 0; }
+  .faq-a {
+    font-size: 15px;
+    color: var(--text-mid);
+    line-height: 1.7;
+    margin-top: 12px;
+    display: none;
+  }
+  .faq-item.open .faq-q::after { content: '−'; }
+  .faq-item.open .faq-a { display: block; }
+
+  /* ── FOOTER ── */
+  footer {
+    background: var(--surface);
+    border-top: 1px solid var(--border);
+    padding: 32px 40px;
+    text-align: center;
+    font-size: 13px;
+    color: var(--text-muted);
+  }
+  footer a { color: var(--text-muted); text-decoration: underline; }
+  footer .footer-links { display: flex; justify-content: center; gap: 24px; flex-wrap: wrap; margin-top: 12px; }
+
+  /* ── STICKY CTA BAR (mobile) ── */
+  .sticky-bar {
+    display: none;
+    position: fixed;
+    bottom: 0; left: 0; right: 0;
+    background: var(--black);
+    border-top: 1px solid var(--border);
+    padding: 12px 20px;
+    z-index: 200;
+  }
+  @media(max-width:600px){ .sticky-bar { display: flex; align-items: center; justify-content: space-between; gap: 12px; } }
+  .sticky-bar-text { font-size: 13px; font-weight: 700; }
+  .sticky-bar-text span { color: var(--accent); display: block; font-size: 11px; font-weight: 600; }
+  .sticky-bar .btn-sm {
+    background: var(--accent);
+    color: white;
+    font-size: 13px;
+    font-weight: 800;
+    padding: 12px 20px;
+    border-radius: 8px;
+    border: none;
+    cursor: pointer;
+    white-space: nowrap;
+    flex-shrink: 0;
+    text-decoration: none;
+  }
+
+  @media(max-width:768px){
+    nav { padding: 16px 20px; }
+    section { padding: 60px 20px; }
+    .proof-bar { gap: 28px; padding: 20px; }
+    .event-strip { gap: 20px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- TOPBAR -->
+<div class="topbar">
+  🔴 EN VIVO <span>·</span> Miércoles · 8 PM EST · Zoom <span>·</span> 100% GRATIS <span>·</span> Cupos limitados
+</div>
+
+<!-- NAV -->
+<nav>
+  <div class="logo">AD <em>Media</em> Solution</div>
+  <div class="nav-badge">Masterclass Gratuita</div>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="eyebrow">En vivo este miércoles — Zoom</div>
+
+  <h1>
+    De 0 a <span class="highlight">$50K/mes</span><br>
+    con CRM y Automatización
+  </h1>
+
+  <p class="hero-sub">
+    En 60 minutos te mostramos el sistema exacto que usamos para captar leads, cerrar ventas y escalar empresas — sin experiencia técnica, sin contratar a nadie.
+  </p>
+
+  <!-- EVENT STRIP -->
+  <div class="event-strip">
+    <div class="event-item"><span class="icon">📅</span><strong>Miércoles</strong> — próxima sesión</div>
+    <div class="event-item"><span class="icon">🕗</span><strong>8:00 PM EST</strong> / 7 PM CST / 5 PM PT</div>
+    <div class="event-item"><span class="icon">⏱</span><strong>60 minutos</strong> en vivo</div>
+    <div class="event-item"><span class="icon">💻</span>Online por <strong>Zoom</strong></div>
+  </div>
+
+  <a href="#registro" class="btn-primary">
+    ✅ Reservar mi lugar gratis
+  </a>
+  <span class="btn-note">Sin costo · Sin tarjeta de crédito · <strong>Solo tu nombre y correo</strong></span>
+
+  <!-- COUNTDOWN -->
+  <div class="countdown-wrap">
+    <div class="countdown-label">La sesión comienza en</div>
+    <div class="countdown">
+      <div class="cd-unit"><span class="cd-num" id="cd-days">02</span><span class="cd-lbl">días</span></div>
+      <span class="cd-sep">:</span>
+      <div class="cd-unit"><span class="cd-num" id="cd-hours">00</span><span class="cd-lbl">horas</span></div>
+      <span class="cd-sep">:</span>
+      <div class="cd-unit"><span class="cd-num" id="cd-mins">00</span><span class="cd-lbl">min</span></div>
+      <span class="cd-sep">:</span>
+      <div class="cd-unit"><span class="cd-num" id="cd-secs">00</span><span class="cd-lbl">seg</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- SOCIAL PROOF BAR -->
+<div class="proof-bar">
+  <div class="proof-item">
+    <div class="proof-num"><em>+500</em></div>
+    <div class="proof-desc">empresas escaladas</div>
+  </div>
+  <div class="proof-item">
+    <div class="proof-num"><em>+30</em></div>
+    <div class="proof-desc">industrias transformadas</div>
+  </div>
+  <div class="proof-item">
+    <div class="proof-num"><em>$50K</em></div>
+    <div class="proof-desc">al mes es alcanzable</div>
+  </div>
+  <div class="proof-item">
+    <div class="proof-num"><em>100%</em></div>
+    <div class="proof-desc">online y en vivo</div>
+  </div>
+</div>
+
+<!-- WHAT YOU LEARN -->
+<section>
+  <div class="section-inner">
+    <span class="section-tag">Lo que aprenderás</span>
+    <h2>8 bloques. 60 minutos.<br>Tu negocio nunca vuelve a ser el mismo.</h2>
+    <p class="section-sub">Todo lo que siempre quisiste automatizar — en una sola sesión en vivo, paso a paso, sin jerga técnica.</p>
+
+    <div class="learn-grid">
+
+      <div class="learn-card">
+        <span class="learn-icon">⚙️</span>
+        <div class="learn-tag-number">01</div>
+        <div class="learn-title">CRM configurado y listo para vender — desde cero</div>
+        <div class="learn-desc">Sin saber nada de tecnología. Sin contratar a nadie. Al final de esta sección tienes un sistema activo, no una demo.</div>
+        <div class="learn-outcome">✦ Resultado: tu CRM funcionando el mismo día</div>
+      </div>
+
+      <div class="learn-card">
+        <span class="learn-icon">🚀</span>
+        <div class="learn-tag-number">02</div>
+        <div class="learn-title">Tu landing page profesional en menos de 10 minutos</div>
+        <div class="learn-desc">Sin diseñador. Sin programador. Una página que captura leads reales desde el minuto en que la publicas.</div>
+        <div class="learn-outcome">✦ Resultado: página activa y capturando leads hoy</div>
+      </div>
+
+      <div class="learn-card">
+        <span class="learn-icon">📥</span>
+        <div class="learn-tag-number">03</div>
+        <div class="learn-title">Leads que se capturan solos — las 24 horas</div>
+        <div class="learn-desc">Cada persona que llega a tu negocio queda registrada automáticamente. Nunca más pierdes un lead por no estar disponible.</div>
+        <div class="learn-outcome">✦ Resultado: cero leads perdidos, ni de noche ni en fin de semana</div>
+      </div>
+
+      <div class="learn-card">
+        <span class="learn-icon">📅</span>
+        <div class="learn-tag-number">04</div>
+        <div class="learn-title">Agenda que se llena sola — sin perseguir a nadie</div>
+        <div class="learn-desc">El CRM reserva la cita, envía la confirmación y manda recordatorios automáticos. Tú solo apareces a cerrar la venta.</div>
+        <div class="learn-outcome">✦ Resultado: menos no-shows, más cierres</div>
+      </div>
+
+      <div class="learn-card">
+        <span class="learn-icon">💳</span>
+        <div class="learn-tag-number">05</div>
+        <div class="learn-title">Cobros automáticos — sin perseguir pagos</div>
+        <div class="learn-desc">Configura tu sistema de cobro una sola vez. El CRM factura, cobra y hace seguimiento sin que toques nada.</div>
+        <div class="learn-outcome">✦ Resultado: flujo de caja predecible sin estrés</div>
+      </div>
+
+      <div class="learn-card">
+        <span class="learn-icon">✍️</span>
+        <div class="learn-tag-number">06</div>
+        <div class="learn-title">Propuestas con firma digital — cierra en minutos</div>
+        <div class="learn-desc">Se acabó el ir y venir de PDFs por correo. Envías, el cliente firma, y el acuerdo queda registrado al instante.</div>
+        <div class="learn-outcome">✦ Resultado: de semanas a minutos por contrato cerrado</div>
+      </div>
+
+      <div class="learn-card">
+        <span class="learn-icon">🤖</span>
+        <div class="learn-tag-number">07</div>
+        <div class="learn-title">Onboarding automático — escala sin contratar</div>
+        <div class="learn-desc">Cada cliente nuevo recibe exactamente lo que necesita, en el orden correcto, sin que tú muevas un dedo. Sirves a 5 o a 500 clientes con el mismo esfuerzo.</div>
+        <div class="learn-outcome">✦ Resultado: experiencia premium sin costo operativo extra</div>
+      </div>
+
+      <div class="learn-card">
+        <span class="learn-icon">⭐</span>
+        <div class="learn-tag-number">08</div>
+        <div class="learn-title">Reseñas reales — sin pedirlas tú mismo</div>
+        <div class="learn-desc">El sistema detecta cuándo un cliente está satisfecho y le pide el testimonio en el momento perfecto. Tu reputación crece en piloto automático.</div>
+        <div class="learn-outcome">✦ Resultado: más reseñas, más confianza, más ventas</div>
+      </div>
+
+    </div>
+
+    <!-- Mini CTA debajo del grid -->
+    <div style="text-align:center; margin-top:48px;">
+      <p style="font-size:15px; color:var(--text-muted); margin-bottom:20px;">Todo esto en <strong style="color:var(--white);">60 minutos</strong>, en vivo, gratis.</p>
+      <a href="#registro" class="btn-primary">✅ Quiero aprender esto gratis</a>
+    </div>
+
+  </div>
+</section>
+
+<!-- WHO IS THIS FOR -->
+<section class="for-section">
+  <div class="section-inner">
+    <span class="section-tag">¿Es para ti?</span>
+    <h2>Diseñado para quienes ya están listos para escalar</h2>
+    <p class="section-sub">No para todos. Para los que están hartos de hacer todo manual.</p>
+
+    <div class="for-grid">
+      <div class="for-col for-yes">
+        <div class="for-col-title">✅ Sí es para ti si…</div>
+        <div class="for-item"><span class="check">✅</span>Tienes un negocio o servicio y quieres más clientes sin trabajar más horas</div>
+        <div class="for-item"><span class="check">✅</span>Estás cansado de perder leads porque no das seguimiento a tiempo</div>
+        <div class="for-item"><span class="check">✅</span>Quieres automatizar ventas pero no sabes por dónde empezar</div>
+        <div class="for-item"><span class="check">✅</span>Aún no tienes página web ni CRM — partimos desde cero contigo</div>
+        <div class="for-item"><span class="check">✅</span>Estás en EE.UU. y quieres un sistema probado en el mercado hispano</div>
+      </div>
+      <div class="for-col for-no">
+        <div class="for-col-title">❌ No es para ti si…</div>
+        <div class="for-item"><span class="check">❌</span>Buscas resultados sin implementar nada</div>
+        <div class="for-item"><span class="check">❌</span>Ya tienes un sistema que funciona y no quieres mejorarlo</div>
+        <div class="for-item"><span class="check">❌</span>No tienes un negocio activo o idea de servicio todavía</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- MENTOR -->
+<section>
+  <div class="section-inner">
+    <span class="section-tag">Tu mentor</span>
+    <div class="mentor-layout">
+      <div class="mentor-img-wrap">
+        <div class="mentor-img-placeholder">👤</div>
+        <div class="mentor-badge">CEO & Fundador</div>
+      </div>
+      <div>
+        <div class="mentor-name">Danger Fernández</div>
+        <div class="mentor-title">AD Media Solution</div>
+        <p class="mentor-bio">
+          Ingeniero de software convertido en estratega de marketing digital. Creó la metodología de escalamiento con CRM que hoy aplican más de 500 empresas en EE.UU. — desde negocios locales hasta agencias con múltiples clientes.<br><br>
+          No da teoría. Da el sistema exacto que usa con sus propios clientes, en vivo, paso a paso.
+        </p>
+        <div class="mentor-stats">
+          <div class="m-stat">
+            <div class="m-stat-num"><em>+500</em></div>
+            <div class="m-stat-lbl">empresas escaladas</div>
+          </div>
+          <div class="m-stat">
+            <div class="m-stat-num"><em>+30</em></div>
+            <div class="m-stat-lbl">industrias</div>
+          </div>
+          <div class="m-stat">
+            <div class="m-stat-num"><em>100%</em></div>
+            <div class="m-stat-lbl">resultados medibles</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section class="testimonials-section">
+  <div class="section-inner">
+    <span class="section-tag">Edición anterior</span>
+    <h2>Lo que dijeron los que ya asistieron</h2>
+    <p class="section-sub">Agrega aquí capturas reales de Zoom o testimonios de participantes anteriores.</p>
+
+    <div class="testi-grid">
+      <div class="testi-card">
+        <div class="testi-stars">★★★★★</div>
+        <p class="testi-text">"En 60 minutos entendí más sobre CRM y automatización que en meses de videos en YouTube. Danger va directo al punto."</p>
+        <div class="testi-author">
+          <div class="testi-avatar">M</div>
+          <div>
+            <div class="testi-name">María González</div>
+            <div class="testi-role">Consultora independiente — Miami, FL</div>
+          </div>
+        </div>
+      </div>
+      <div class="testi-card">
+        <div class="testi-stars">★★★★★</div>
+        <p class="testi-text">"Yo no tenía página web ni nada. Salí de la masterclass con mi landing configurada y mi primer lead capturado ese mismo día."</p>
+        <div class="testi-author">
+          <div class="testi-avatar">R</div>
+          <div>
+            <div class="testi-name">Ricardo Molina</div>
+            <div class="testi-role">Agente de seguros — Texas</div>
+          </div>
+        </div>
+      </div>
+      <div class="testi-card">
+        <div class="testi-stars">★★★★★</div>
+        <p class="testi-text">"Llevaba 2 años perdiendo leads porque no daba seguimiento. Implementé lo de la masterclass y en 3 semanas cerré 4 contratos nuevos."</p>
+        <div class="testi-author">
+          <div class="testi-avatar">C</div>
+          <div>
+            <div class="testi-name">Carolina Vega</div>
+            <div class="testi-role">Dueña de salón de belleza — Nueva York</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <p style="text-align:center; margin-top:24px; font-size:13px; color:var(--text-muted);">⚠️ Reemplaza estos testimonios con capturas o textos reales de participantes anteriores.</p>
+  </div>
+</section>
+
+<!-- URGENCY / REGISTRO -->
+<section class="urgency-section" id="registro">
+  <div class="section-inner">
+    <div class="urgency-box">
+      <span class="section-tag">Asegura tu lugar</span>
+      <h2 class="urgency-title">Tu competencia ya está automatizando. ¿Y tú?</h2>
+      <p class="urgency-sub">
+        Zoom tiene límite de participantes. Las últimas ediciones se llenaron antes del miércoles.
+        Es gratis, pero los cupos no son infinitos.
+      </p>
+      <div class="spots-indicator">
+        <span class="spots-dot"></span>
+        Cupos disponibles — se llenan rápido
+      </div>
+      <br><br>
+      <a href="#" class="btn-primary">
+        ✅ Quiero mi lugar gratis ahora
+      </a>
+      <span class="btn-note">Sin costo · Sin tarjeta de crédito · <strong>Cancela cuando quieras</strong></span>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section>
+  <div class="section-inner" style="text-align:center; margin-bottom:40px;">
+    <span class="section-tag">Preguntas frecuentes</span>
+    <h2>Todo lo que necesitas saber</h2>
+  </div>
+  <div class="faq-list">
+    <div class="faq-item">
+      <div class="faq-q">¿Necesito tener página web o CRM para asistir?</div>
+      <div class="faq-a">No. Partimos desde cero. Si no tienes nada, mejor — vas a ver cómo se construye todo desde el principio.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q">¿Cuánto cuesta GoHighLevel después de la masterclass?</div>
+      <div class="faq-a">Puedes empezar desde $97/mes con tu propia cuenta, o acceder a través de AD Media Solution desde $250. En la masterclass explicamos las opciones disponibles y cuál conviene según tu situación.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q">¿Es realmente gratis o hay algo que me van a vender?</div>
+      <div class="faq-a">La masterclass es 100% gratuita. Al final presentamos una oferta para quienes quieran implementar el sistema con nuestro equipo, pero asistir no te compromete a nada.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q">¿En qué zona horaria es?</div>
+      <div class="faq-a">8:00 PM EST (hora del este) · 7:00 PM CST · 5:00 PM PT. Todos los miércoles.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q">¿Qué pasa si no puedo asistir en vivo?</div>
+      <div class="faq-a">Regístrate de todas formas — te avisamos de la próxima fecha disponible y recibirás información sobre opciones de acceso.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q">¿Hay planes de pago si quiero seguir trabajando con ustedes?</div>
+      <div class="faq-a">Sí. Tenemos opciones flexibles que ajustamos caso a caso. En la masterclass o por chat después de la sesión, coordinamos lo que mejor funcione para ti.</div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div>© 2026 AD Media Solution. Todos los derechos reservados.</div>
+  <div class="footer-links">
+    <a href="#">Política de Privacidad</a>
+    <a href="#">Términos y Condiciones</a>
+    <a href="#">Contacto</a>
+  </div>
+</footer>
+
+<!-- STICKY BAR (mobile) -->
+<div class="sticky-bar">
+  <div class="sticky-bar-text">
+    Masterclass Gratuita
+    <span>Miércoles · 8 PM EST</span>
+  </div>
+  <a href="#registro" class="btn-sm">Reservar gratis →</a>
+</div>
+
+<script>
+  // COUNTDOWN
+  function getNextWednesday8pmEST() {
+    const now = new Date();
+    const estOffset = -5 * 60;
+    const utcMin = now.getTime() / 60000 + now.getTimezoneOffset();
+    const estNow = new Date((utcMin + estOffset) * 60000);
+    const day = estNow.getDay();
+    const daysUntilWed = (3 - day + 7) % 7 || 7;
+    const target = new Date(estNow);
+    target.setDate(estNow.getDate() + daysUntilWed);
+    target.setHours(20, 0, 0, 0);
+    return new Date(target.getTime() - estOffset * 60000);
+  }
+
+  function updateCountdown() {
+    const target = getNextWednesday8pmEST();
+    const now = new Date();
+    let diff = Math.max(0, Math.floor((target - now) / 1000));
+    const d = Math.floor(diff / 86400); diff -= d * 86400;
+    const h = Math.floor(diff / 3600); diff -= h * 3600;
+    const m = Math.floor(diff / 60);
+    const s = diff - m * 60;
+    document.getElementById('cd-days').textContent = String(d).padStart(2,'0');
+    document.getElementById('cd-hours').textContent = String(h).padStart(2,'0');
+    document.getElementById('cd-mins').textContent = String(m).padStart(2,'0');
+    document.getElementById('cd-secs').textContent = String(s).padStart(2,'0');
+  }
+  updateCountdown();
+  setInterval(updateCountdown, 1000);
+
+  // FAQ
+  document.querySelectorAll('.faq-q').forEach(q => {
+    q.addEventListener('click', () => {
+      const item = q.closest('.faq-item');
+      const wasOpen = item.classList.contains('open');
+      document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('open'));
+      if (!wasOpen) item.classList.add('open');
+    });
+  });
+</script>
+</body>
+</html>

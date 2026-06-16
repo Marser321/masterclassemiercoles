@@ -3,7 +3,6 @@ import { Montserrat } from "next/font/google";
 import { Toaster } from "sonner";
 import { Analytics } from "@vercel/analytics/react";
 import { SpeedInsights } from "@vercel/speed-insights/next";
-import CustomCursor from "@/components/ui/CustomCursor";
 import "./globals.css";
 
 // Montserrat — Tipografía corporativa oficial de la marca
@@ -100,7 +99,6 @@ export default function RootLayout({
         className={`${montserrat.variable} font-sans antialiased bg-background text-foreground selection:bg-primary/30 selection:text-white relative`}
       >
         <div className="bg-noise" />
-        <CustomCursor />
         {children}
         <Analytics />
         <SpeedInsights />

@@ -1,0 +1,1510 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>De 0 a $50K/mes: El Sistema de CRM y Automatización | Masterclass Gratuita</title>
+<meta name="description" content="En 60 minutos en vivo por Zoom, Danger Fernández te mostrará el sistema de CRM y Automatización para captar leads, cerrar ventas y escalar tu empresa en piloto automático.">
+<!-- Google Fonts -->
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,700;0,9..144,900;1,9..144,700&family=DM+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  /* ── DESIGN SYSTEM & RESET ── */
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --black: #060606;
+    --dark-bg: #0B0B0B;
+    --card-bg: rgba(18, 18, 18, 0.65);
+    --card-border: rgba(255, 255, 255, 0.06);
+    --card-border-hover: rgba(255, 77, 0, 0.35);
+    
+    --fire: #FF4D00;
+    --fire-glow: rgba(255, 77, 0, 0.4);
+    --fire-dark: #B52D00;
+    --fire-pale: rgba(255, 77, 0, 0.08);
+    
+    --gold: #F5C842;
+    --gold-glow: rgba(245, 200, 66, 0.15);
+    --green: #4ade80;
+    --green-glow: rgba(74, 222, 128, 0.15);
+    
+    --white: #FFFFFF;
+    --text-mid: rgba(255, 255, 255, 0.82);
+    --text-muted: rgba(255, 255, 255, 0.45);
+    
+    --radius-lg: 16px;
+    --radius-md: 12px;
+    --radius-sm: 8px;
+    
+    --font-display: 'Fraunces', Georgia, serif;
+    --font-body: 'DM Sans', system-ui, sans-serif;
+  }
+
+  html { scroll-behavior: smooth; }
+  body {
+    background-color: var(--black);
+    color: var(--white);
+    font-family: var(--font-body);
+    font-size: 16px;
+    line-height: 1.65;
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+    position: relative;
+  }
+
+  /* Tech Grid Background */
+  body::before {
+    content: '';
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background-image: 
+      linear-gradient(rgba(255, 77, 0, 0.012) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255, 77, 0, 0.012) 1px, transparent 1px);
+    background-size: 44px 44px;
+    z-index: -3;
+    pointer-events: none;
+  }
+
+  /* Radial glow behind hero */
+  .hero-radial-glow {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100vw;
+    height: 900px;
+    background: radial-gradient(circle at top, rgba(255, 77, 0, 0.08) 0%, rgba(6, 6, 6, 0) 70%);
+    z-index: -2;
+    pointer-events: none;
+  }
+
+  /* ── GLOW BLOBS ── */
+  .glow-blob {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(100px);
+    pointer-events: none;
+    z-index: -1;
+    opacity: 0.6;
+  }
+  .blob-1 {
+    top: 15%;
+    left: -100px;
+    width: 450px;
+    height: 450px;
+    background: radial-gradient(circle, rgba(255, 77, 0, 0.12) 0%, transparent 80%);
+    animation: float1 24s infinite alternate ease-in-out;
+  }
+  .blob-2 {
+    top: 45%;
+    right: -150px;
+    width: 500px;
+    height: 500px;
+    background: radial-gradient(circle, rgba(245, 200, 66, 0.08) 0%, transparent 80%);
+    animation: float2 28s infinite alternate ease-in-out;
+  }
+  .blob-3 {
+    bottom: 15%;
+    left: 10%;
+    width: 400px;
+    height: 400px;
+    background: radial-gradient(circle, rgba(255, 77, 0, 0.08) 0%, transparent 80%);
+    animation: float1 20s infinite alternate ease-in-out;
+  }
+
+  @keyframes float1 {
+    0% { transform: translate(0, 0) scale(1); }
+    100% { transform: translate(60px, 40px) scale(1.1); }
+  }
+  @keyframes float2 {
+    0% { transform: translate(0, 0) scale(1); }
+    100% { transform: translate(-50px, -30px) scale(1.05); }
+  }
+
+  /* ── TOP RIBBON ── */
+  .ribbon {
+    background: linear-gradient(90deg, #120500 0%, #290F00 50%, #120500 100%);
+    border-bottom: 1px solid rgba(255, 77, 0, 0.18);
+    color: var(--white);
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    text-align: center;
+    padding: 11px 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+    flex-wrap: wrap;
+    position: relative;
+    z-index: 10;
+  }
+  .ribbon-dot {
+    display: inline-block;
+    width: 8px; height: 8px;
+    background: var(--fire);
+    border-radius: 50%;
+    box-shadow: 0 0 10px var(--fire);
+    animation: pulse 1.6s infinite ease-in-out;
+    flex-shrink: 0;
+  }
+  @keyframes pulse {
+    0%, 100% { opacity: 0.4; transform: scale(0.9); }
+    50% { opacity: 1; transform: scale(1.1); }
+  }
+  .ribbon-sep { opacity: 0.35; font-size: 10px; }
+
+  /* ── NAVIGATION ── */
+  nav {
+    border-bottom: 1px solid var(--card-border);
+    padding: 20px 48px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: rgba(6, 6, 6, 0.7);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+  .logo {
+    font-family: var(--font-display);
+    font-size: 20px;
+    font-weight: 800;
+    letter-spacing: -0.01em;
+    color: var(--white);
+  }
+  .logo em { color: var(--fire); font-style: normal; text-shadow: 0 0 15px rgba(255, 77, 0, 0.2); }
+  
+  .nav-pill {
+    background: rgba(255, 77, 0, 0.08);
+    border: 1px solid rgba(255, 77, 0, 0.3);
+    color: var(--fire);
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 7px 18px;
+    border-radius: 99px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+  }
+
+  /* ── HERO SECTION ── */
+  .hero-wrap {
+    padding: 80px 48px 72px;
+    position: relative;
+  }
+  .hero {
+    max-width: 1100px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1.15fr 0.85fr;
+    gap: 60px;
+    align-items: center;
+  }
+  
+  .hero-left {
+    opacity: 0;
+    animation: fadeInUp 0.8s forwards ease-out;
+  }
+  .eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 24px;
+    background: rgba(245, 200, 66, 0.06);
+    padding: 6px 14px;
+    border-radius: 99px;
+    border: 1px solid rgba(245, 200, 66, 0.18);
+  }
+  .eyebrow::before {
+    content: '';
+    display: inline-block;
+    width: 6px; height: 6px;
+    background: var(--gold);
+    border-radius: 50%;
+    box-shadow: 0 0 8px var(--gold);
+  }
+
+  h1 {
+    font-family: var(--font-display);
+    font-size: clamp(38px, 5.2vw, 62px);
+    font-weight: 900;
+    line-height: 1.05;
+    letter-spacing: -0.03em;
+    color: var(--white);
+    margin-bottom: 24px;
+  }
+  h1 span.highlight {
+    color: var(--fire);
+    position: relative;
+    display: inline-block;
+    white-space: nowrap;
+    text-shadow: 0 0 20px rgba(255, 77, 0, 0.15);
+  }
+  h1 span.highlight::after {
+    content: '';
+    position: absolute;
+    left: 0; right: 0; bottom: 8px;
+    height: 8px;
+    background: var(--fire);
+    opacity: 0.16;
+    border-radius: 2px;
+    z-index: -1;
+  }
+
+  .hero-sub {
+    font-size: 18px;
+    color: var(--text-mid);
+    line-height: 1.7;
+    margin-bottom: 40px;
+    max-width: 560px;
+  }
+
+  .event-chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+  .chip {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid var(--card-border);
+    border-radius: 99px;
+    padding: 8px 18px;
+    font-size: 13.5px;
+    font-weight: 600;
+    color: var(--white);
+    transition: all 0.2s ease;
+  }
+  .chip:hover {
+    border-color: rgba(255, 77, 0, 0.25);
+    background: rgba(255, 77, 0, 0.02);
+    transform: translateY(-1px);
+  }
+  .chip .icon {
+    font-size: 16px;
+    filter: drop-shadow(0 0 4px rgba(255, 255, 255, 0.1));
+  }
+
+  /* Hero Registration Card */
+  .hero-card {
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    border-radius: var(--radius-lg);
+    padding: 40px 36px;
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.05);
+    position: relative;
+    overflow: hidden;
+    opacity: 0;
+    animation: fadeInUp 0.8s 0.2s forwards ease-out;
+  }
+  .hero-card::before {
+    content: '';
+    position: absolute;
+    top: -80px; right: -80px;
+    width: 200px; height: 200px;
+    background: radial-gradient(circle, rgba(255, 77, 0, 0.12) 0%, transparent 70%);
+    border-radius: 50%;
+  }
+
+  .card-label {
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--fire);
+    margin-bottom: 12px;
+  }
+  .card-headline {
+    font-family: var(--font-display);
+    font-size: 26px;
+    font-weight: 900;
+    line-height: 1.15;
+    margin-bottom: 8px;
+    letter-spacing: -0.02em;
+  }
+  .card-sub {
+    font-size: 13.5px;
+    color: var(--text-muted);
+    margin-bottom: 30px;
+    line-height: 1.6;
+  }
+
+  /* Countdown Display */
+  .countdown {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 32px;
+    align-items: center;
+  }
+  .cd-unit {
+    flex: 1;
+    background: rgba(255, 255, 255, 0.025);
+    border: 1px solid rgba(255, 255, 255, 0.04);
+    border-radius: var(--radius-md);
+    padding: 12px 6px;
+    text-align: center;
+    box-shadow: inset 0 1px 0 rgba(255,255,255,0.02);
+  }
+  .cd-num {
+    display: block;
+    font-family: var(--font-display);
+    font-size: 30px;
+    font-weight: 900;
+    line-height: 1;
+    color: var(--white);
+    letter-spacing: -0.02em;
+  }
+  .cd-lbl {
+    display: block;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    margin-top: 6px;
+  }
+  .cd-sep { font-size: 22px; font-weight: 900; color: var(--fire); opacity: 0.8; line-height: 1; }
+
+  /* Primary Button Styling */
+  .btn-primary {
+    display: block;
+    width: 100%;
+    background: var(--fire);
+    color: var(--white);
+    font-family: var(--font-body);
+    font-size: 16px;
+    font-weight: 800;
+    padding: 16px 24px;
+    border-radius: var(--radius-sm);
+    border: none;
+    cursor: pointer;
+    text-align: center;
+    text-decoration: none;
+    letter-spacing: -0.01em;
+    box-shadow: 0 6px 20px rgba(255, 77, 0, 0.35);
+    transition: all 0.25s cubic-bezier(0.2, 0.8, 0.2, 1);
+    margin-bottom: 12px;
+  }
+  .btn-primary:hover {
+    background: var(--fire-dark);
+    box-shadow: 0 8px 30px rgba(255, 77, 0, 0.55);
+    transform: translateY(-2px);
+  }
+  .btn-primary:active {
+    transform: translateY(0);
+  }
+  .card-note {
+    text-align: center;
+    font-size: 12px;
+    color: var(--text-muted);
+  }
+
+  /* ── STATS STRIP ── */
+  .stats-strip {
+    border-top: 1px solid var(--card-border);
+    border-bottom: 1px solid var(--card-border);
+    background: rgba(10, 10, 10, 0.4);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    padding: 32px 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0;
+    flex-wrap: wrap;
+    position: relative;
+    z-index: 10;
+  }
+  .stat-item {
+    padding: 0 48px;
+    text-align: center;
+    border-right: 1px solid var(--card-border);
+  }
+  .stat-item:last-child { border-right: none; }
+  .stat-num {
+    font-family: var(--font-display);
+    font-size: 34px;
+    font-weight: 900;
+    color: var(--white);
+    line-height: 1;
+  }
+  .stat-num em { color: var(--fire); font-style: normal; text-shadow: 0 0 10px rgba(255, 77, 0, 0.1); }
+  .stat-desc { font-size: 13.5px; color: var(--text-muted); margin-top: 6px; letter-spacing: 0.02em; }
+
+  /* ── SECTIONS SHARED ── */
+  section {
+    padding: 96px 48px;
+    position: relative;
+  }
+  .inner { max-width: 960px; margin: 0 auto; }
+  
+  .s-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--fire);
+    margin-bottom: 18px;
+  }
+  .s-tag::before {
+    content: '';
+    display: inline-block;
+    width: 16px; height: 2px;
+    background: var(--fire);
+    border-radius: 1px;
+  }
+
+  h2 {
+    font-family: var(--font-display);
+    font-size: clamp(30px, 4.2vw, 48px);
+    font-weight: 900;
+    letter-spacing: -0.03em;
+    line-height: 1.1;
+    color: var(--white);
+    margin-bottom: 16px;
+  }
+  .s-sub {
+    font-size: 17px;
+    color: var(--text-mid);
+    max-width: 600px;
+    margin-bottom: 56px;
+    line-height: 1.7;
+  }
+
+  /* ── LEARN SECTION (8 BLOCKS) ── */
+  .learn-section {
+    background: rgba(6, 6, 6, 0.2);
+  }
+  .learn-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 20px;
+  }
+  .learn-card {
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    border-radius: var(--radius-md);
+    padding: 32px 28px;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    transition: all 0.3s cubic-bezier(0.165, 0.84, 0.44, 1);
+    position: relative;
+    overflow: hidden;
+  }
+  .learn-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2.5px;
+    background: var(--fire);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.35s ease;
+    box-shadow: 0 0 10px var(--fire);
+  }
+  .learn-card:hover {
+    border-color: var(--card-border-hover);
+    transform: translateY(-4px);
+    background: rgba(20, 20, 20, 0.8);
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.4);
+  }
+  .learn-card:hover::before { transform: scaleX(1); }
+
+  .learn-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+  }
+  .learn-icon {
+    font-size: 26px;
+    background: rgba(255, 77, 0, 0.06);
+    width: 48px;
+    height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: var(--radius-sm);
+    border: 1px solid rgba(255, 77, 0, 0.15);
+  }
+  .learn-num {
+    font-family: var(--font-display);
+    font-size: 14px;
+    font-weight: 800;
+    color: var(--fire);
+    opacity: 0.5;
+  }
+
+  .learn-title {
+    font-size: 16px;
+    font-weight: 700;
+    margin-bottom: 8px;
+    color: var(--white);
+  }
+  .learn-desc {
+    font-size: 13.5px;
+    color: var(--text-mid);
+    line-height: 1.6;
+    margin-bottom: 20px;
+  }
+  .learn-outcome {
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--fire);
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
+    padding-top: 14px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .learn-outcome::before {
+    content: '✦';
+    font-size: 10px;
+  }
+
+  /* ── AUDIENCE FIT (¿ES PARA TI?) ── */
+  .for-section {
+    background: linear-gradient(180deg, rgba(6, 6, 6, 0) 0%, rgba(10, 10, 10, 0.5) 100%);
+    border-top: 1px solid var(--card-border);
+    border-bottom: 1px solid var(--card-border);
+  }
+  .for-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 30px;
+  }
+  .for-box {
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    border-radius: var(--radius-lg);
+    padding: 40px;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+  }
+  .for-box-yes { border-top: 3px solid var(--green); }
+  .for-box-no { border-top: 3px solid rgba(255, 255, 255, 0.15); }
+  
+  .for-box-title {
+    font-size: 13px;
+    font-weight: 800;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    margin-bottom: 24px;
+    padding-bottom: 14px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  }
+  .for-box-yes .for-box-title { color: var(--green); }
+  .for-box-no .for-box-title { color: var(--text-muted); }
+
+  .for-item {
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+    font-size: 14.5px;
+    color: var(--text-mid);
+    line-height: 1.6;
+    margin-bottom: 18px;
+  }
+  .for-item:last-child { margin-bottom: 0; }
+  .for-icon-check {
+    flex-shrink: 0;
+    font-size: 15px;
+    color: var(--green);
+    background: rgba(74, 222, 128, 0.08);
+    width: 24px; height: 24px;
+    display: flex; align-items: center; justify-content: center;
+    border-radius: 50%;
+    margin-top: 2px;
+  }
+  .for-icon-cross {
+    flex-shrink: 0;
+    font-size: 13px;
+    color: var(--text-muted);
+    background: rgba(255, 255, 255, 0.04);
+    width: 24px; height: 24px;
+    display: flex; align-items: center; justify-content: center;
+    border-radius: 50%;
+    margin-top: 2px;
+  }
+
+  /* ── MENTOR SECTION ── */
+  .mentor-grid {
+    display: grid;
+    grid-template-columns: 220px 1fr;
+    gap: 48px;
+    align-items: start;
+  }
+  .mentor-img-wrap {
+    position: relative;
+    border-radius: var(--radius-lg);
+    border: 1px solid var(--card-border);
+    padding: 8px;
+    background: rgba(255, 255, 255, 0.01);
+  }
+  .mentor-avatar {
+    width: 100%;
+    aspect-ratio: 1;
+    border-radius: var(--radius-md);
+    background: linear-gradient(135deg, #181818 0%, #0d0d0d 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 68px;
+    position: relative;
+    overflow: hidden;
+    box-shadow: inset 0 2px 10px rgba(0,0,0,0.5);
+  }
+  .mentor-photo-badge {
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    background: var(--fire);
+    color: var(--white);
+    font-size: 9.5px;
+    font-weight: 800;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    text-align: center;
+    padding: 8px;
+    box-shadow: 0 -4px 10px rgba(0,0,0,0.3);
+  }
+
+  .mentor-name {
+    font-family: var(--font-display);
+    font-size: 40px;
+    font-weight: 900;
+    letter-spacing: -0.02em;
+    line-height: 1.05;
+    margin-bottom: 6px;
+  }
+  .mentor-role {
+    font-size: 13px;
+    color: var(--fire);
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    margin-bottom: 20px;
+  }
+  .mentor-bio {
+    font-size: 16px;
+    color: var(--text-mid);
+    line-height: 1.75;
+    margin-bottom: 32px;
+  }
+
+  .mentor-stats {
+    display: flex;
+    gap: 32px;
+    flex-wrap: wrap;
+  }
+  .m-stat-item {
+    border-left: 2px solid var(--fire);
+    padding-left: 18px;
+  }
+  .m-stat-num {
+    font-family: var(--font-display);
+    font-size: 28px;
+    font-weight: 900;
+    color: var(--white);
+    line-height: 1;
+  }
+  .m-stat-num em { color: var(--fire); font-style: normal; }
+  .m-stat-lbl {
+    font-size: 12.5px;
+    color: var(--text-muted);
+    margin-top: 4px;
+  }
+
+  /* ── TESTIMONIALS (EDICIÓN ANTERIOR) ── */
+  .testi-section {
+    background: rgba(10, 10, 10, 0.4);
+    border-top: 1px solid var(--card-border);
+    border-bottom: 1px solid var(--card-border);
+  }
+  .testi-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 20px;
+  }
+  .testi-card {
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    border-radius: var(--radius-md);
+    padding: 32px;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+  }
+  .testi-stars {
+    color: var(--gold);
+    font-size: 13px;
+    margin-bottom: 16px;
+    letter-spacing: 3px;
+  }
+  .testi-text {
+    font-size: 14.5px;
+    color: var(--text-mid);
+    line-height: 1.7;
+    font-style: italic;
+    margin-bottom: 24px;
+  }
+  .testi-author {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .testi-av {
+    width: 38px; height: 38px;
+    border-radius: 50%;
+    background: rgba(255, 77, 0, 0.12);
+    border: 1px solid rgba(255, 77, 0, 0.3);
+    color: var(--fire);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 14px;
+    font-weight: 800;
+    flex-shrink: 0;
+  }
+  .testi-n { font-size: 13.5px; font-weight: 700; color: var(--white); }
+  .testi-r { font-size: 11px; color: var(--text-muted); margin-top: 2px; }
+
+  /* ── URGENCY / REGISTRO BLOCK ── */
+  .urgency-section {
+    background: linear-gradient(180deg, rgba(6,6,6,0) 0%, rgba(26,10,0,0.18) 100%);
+    text-align: center;
+  }
+  .urgency-box {
+    max-width: 680px;
+    margin: 0 auto;
+  }
+  .spots-row {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    background: rgba(255, 77, 0, 0.06);
+    border: 1px solid rgba(255, 77, 0, 0.22);
+    padding: 10px 22px;
+    border-radius: 99px;
+    font-size: 13.5px;
+    font-weight: 600;
+    color: var(--fire);
+    margin-bottom: 36px;
+  }
+  .spots-dot {
+    width: 7px; height: 7px;
+    background: var(--fire);
+    border-radius: 50%;
+    box-shadow: 0 0 8px var(--fire);
+    animation: pulse 1.6s infinite ease-in-out;
+  }
+  .btn-large {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    background: var(--fire);
+    color: var(--white);
+    font-family: var(--font-body);
+    font-size: 17px;
+    font-weight: 800;
+    padding: 18px 48px;
+    border-radius: var(--radius-sm);
+    border: none;
+    cursor: pointer;
+    text-decoration: none;
+    letter-spacing: -0.015em;
+    box-shadow: 0 8px 30px rgba(255, 77, 0, 0.45);
+    transition: all 0.25s cubic-bezier(0.165, 0.84, 0.44, 1);
+    margin-bottom: 16px;
+  }
+  .btn-large:hover {
+    background: var(--fire-dark);
+    box-shadow: 0 10px 40px rgba(255, 77, 0, 0.65);
+    transform: translateY(-2px);
+  }
+  .urgency-note {
+    font-size: 13px;
+    color: var(--text-muted);
+  }
+
+  /* ── FAQ SECTION (ACCORDION) ── */
+  .faq-section {
+    border-top: 1px solid var(--card-border);
+    background: rgba(6, 6, 6, 0.3);
+  }
+  .faq-header-center {
+    text-align: center;
+    margin-bottom: 48px;
+  }
+  .faq-inner {
+    max-width: 700px;
+    margin: 0 auto;
+  }
+  .faq-item {
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    border-radius: var(--radius-md);
+    margin-bottom: 12px;
+    overflow: hidden;
+    transition: border-color 0.2s ease;
+  }
+  .faq-item:hover {
+    border-color: rgba(255, 255, 255, 0.12);
+  }
+  .faq-q {
+    font-size: 15.5px;
+    font-weight: 700;
+    color: var(--white);
+    padding: 22px 28px;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 16px;
+    user-select: none;
+    transition: background-color 0.2s ease;
+  }
+  .faq-q:hover {
+    background-color: rgba(255,255,255,0.01);
+  }
+  .faq-icon {
+    position: relative;
+    width: 14px;
+    height: 14px;
+    flex-shrink: 0;
+  }
+  .faq-icon::before, .faq-icon::after {
+    content: '';
+    position: absolute;
+    background: var(--fire);
+    transition: transform 0.25s ease;
+  }
+  /* Horizontal line */
+  .faq-icon::before {
+    top: 6px; left: 0; right: 0; height: 2px;
+  }
+  /* Vertical line */
+  .faq-icon::after {
+    left: 6px; top: 0; bottom: 0; width: 2px;
+  }
+  .faq-a {
+    font-size: 14.5px;
+    color: var(--text-mid);
+    line-height: 1.7;
+    padding: 0 28px 24px;
+    display: none;
+    border-top: 1px solid rgba(255, 255, 255, 0.02);
+  }
+  .faq-item.open {
+    border-color: rgba(255, 77, 0, 0.2);
+  }
+  .faq-item.open .faq-a {
+    display: block;
+    animation: slideDown 0.25s ease-out;
+  }
+  .faq-item.open .faq-icon::after {
+    transform: rotate(90deg) scale(0);
+  }
+
+  @keyframes slideDown {
+    from { opacity: 0; transform: translateY(-4px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* ── FOOTER ── */
+  footer {
+    border-top: 1px solid var(--card-border);
+    background: #040404;
+    padding: 40px 48px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 20px;
+    font-size: 13px;
+    color: var(--text-muted);
+    position: relative;
+    z-index: 10;
+  }
+  .footer-left { display: flex; flex-direction: column; gap: 6px; }
+  .footer-logo {
+    font-family: var(--font-display);
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--white);
+  }
+  .footer-logo em { color: var(--fire); font-style: normal; }
+  .footer-links { display: flex; gap: 24px; }
+  .footer-links a { color: var(--text-muted); text-decoration: none; border-bottom: 1px dotted rgba(255,255,255,0.2); transition: all 0.2s ease; }
+  .footer-links a:hover { color: var(--white); border-bottom-color: var(--white); }
+
+  /* ── MOBILE STICKY BAR ── */
+  .sticky-bar {
+    display: none;
+    position: fixed;
+    bottom: 0; left: 0; right: 0;
+    background: rgba(10, 10, 10, 0.85);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+    padding: 14px 24px;
+    z-index: 200;
+    box-shadow: 0 -10px 30px rgba(0,0,0,0.5);
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+  }
+  .sticky-bar-text { font-size: 13px; font-weight: 700; }
+  .sticky-bar-text span { display: block; font-size: 11px; color: var(--fire); font-weight: 600; margin-top: 2px; }
+  .sticky-bar .btn-sm {
+    background: var(--fire);
+    color: var(--white);
+    font-size: 13px;
+    font-weight: 800;
+    padding: 12px 22px;
+    border-radius: var(--radius-sm);
+    border: none;
+    cursor: pointer;
+    text-decoration: none;
+    white-space: nowrap;
+    box-shadow: 0 4px 12px rgba(255, 77, 0, 0.3);
+  }
+
+  /* ── ANIMATIONS ── */
+  @keyframes fadeInUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* ── RESPONSIVE RESPONSES ── */
+  @media(max-width: 900px) {
+    .hero { grid-template-columns: 1fr; gap: 48px; }
+    .hero-wrap { padding: 60px 24px 48px; }
+    nav { padding: 18px 24px; }
+    section { padding: 80px 24px; }
+    .stats-strip { padding: 24px 12px; }
+    .stat-item { width: 50%; padding: 16px; border-right: none; }
+    .stat-item:nth-child(odd) { border-right: 1px solid var(--card-border); }
+    .stat-item:nth-child(1), .stat-item:nth-child(2) { border-bottom: 1px solid var(--card-border); }
+    .for-grid { grid-template-columns: 1fr; gap: 20px; }
+    .mentor-grid { grid-template-columns: 1fr; gap: 36px; text-align: center; justify-items: center; }
+    .mentor-avatar { max-width: 200px; }
+    .m-stat-item { border-left: none; border-top: 2px solid var(--fire); padding-left: 0; padding-top: 8px; width: calc(33.33% - 22px); text-align: center; }
+    .mentor-stats { justify-content: center; }
+  }
+
+  @media(max-width: 600px) {
+    .sticky-bar { display: flex; }
+    body { padding-bottom: 74px; } /* Prevent sticky bar covering content */
+    .stat-item { width: 100%; border-right: none !important; border-bottom: 1px solid var(--card-border) !important; }
+    .stat-item:last-child { border-bottom: none !important; }
+    .m-stat-item { width: 100%; }
+    footer { padding: 32px 24px; flex-direction: column; text-align: center; }
+    .footer-links { justify-content: center; }
+  }
+</style>
+</head>
+<body>
+
+<div class="hero-radial-glow"></div>
+<div class="glow-blob blob-1"></div>
+<div class="glow-blob blob-2"></div>
+<div class="glow-blob blob-3"></div>
+
+<!-- RIBBON -->
+<div class="ribbon">
+  <span class="ribbon-dot"></span>
+  En vivo este miércoles
+  <span class="ribbon-sep">·</span>
+  8:00 PM EST (7 PM CST / 5 PM PT)
+  <span class="ribbon-sep">·</span>
+  Zoom 100% Gratis
+  <span class="ribbon-sep">·</span>
+  Cupos limitados
+</div>
+
+<!-- NAV -->
+<nav>
+  <div class="logo">AD <em>Media</em> Solution</div>
+  <div class="nav-badge">Masterclass Gratuita</div>
+</nav>
+
+<!-- HERO WRAP -->
+<div class="hero-wrap">
+  <div class="hero">
+    <!-- LEFT -->
+    <div class="hero-left">
+      <div class="eyebrow">Danger Fernández en vivo</div>
+      <h1>
+        El sistema de CRM y Automatización que lleva a las empresas a <span class="highlight">$50K al mes</span>
+      </h1>
+      <p class="hero-sub">
+        En 60 minutos te mostramos el paso a paso real para captar leads, cerrar ventas y escalar en piloto automático — sin experiencia técnica y sin contratar programadores.
+      </p>
+      <div class="event-chips">
+        <div class="chip"><span class="icon">📅</span> Próxima sesión: Miércoles</div>
+        <div class="chip"><span class="icon">🕗</span> 8 PM EST · 7 CST · 5 PT</div>
+        <div class="chip"><span class="icon">⏱</span> 60 min de valor en vivo</div>
+        <div class="chip"><span class="icon">💻</span> Transmisión por Zoom</div>
+      </div>
+    </div>
+
+    <!-- RIGHT REGISTRATION CARD -->
+    <div class="hero-card">
+      <div class="card-label">La sesión comienza en</div>
+      <div class="card-headline">Asegura tu cupo gratuito hoy</div>
+      <p class="card-sub">La sala de Zoom tiene un límite estricto de participantes. Las últimas ediciones se llenaron antes del inicio.</p>
+
+      <!-- Countdown -->
+      <div class="countdown">
+        <div class="cd-unit"><span class="cd-num" id="d">00</span><span class="cd-lbl">días</span></div>
+        <span class="cd-sep">:</span>
+        <div class="cd-unit"><span class="cd-num" id="h">00</span><span class="cd-lbl">horas</span></div>
+        <span class="cd-sep">:</span>
+        <div class="cd-unit"><span class="cd-num" id="m">00</span><span class="cd-lbl">min</span></div>
+        <span class="cd-sep">:</span>
+        <div class="cd-unit"><span class="cd-num" id="s">00</span><span class="cd-lbl">seg</span></div>
+      </div>
+
+      <a href="#registro" class="btn-primary">✅ Reservar mi lugar gratis</a>
+      <p class="card-note">Sin costo · Sin tarjeta de crédito · Registro inmediato</p>
+    </div>
+  </div>
+</div>
+
+<!-- STATS STRIP -->
+<div class="stats-strip">
+  <div class="stat-item">
+    <div class="stat-num"><em>+500</em></div>
+    <div class="stat-desc">empresas escaladas</div>
+  </div>
+  <div class="stat-item">
+    <div class="stat-num"><em>+30</em></div>
+    <div class="stat-desc">industrias transformadas</div>
+  </div>
+  <div class="stat-item">
+    <div class="stat-num"><em>60</em></div>
+    <div class="stat-desc">minutos que cambian todo</div>
+  </div>
+  <div class="stat-item">
+    <div class="stat-num"><em>100%</em></div>
+    <div class="stat-desc">online y en vivo</div>
+  </div>
+</div>
+
+<!-- WHAT YOU LEARN -->
+<section class="learn-section">
+  <div class="inner">
+    <span class="s-tag">Lo que aprenderás</span>
+    <h2>8 bloques. 60 minutos.<br>Tu negocio nunca vuelve a ser el mismo.</h2>
+    <p class="s-sub">Todo lo que siempre quisiste automatizar — en una sola sesión práctica, paso a paso, sin tecnicismos.</p>
+
+    <div class="learn-grid">
+      <!-- Block 1 -->
+      <div class="learn-card">
+        <div class="learn-header">
+          <span class="learn-icon">⚙️</span>
+          <span class="learn-num">01</span>
+        </div>
+        <div class="learn-title">CRM configurado y listo para vender</div>
+        <div class="learn-desc">Sin experiencia técnica. Al terminar esta sección tu sistema está activo y estructurado, no en un modo demo.</div>
+        <div class="learn-outcome">Tu CRM listo para operar hoy</div>
+      </div>
+
+      <!-- Block 2 -->
+      <div class="learn-card">
+        <div class="learn-header">
+          <span class="learn-icon">🚀</span>
+          <span class="learn-num">02</span>
+        </div>
+        <div class="learn-title">Tu landing page en menos de 10 minutos</div>
+        <div class="learn-desc">Sin diseñador ni programador. Una página de conversión rápida orientada a capturar leads desde el primer día.</div>
+        <div class="learn-outcome">Landing activa capturando prospectos</div>
+      </div>
+
+      <!-- Block 3 -->
+      <div class="learn-card">
+        <div class="learn-header">
+          <span class="learn-icon">📥</span>
+          <span class="learn-num">03</span>
+        </div>
+        <div class="learn-title">Captación automática las 24 horas</div>
+        <div class="learn-desc">Cada prospecto que llega a tu embudo queda registrado al instante. Cero leads perdidos, incluso en fin de semana.</div>
+        <div class="learn-outcome">Flujo constante de prospectos registrados</div>
+      </div>
+
+      <!-- Block 4 -->
+      <div class="learn-card">
+        <div class="learn-header">
+          <span class="learn-icon">📅</span>
+          <span class="learn-num">04</span>
+        </div>
+        <div class="learn-title">Agenda llena en piloto automático</div>
+        <div class="learn-desc">El CRM gestiona la cita, confirma y envía recordatorios SMS automatizados. Tú solo asistes a cerrar la venta.</div>
+        <div class="learn-outcome">Menos inasistencias (no-shows), más cierres</div>
+      </div>
+
+      <!-- Block 5 -->
+      <div class="learn-card">
+        <div class="learn-header">
+          <span class="learn-icon">💳</span>
+          <span class="learn-num">05</span>
+        </div>
+        <div class="learn-title">Cobros automáticos sin fricciones</div>
+        <div class="learn-desc">Configura cobros de forma directa. El CRM emite la factura y hace seguimiento sin intervención manual.</div>
+        <div class="learn-outcome">Flujo de caja predecible sin estrés</div>
+      </div>
+
+      <!-- Block 6 -->
+      <div class="learn-card">
+        <div class="learn-header">
+          <span class="learn-icon">✍️</span>
+          <span class="learn-num">06</span>
+        </div>
+        <div class="learn-title">Propuestas y contratos digitales</div>
+        <div class="learn-desc">Cierra acuerdos en tiempo real. Envías el documento, el cliente firma de forma digital y el contrato se registra hoy.</div>
+        <div class="learn-outcome">Cierra contratos en minutos, no semanas</div>
+      </div>
+
+      <!-- Block 7 -->
+      <div class="learn-card">
+        <div class="learn-header">
+          <span class="learn-icon">🤖</span>
+          <span class="learn-num">07</span>
+        </div>
+        <div class="learn-title">Onboarding automático para escalar</div>
+        <div class="learn-desc">Cada nuevo cliente recibe lo que necesita en el orden correcto de forma automatizada. Escala sin sobrecargas operativas.</div>
+        <div class="learn-outcome">Experiencia premium sin costo extra de personal</div>
+      </div>
+
+      <!-- Block 8 -->
+      <div class="learn-card">
+        <div class="learn-header">
+          <span class="learn-icon">⭐</span>
+          <span class="learn-num">08</span>
+        </div>
+        <div class="learn-title">Reputación y reseñas en piloto automático</div>
+        <div class="learn-desc">El sistema solicita la reseña en Google al cliente satisfecho en el momento oportuno. Crece en piloto automático.</div>
+        <div class="learn-outcome">Más confianza, reputación y ventas</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOR WHO (¿ES PARA TI?) -->
+<section class="for-section">
+  <div class="inner">
+    <span class="s-tag">¿Es para ti?</span>
+    <h2>Diseñado para quienes ya están listos para escalar</h2>
+    <p class="s-sub">No para todos. Diseñado exclusivamente para aquellos cansados de hacer tareas manuales y perder leads diariamente.</p>
+    
+    <div class="for-grid">
+      <!-- YES BOX -->
+      <div class="for-box for-box-yes">
+        <div class="for-box-title">✅ Sí es para ti si…</div>
+        <div class="for-item">
+          <span class="for-icon-check">✓</span>
+          <div>Tienes un negocio o servicio y quieres más clientes sin aumentar tus horas de trabajo diario.</div>
+        </div>
+        <div class="for-item">
+          <span class="for-icon-check">✓</span>
+          <div>Estás cansado de perder leads y ventas por falta de seguimiento o retrasos en las respuestas.</div>
+        </div>
+        <div class="for-item">
+          <span class="for-icon-check">✓</span>
+          <div>Quieres automatizar tus ventas y operaciones pero no sabes por dónde comenzar a nivel técnico.</div>
+        </div>
+        <div class="for-item">
+          <span class="for-icon-check">✓</span>
+          <div>No tienes página web estructurada ni CRM de ventas; partimos desde cero contigo en la clase.</div>
+        </div>
+        <div class="for-item">
+          <span class="for-icon-check">✓</span>
+          <div>Buscas un sistema de escalamiento probado con éxito en el mercado hispano de EE.UU.</div>
+        </div>
+      </div>
+
+      <!-- NO BOX -->
+      <div class="for-box for-box-no">
+        <div class="for-box-title">❌ No es para ti si…</div>
+        <div class="for-item">
+          <span class="for-icon-cross">✗</span>
+          <div>Buscas fórmulas mágicas de enriquecimiento rápido sin implementar ningún sistema operativo.</div>
+        </div>
+        <div class="for-item">
+          <span class="for-icon-cross">✗</span>
+          <div>Ya tienes un sistema automatizado de captación y cierre funcionando de forma óptima y no quieres escalarlo.</div>
+        </div>
+        <div class="for-item">
+          <span class="for-icon-cross">✗</span>
+          <div>Aún no tienes un modelo de negocio activo, ni una idea de servicio, ni clientes definidos.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- MENTOR SECTION -->
+<section>
+  <div class="inner">
+    <span class="s-tag">Tu mentor</span>
+    <div class="mentor-grid">
+      <div class="mentor-img-wrap">
+        <div class="mentor-avatar">
+          👤
+          <div class="mentor-photo-badge">CEO & Fundador</div>
+        </div>
+      </div>
+      <div>
+        <div class="mentor-name">Danger Fernández</div>
+        <div class="mentor-role">AD Media Solution</div>
+        <p class="mentor-bio">
+          Ingeniero de software y estratega de marketing y automatizaciones. Ha diseñado e implementado metodologías operativas con CRM aplicadas hoy por más de 500 empresas en EE.UU., desde agencias corporativas hasta negocios locales.<br><br>
+          En esta clase no imparte teoría blanda: comparte el sistema exacto que opera a diario en la trinchera para su propia agencia y clientes, paso a paso y sin rodeos.
+        </p>
+        <div class="mentor-stats">
+          <div class="m-stat-item">
+            <div class="m-stat-num"><em>+500</em></div>
+            <div class="m-stat-lbl">empresas escaladas</div>
+          </div>
+          <div class="m-stat-item">
+            <div class="m-stat-num"><em>+30</em></div>
+            <div class="m-stat-lbl">industrias integradas</div>
+          </div>
+          <div class="m-stat-item">
+            <div class="m-stat-num"><em>100%</em></div>
+            <div class="m-stat-lbl">enfoque práctico</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section class="testi-section">
+  <div class="inner">
+    <span class="s-tag">Testimonios</span>
+    <h2>Lo que opinan los asistentes anteriores</h2>
+    <p class="s-sub">Empresarios y profesionales independientes que automatizaron sus procesos operativos.</p>
+    
+    <div class="testi-grid">
+      <!-- Card 1 -->
+      <div class="testi-card">
+        <div class="testi-stars">★★★★★</div>
+        <p class="testi-text">"En 60 minutos entendí más sobre CRM y flujos automáticos que en meses de videos. Danger va directo a la práctica y sin rodeos."</p>
+        <div class="testi-author">
+          <div class="testi-av">MG</div>
+          <div>
+            <div class="testi-n">María González</div>
+            <div class="testi-r">Consultora — Miami, FL</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Card 2 -->
+      <div class="testi-card">
+        <div class="testi-stars">★★★★★</div>
+        <p class="testi-text">"Yo no tenía web ni sistema. Salí de la masterclass con mi landing configurada y capturando mi primer prospecto en tiempo récord."</p>
+        <div class="testi-author">
+          <div class="testi-av">RM</div>
+          <div>
+            <div class="testi-n">Ricardo Molina</div>
+            <div class="testi-r">Agente de seguros — Texas</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Card 3 -->
+      <div class="testi-card">
+        <div class="testi-stars">★★★★★</div>
+        <p class="testi-text">"Llevaba dos años perdiendo oportunidades. Implementé lo aprendido y en solo tres semanas firmé cuatro contratos nuevos."</p>
+        <div class="testi-author">
+          <div class="testi-av">CV</div>
+          <div>
+            <div class="testi-n">Carolina Vega</div>
+            <div class="testi-r">Dueña de salón — Nueva York</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- URGENCY & REGISTRO -->
+<section class="urgency-section" id="registro">
+  <div class="inner urgency-box">
+    <span class="s-tag">Asegura tu lugar</span>
+    <h2>Tu competencia ya está automatizando sus operaciones.<br>¿Y tú?</h2>
+    <p class="s-sub" style="margin: 0 auto 36px;">La sala de Zoom tiene un límite estricto de accesos. Las sesiones se llenan con días de anticipación. El evento es 100% gratuito, pero los cupos son limitados.</p>
+    
+    <div class="spots-row">
+      <span class="spots-dot"></span>
+      Cupos limitados por Zoom — Se agotan rápido
+    </div>
+    <br>
+    <a href="#" class="btn-large">✅ Reservar mi cupo gratuito ahora</a>
+    <p class="urgency-note">Sin costo de registro · Sin tarjeta de crédito · Confirmación inmediata</p>
+  </div>
+</section>
+
+<!-- FAQ SECTION -->
+<section class="faq-section">
+  <div class="inner">
+    <div class="faq-header-center">
+      <span class="s-tag">Dudas frecuentes</span>
+      <h2>Preguntas frecuentes</h2>
+    </div>
+    
+    <div class="faq-inner">
+      <!-- FAQ 1 -->
+      <div class="faq-item">
+        <div class="faq-q">¿Necesito tener página web o un CRM activo para asistir? <span class="faq-icon"></span></div>
+        <div class="faq-a">No. Partimos completamente desde cero. Si no tienes sistemas implementados actualmente, es el mejor escenario: verás cómo diseñar la estructura correcta de forma directa.</div>
+      </div>
+
+      <!-- FAQ 2 -->
+      <div class="faq-item">
+        <div class="faq-q">¿Cuánto cuesta el CRM GoHighLevel después de la masterclass? <span class="faq-icon"></span></div>
+        <div class="faq-a">Existen distintas alternativas. Puedes adquirir tu cuenta directa desde $97/mes, o acceder a través de los planes de implementación de AD Media Solution. Analizaremos qué opción conviene según tu modelo.</div>
+      </div>
+
+      <!-- FAQ 3 -->
+      <div class="faq-item">
+        <div class="faq-q">¿Es realmente gratis o me venderán algo al final? <span class="faq-icon"></span></div>
+        <div class="faq-a">La masterclass es 100% gratuita y de alto valor práctico. Al finalizar la clase, presentaremos una opción de acompañamiento para quienes deseen que nuestro equipo implemente el sistema en sus negocios. Asistir no te obliga a nada.</div>
+      </div>
+
+      <!-- FAQ 4 -->
+      <div class="faq-item">
+        <div class="faq-q">¿En qué zona horaria se transmitirá? <span class="faq-icon"></span></div>
+        <div class="faq-a">Todos los miércoles a las 8:00 PM EST (hora del este de EE.UU.), lo que equivale a las 7:00 PM CST (centro) y a las 5:00 PM PT (pacífico).</div>
+      </div>
+
+      <!-- FAQ 5 -->
+      <div class="faq-item">
+        <div class="faq-q">¿Qué ocurre si me registro pero no puedo asistir a la transmisión? <span class="faq-icon"></span></div>
+        <div class="faq-a">Te recomendamos registrarte de igual modo. Te enviaremos información sobre la disponibilidad de grabaciones, resúmenes de herramientas y la programación de las siguientes fechas de transmisión en vivo.</div>
+      </div>
+
+      <!-- FAQ 6 -->
+      <div class="faq-item">
+        <div class="faq-q">¿Ofrecen planes de acompañamiento personalizado después de la clase? <span class="faq-icon"></span></div>
+        <div class="faq-a">Sí. En AD Media Solution diseñamos planes a la medida de cada empresa para estructurar embudos, automatizar workflows y entrenar a tu equipo. Puedes agendar una sesión privada al término de la clase.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-left">
+    <div class="footer-logo">AD <em>Media</em> Solution</div>
+    <div>© 2026 AD Media Solution. Todos los derechos reservados.</div>
+  </div>
+  <div class="footer-links">
+    <a href="#">Privacidad</a>
+    <a href="#">Términos</a>
+    <a href="#">Contacto</a>
+  </div>
+</footer>
+
+<!-- MOBILE STICKY BAR -->
+<div class="sticky-bar">
+  <div class="sticky-bar-text">
+    Masterclass Gratuita
+    <span>Miércoles · 8 PM EST</span>
+  </div>
+  <a href="#registro" class="btn-sm">Reservar Gratis →</a>
+</div>
+
+<script>
+// COUNTDOWN TIMER LOGIC
+function getNextWednesday8pmEST() {
+  const estOffset = -5 * 60; // EST timezone offset in minutes (Standard Time)
+  const now = new Date();
+  
+  // Convert current system time to UTC minutes and apply EST offset
+  const utcMinutes = now.getTime() / 60000 + now.getTimezoneOffset();
+  const estTime = new Date((utcMinutes + estOffset) * 60000);
+  
+  // Calculate days until next Wednesday (Day 3)
+  let daysUntil = (3 - estTime.getDay() + 7) % 7;
+  
+  // If it's Wednesday, check if 8 PM has passed
+  if (daysUntil === 0) {
+    if (estTime.getHours() >= 20) {
+      daysUntil = 7; // Target next Wednesday
+    }
+  }
+  
+  const targetDate = new Date(estTime);
+  targetDate.setDate(estTime.getDate() + daysUntil);
+  targetDate.setHours(20, 0, 0, 0); // 8:00:00.000 PM
+  
+  // Convert back to local timestamp
+  return new Date(targetDate.getTime() - estOffset * 60000);
+}
+
+function padZero(num) {
+  return String(num).padStart(2, '0');
+}
+
+function tickCountdown() {
+  const nextSession = getNextWednesday8pmEST();
+  const diffMs = nextSession.getTime() - new Date().getTime();
+  const diffSec = Math.max(0, Math.floor(diffMs / 1000));
+  
+  const days = Math.floor(diffSec / 86400);
+  const hours = Math.floor((diffSec % 86400) / 3600);
+  const minutes = Math.floor((diffSec % 3600) / 60);
+  const seconds = diffSec % 60;
+  
+  document.getElementById('d').textContent = padZero(days);
+  document.getElementById('h').textContent = padZero(hours);
+  document.getElementById('m').textContent = padZero(minutes);
+  document.getElementById('s').textContent = padZero(seconds);
+}
+
+// Initialize and run countdown every second
+tickCountdown();
+setInterval(tickCountdown, 1000);
+
+// FAQ ACCORDION LOGIC
+document.querySelectorAll('.faq-q').forEach(questionElement => {
+  questionElement.addEventListener('click', () => {
+    const faqItem = questionElement.closest('.faq-item');
+    const isOpen = faqItem.classList.contains('open');
+    
+    // Close other items
+    document.querySelectorAll('.faq-item').forEach(item => {
+      item.classList.remove('open');
+      const answer = item.querySelector('.faq-a');
+      if (answer) answer.style.display = 'none';
+    });
+    
+    // Toggle current item
+    if (!isOpen) {
+      faqItem.classList.add('open');
+      const answer = faqItem.querySelector('.faq-a');
+      if (answer) answer.style.display = 'block';
+    }
+  });
+});
+</script>
+</body>
+</html>

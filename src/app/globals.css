@@ -1,7 +1,10 @@
+@import url('https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,700;0,9..144,900;1,9..144,700&family=DM+Sans:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700;800;900&family=Syne:wght@700;800&display=swap');
 @import "tailwindcss";
 @import "tw-animate-css";
 
 @custom-variant dark (&:is(.dark *));
+
+
 
 @theme inline {
   --color-background: var(--background);
@@ -103,6 +106,11 @@
   --chart-5: #1e293b;
   /* Opacidad base de los fondos contextuales (src/components/backgrounds/). */
   --ctxbg-opacity: 0.5;
+  /* Aurora (celeste/azul de marca) — luxury usa blend aditivo sobre el navy oscuro. */
+  --color-aurora-center: #bfe6ff;
+  --color-aurora-mid: #7DD3FC;
+  --color-aurora-edge: #0066FF;
+  --aurora-blend-mode: screen;
   --button-primary-from: #0066FF;
   --button-primary-mid: #0044CC;
   --button-primary-to: #020617;
@@ -495,19 +503,6 @@
   }
 }
 
-/* Custom cursor hide default */
-@media (hover: hover) and (pointer: fine) {
-  body.custom-cursor-active {
-    cursor: none;
-  }
-
-  body.custom-cursor-active a,
-  body.custom-cursor-active button,
-  body.custom-cursor-active input {
-    cursor: none;
-  }
-}
-
 /* Typography refinements */
 @media (max-width: 640px) {
   h1 {
@@ -742,9 +737,11 @@
 
 /* Default / Classic Aurora Overrides */
 .theme-classic {
-  --color-aurora-center: #0a0a0a;
-  --color-aurora-mid: #1e293b;
-  --color-aurora-edge: #0f172a;
+  /* Aurora azul sutil (visible pero contenida) sobre el negro del tema classic. */
+  --color-aurora-center: #143a5f;
+  --color-aurora-mid: #1e5a96;
+  --color-aurora-edge: #0066FF;
+  --aurora-blend-mode: screen;
   --color-glass-bg: rgba(5, 5, 5, 0.8);
   --color-glass-bg-mobile: rgba(5, 5, 5, 0.98);
   --color-shadow: rgba(0, 0, 0, 0.9);
@@ -764,5 +761,97 @@
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
     scroll-behavior: auto !important;
+  }
+}
+
+.font-mc-display {
+  font-family: var(--font-mc-display, "Montserrat", sans-serif) !important;
+}
+.font-mc-body {
+  font-family: var(--font-mc-body, "Montserrat", sans-serif) !important;
+}
+
+/* ===================================================================
+   MASTERCLASS — Superficies theme-aware (auditoría de legibilidad)
+   -------------------------------------------------------------------
+   Los componentes usaban white-alpha hardcodeado (bg-white/[0.02],
+   border-white/5, bg-slate-900/40…) pensado SOLO para fondo oscuro, que
+   se rompe en los temas claros (sky/white). Estos tokens y clases dan a
+   cada tema un valor legible para: paneles/tarjetas (.mc-surface),
+   relleno sutil (.mc-fill), líneas finas (.mc-border / .mc-divide) y
+   lavados de sección (.mc-section).
+   =================================================================== */
+:root,
+.dark {
+  --mc-surface: rgba(15, 23, 42, 0.45);
+  --mc-surface-strong: rgba(15, 23, 42, 0.7);
+  --mc-fill: rgba(255, 255, 255, 0.03);
+  --mc-hairline: rgba(255, 255, 255, 0.08);
+  --mc-section: rgba(2, 6, 23, 0.22);
+  --mc-surface-shadow: 0 10px 40px -18px rgba(2, 6, 23, 0.6);
+}
+
+.theme-classic {
+  --mc-surface: rgba(255, 255, 255, 0.035);
+  --mc-surface-strong: rgba(255, 255, 255, 0.06);
+  --mc-fill: rgba(255, 255, 255, 0.025);
+  --mc-hairline: rgba(255, 255, 255, 0.09);
+  --mc-section: rgba(0, 0, 0, 0.35);
+  --mc-surface-shadow: 0 10px 40px -18px rgba(0, 0, 0, 0.7);
+}
+
+.theme-sky {
+  --mc-surface: rgba(255, 255, 255, 0.66);
+  --mc-surface-strong: rgba(255, 255, 255, 0.85);
+  --mc-fill: rgba(2, 132, 199, 0.06);
+  --mc-hairline: rgba(2, 132, 199, 0.2);
+  --mc-section: rgba(2, 132, 199, 0.05);
+  --mc-surface-shadow: 0 14px 40px -20px rgba(2, 132, 199, 0.3);
+}
+
+.theme-white {
+  --mc-surface: rgba(255, 255, 255, 0.92);
+  --mc-surface-strong: #ffffff;
+  --mc-fill: rgba(2, 6, 23, 0.035);
+  --mc-hairline: rgba(2, 6, 23, 0.1);
+  --mc-section: rgba(2, 6, 23, 0.02);
+  --mc-surface-shadow: 0 16px 44px -22px rgba(2, 6, 23, 0.18);
+}
+
+/* Panel / tarjeta elevada y legible en cualquier tema. */
+.mc-surface {
+  background-color: var(--mc-surface);
+  border: 1px solid var(--mc-hairline);
+  box-shadow: var(--mc-surface-shadow);
+}
+.mc-surface-strong {
+  background-color: var(--mc-surface-strong);
+  border: 1px solid var(--mc-hairline);
+  box-shadow: var(--mc-surface-shadow);
+}
+/* Relleno muy sutil (chips, celdas de countdown, inputs). */
+.mc-fill {
+  background-color: var(--mc-fill);
+}
+/* Lavado de fondo de sección. */
+.mc-section {
+  background-color: var(--mc-section);
+}
+/* Línea fina theme-aware (combinar con la utilidad `border` de Tailwind). */
+.mc-border {
+  border-color: var(--mc-hairline) !important;
+}
+/* Divisores theme-aware (combinar con `divide-y`/`divide-x` de Tailwind). */
+.mc-divide > :not([hidden]) ~ :not([hidden]) {
+  border-color: var(--mc-hairline);
+}
+
+.mc-hero-bg-image {
+  opacity: var(--mc-hero-bg-opacity-mobile, 0.14);
+}
+
+@media (min-width: 1024px) {
+  .mc-hero-bg-image {
+    opacity: var(--mc-hero-bg-opacity-desktop, 0.24);
   }
 }

@@ -1,37 +1,74 @@
-import Navbar from "@/components/layout/Navbar";
-import HeroSection from "@/components/sections/HeroSection";
-import BTLTestimonialsSection from "@/components/sections/BTLTestimonialsSection";
-import VSLSection from "@/components/sections/VSLSection";
-import CRMSection from "@/components/sections/CRMSection";
-import FooterContact from "@/components/sections/FooterContact";
+"use client";
+
+import { useEffect, useState, type CSSProperties } from "react";
+import Ribbon from "@/components/sections/masterclass/Ribbon";
+import Navbar from "@/components/sections/masterclass/Navbar";
+import Hero from "@/components/sections/masterclass/Hero";
+import StatsStrip from "@/components/sections/masterclass/StatsStrip";
+import LearnGrid from "@/components/sections/masterclass/LearnGrid";
+import AudienceFit from "@/components/sections/masterclass/AudienceFit";
+import MentorBio from "@/components/sections/masterclass/MentorBio";
+import Testimonials from "@/components/sections/masterclass/Testimonials";
+import UrgencyCTA from "@/components/sections/masterclass/UrgencyCTA";
+import FAQAccordion from "@/components/sections/masterclass/FAQAccordion";
+import Footer from "@/components/sections/masterclass/Footer";
+import RegistrationModal from "@/components/sections/masterclass/RegistrationModal";
+import PreviewPanel from "@/components/sections/masterclass/PreviewPanel";
 import IslandBar from "@/components/layout/IslandBar";
-import SectionTransition from "@/components/animations/SectionTransition";
 import ScrollProgress from "@/components/ui/ScrollProgress";
-import PromoPopup from "@/components/ui/PromoPopup";
-import FloatingConsultWidget from "@/components/ui/FloatingConsultWidget";
+import { ACTIVE_VERSION, VERSIONS, type MasterclassVersionId } from "@/lib/data/masterclassCopy";
 
 export default function Home() {
+  const [variant, setVariant] = useState<MasterclassVersionId>(ACTIVE_VERSION);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const openModal = () => setIsModalOpen(true);
+  const closeModal = () => setIsModalOpen(false);
+
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const v = params.get("v") || params.get("variant");
+    const next: MasterclassVersionId | null =
+      v === "1" || v === "v1" ? "v1" : v === "2" || v === "v2" ? "v2" : v === "3" || v === "v3" ? "v3" : null;
+
+    if (!next) return;
+
+    const frame = window.requestAnimationFrame(() => setVariant(next));
+    return () => window.cancelAnimationFrame(frame);
+  }, []);
+
+  const dynamicFonts = {
+    "--font-mc-display": VERSIONS[variant].visual.font.display,
+    "--font-mc-body": VERSIONS[variant].visual.font.body,
+  } as CSSProperties;
+
   return (
-    <main className="bg-background min-h-screen relative">
+    <main
+      style={dynamicFonts}
+      className="relative min-h-screen overflow-hidden bg-background text-foreground font-mc-body"
+    >
       <ScrollProgress />
-      <Navbar />
-      <PromoPopup />
-      <FloatingConsultWidget />
-      
-      <HeroSection />
-      <SectionTransition type="dissolve" />
 
-      <VSLSection />
-      <SectionTransition type="fog" />
+      <div className="fixed inset-x-0 top-0 z-50">
+        <Ribbon variant={variant} />
+        <Navbar variant={variant} />
+      </div>
 
-      <BTLTestimonialsSection />
-      <SectionTransition type="wipe-up" />
-      
-      <CRMSection />
-      <SectionTransition type="dissolve" />
-      
-      <FooterContact />
-      <IslandBar />
+      <div className="pt-20 sm:pt-24">
+        <Hero variant={variant} onRegisterClick={openModal} backgroundPaused={isModalOpen} />
+        <StatsStrip variant={variant} />
+        <LearnGrid variant={variant} onRegisterClick={openModal} />
+        <AudienceFit variant={variant} />
+        <MentorBio variant={variant} />
+        <Testimonials variant={variant} />
+        <UrgencyCTA variant={variant} onRegisterClick={openModal} />
+        <FAQAccordion variant={variant} />
+      </div>
+
+      <Footer />
+      <RegistrationModal isOpen={isModalOpen} onClose={closeModal} />
+      <PreviewPanel currentVariant={variant} onVariantChange={setVariant} />
+      <IslandBar variant={variant} onVariantChange={setVariant} onRegisterClick={openModal} />
     </main>
   );
 }

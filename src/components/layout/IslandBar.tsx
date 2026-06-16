@@ -1,29 +1,12 @@
 "use client";
 
-import { useState, useEffect, useRef } from "react";
-import { motion, useScroll, useMotionValueEvent, AnimatePresence } from "framer-motion";
-import Image from "next/image";
-import { useRouter, usePathname } from "next/navigation";
-import { Home, PlayCircle, Info, Layers, Globe, FolderOpen, Users, Calendar, Moon, Sun, Sparkles, CloudSun } from "lucide-react";
-
-// ============================================================
-// Ítems de navegación
-// ============================================================
-const NAV_ITEMS = [
-    { href: "/", icon: Home, label: "Inicio" },
-    { href: "/#vsl-masterclass", icon: PlayCircle, label: "VSL" },
-    { href: "/about-us", icon: Info, label: "Nosotros" },
-    { href: "/servicios", icon: Layers, label: "Servicios" },
-    { href: "/comunidad", icon: Globe, label: "Comunidad" },
-    { href: "/casos", icon: FolderOpen, label: "Casos" },
-    { href: "/equipo", icon: Users, label: "Equipo" },
-    { href: "/planificacion", icon: Calendar, label: "Agenda" },
-];
+import { useState, useEffect } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import { Moon, Sun, Sparkles, CloudSun, Calendar } from "lucide-react";
+import { VERSIONS, VERSION_IDS, type MasterclassVersionId } from "@/lib/data/masterclassCopy";
 
 type Theme = "luxury" | "classic" | "sky" | "white";
 const THEMES: Theme[] = ["luxury", "classic", "sky", "white"];
-const SCROLL_DELTA_THRESHOLD = 18;
-const EXPAND_COLLAPSE_COOLDOWN = 420;
 const FOOTER_LEGAL_SELECTOR = "[data-footer-legal]";
 
 function isTheme(value: string | null): value is Theme {
@@ -38,251 +21,145 @@ function applyThemeClass(next: Theme) {
 }
 
 // ============================================================
-// Island Bar — Navegación flotante inferior (estilo Dynamic Island)
+// Island Bar — Dock flotante inferior (control del visitante)
+// Fila 1: selector público de versión (Resultado / Dolor / Autoridad)
+// Fila 2: CTA "Reservar lugar" + cambio de modo de color
 // ============================================================
-export default function IslandBar() {
-    const [expanded, setExpanded] = useState(true);
+interface IslandBarProps {
+    onRegisterClick?: () => void;
+    variant: MasterclassVersionId;
+    onVariantChange: (v: MasterclassVersionId) => void;
+}
+
+export default function IslandBar({ onRegisterClick, variant, onVariantChange }: IslandBarProps) {
     const [isFooterLegalVisible, setIsFooterLegalVisible] = useState(false);
     const [theme, setTheme] = useState<Theme>("classic");
-    const expandedRef = useRef(expanded);
-    const lastScrollYRef = useRef(0);
-    const lastToggleAtRef = useRef(0);
 
-    const router = useRouter();
-    const pathname = usePathname();
-
+    // Tema guardado (o "classic" por defecto).
     useEffect(() => {
         const savedTheme = localStorage.getItem("vibe-theme") ?? localStorage.getItem("theme");
-        if (isTheme(savedTheme)) {
-            applyThemeClass(savedTheme);
-            queueMicrotask(() => setTheme(savedTheme));
-        } else {
-            applyThemeClass("classic");
-            queueMicrotask(() => setTheme("classic"));
-        }
+        const initial: Theme = isTheme(savedTheme) ? savedTheme : "classic";
+        applyThemeClass(initial);
+        queueMicrotask(() => setTheme(initial));
     }, []);
-    const { scrollY } = useScroll();
 
-    const setExpandedStable = (next: boolean) => {
-        if (expandedRef.current === next) return;
-        expandedRef.current = next;
-        setExpanded(next);
-    };
+    // Ocultar el dock cuando el footer legal entra en pantalla.
+    useEffect(() => {
+        const legalFooter = document.querySelector(FOOTER_LEGAL_SELECTOR);
+        if (!legalFooter) return;
+        const observer = new IntersectionObserver(
+            ([entry]) => setIsFooterLegalVisible(entry.isIntersecting),
+            { threshold: 0.01 }
+        );
+        observer.observe(legalFooter);
+        return () => observer.disconnect();
+    }, []);
 
     const toggleTheme = () => {
-        setTheme(prev => {
-            let next: Theme;
-            if (prev === "luxury") next = "classic";
-            else if (prev === "classic") next = "sky";
-            else if (prev === "sky") next = "white";
-            else next = "luxury";
-
+        setTheme((prev) => {
+            const next: Theme =
+                prev === "luxury" ? "classic" : prev === "classic" ? "sky" : prev === "sky" ? "white" : "luxury";
             applyThemeClass(next);
             localStorage.setItem("vibe-theme", next);
             return next;
         });
     };
 
-    // Detectar dirección de scroll
-    useMotionValueEvent(scrollY, "change", (latest) => {
-        const previous = lastScrollYRef.current;
-        const delta = latest - previous;
-        if (Math.abs(delta) < SCROLL_DELTA_THRESHOLD) return;
-
-        lastScrollYRef.current = latest;
-
-        const now = performance.now();
-        if (now - lastToggleAtRef.current < EXPAND_COLLAPSE_COOLDOWN) return;
-
-        if (delta > 0 && latest > 160) {
-            lastToggleAtRef.current = now;
-            setExpandedStable(false);
-        } else if (delta < 0) {
-            lastToggleAtRef.current = now;
-            setExpandedStable(true);
-        }
-    });
-
-    useEffect(() => {
-        const legalFooter = document.querySelector(FOOTER_LEGAL_SELECTOR);
-        if (!legalFooter) return;
-
-        const observer = new IntersectionObserver(
-            ([entry]) => {
-                setIsFooterLegalVisible(entry.isIntersecting);
-            },
-            { threshold: 0.01 }
-        );
-
-        observer.observe(legalFooter);
-        return () => observer.disconnect();
-    }, []);
-
-    const handleNavClick = (href: string) => {
-        if (href === "/") {
-            if (pathname === "/") {
-                window.scrollTo({ top: 0, behavior: "smooth" });
-            } else {
-                router.push("/");
-            }
-            return;
-        }
-
-        // Anclas a la home (ej. "/#vsl-masterclass"): scroll suave si ya estamos
-        // en home, o navegar a la home dejando que el navegador salte al ancla.
-        if (href.startsWith("/#")) {
-            const targetId = href.slice(2);
-            if (pathname === "/") {
-                document.getElementById(targetId)?.scrollIntoView({ behavior: "smooth" });
-            } else {
-                router.push(href);
-            }
-            return;
-        }
-
-        router.push(href);
-    };
-
     return (
         <motion.nav
-            initial={{ y: 100, opacity: 0 }}
-            animate={{ y: isFooterLegalVisible ? 96 : 0, opacity: isFooterLegalVisible ? 0 : 1 }}
+            initial={{ y: 120, opacity: 0 }}
+            animate={{ y: isFooterLegalVisible ? 140 : 0, opacity: isFooterLegalVisible ? 0 : 1 }}
             transition={{ delay: isFooterLegalVisible ? 0 : 0.1, duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
             aria-hidden={isFooterLegalVisible}
-            className={`fixed bottom-4 sm:bottom-6 left-1/2 -translate-x-1/2 z-50 ${isFooterLegalVisible ? "pointer-events-none" : ""}`}
+            className={`fixed bottom-4 left-1/2 z-50 hidden w-[calc(100vw-1.5rem)] max-w-md -translate-x-1/2 sm:bottom-6 lg:block ${isFooterLegalVisible ? "pointer-events-none" : ""}`}
         >
-            <motion.div
-                className={`
-          flex items-center justify-center gap-0.5 sm:gap-1
-          glass-premium rounded-full transform-gpu
-          transition-[padding,border-radius,background-color,box-shadow] duration-500 ease-[cubic-bezier(0.22,1,0.36,1)]
-          max-w-[calc(100vw-1.5rem)] sm:max-w-none
-          ${expanded
-                        ? "px-2 py-2 rounded-[1.75rem] sm:px-6 sm:py-3"
-                        : "px-2 py-2 rounded-full"
-                    }
-        `}
-            >
-                {/* Logo integrado en la isla */}
-                <motion.div
-                    animate={{ scale: [1, 1.06, 1] }}
-                    transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
-                    whileTap={{ scale: 0.9 }}
-                    className={`
-                    hidden sm:flex relative items-center justify-center overflow-hidden transition-[width,opacity,margin] duration-500 ease-[cubic-bezier(0.22,1,0.36,1)]
-                    ${expanded ? "sm:w-10 opacity-100 sm:mr-1" : "w-0 opacity-0 mr-0"}
-                `}>
-                    <Image
-                        src="/brand/logo-icon.png"
-                        alt="Logo"
-                        width={28}
-                        height={28}
-                        className="object-contain drop-shadow-[0_0_6px_rgba(0,212,230,0.25)]"
-                    />
-                </motion.div>
+            <div className="flex flex-col gap-2 p-2.5 rounded-[26px] glass-premium shadow-2xl border border-primary/15">
+                {/* Fila 1 — Selector público de versión */}
+                <div className="flex flex-col gap-1.5">
+                    <span className="text-center text-[9px] font-bold uppercase tracking-[0.18em] text-muted-foreground/70">
+                        Elegí cómo verla
+                    </span>
+                    <div
+                        role="group"
+                        aria-label="Elegí la versión del landing"
+                        className="grid grid-cols-3 gap-1 p-1 rounded-2xl mc-fill border mc-border"
+                    >
+                        {VERSION_IDS.map((v) => {
+                            const active = variant === v;
+                            const angle = VERSIONS[v].angle;
+                            return (
+                                <button
+                                    key={v}
+                                    onClick={() => onVariantChange(v)}
+                                    aria-pressed={active}
+                                    aria-label={`Ver versión: ${angle.name}`}
+                                    title={angle.tagline}
+                                    className={`py-1.5 px-1 rounded-xl text-[11px] font-bold tracking-tight truncate transition-all cursor-pointer
+                                        ${active
+                                            ? "bg-primary text-white shadow-[0_4px_14px_rgba(0,102,255,0.35)]"
+                                            : "text-muted-foreground hover:text-foreground"
+                                        }`}
+                                >
+                                    {angle.shortLabel}
+                                </button>
+                            );
+                        })}
+                    </div>
+                </div>
 
-                {/* Separator */}
-                <div className={`
-                     hidden sm:block h-4 w-px bg-primary/20 transition-[width,opacity,margin] duration-500 delay-100
-                     ${expanded ? "opacity-100 mr-1" : "opacity-0 mr-0 w-0"}
-                `} />
-
-                {NAV_ITEMS.map((item) => {
-                    const isActive = item.href === "/"
-                        ? pathname === "/"
-                        : item.href.startsWith("/#")
-                            ? false
-                            : pathname?.startsWith(item.href);
-                    const Icon = item.icon;
-
-                    return (
-                        <motion.button
-                            key={item.href}
-                            onClick={() => handleNavClick(item.href)}
-                            whileTap={{ scale: 0.9 }}
-                            className={`
-                relative flex shrink-0 items-center justify-center rounded-full h-9 sm:h-10 py-2
-                transition-[width,min-width,padding,color,background-color] duration-300 cursor-pointer transform-gpu
-                w-8 px-0
-                ${expanded ? "sm:w-auto sm:min-w-10 sm:px-3" : "sm:w-10 sm:px-0"}
-                ${isActive
-                                    ? "text-primary"
-                                    : "nav-link-contrast"
-                                }
-              `}
-                            aria-label={item.label}
-                        >
-                            {/* Indicador activo — glow detrás */}
-                            {isActive && (
-                                <motion.div
-                                    layoutId="active-pill"
-                                    className="absolute inset-0 rounded-full bg-accent-blue/15 border border-accent-blue/25"
-                                    transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
-                                />
-                            )}
-
-                            <span className="relative z-10 flex size-[18px] shrink-0 items-center justify-center sm:size-5">
-                                <Icon className="size-full" />
-                            </span>
-
-                            {/* Label — solo visible cuando expanded */}
-                            <span
-                                className={`
-                                    relative z-10 hidden sm:inline-block text-xs sm:text-sm font-medium whitespace-nowrap overflow-hidden
-                                    transition-[max-width,opacity,transform,margin] duration-400 ease-[cubic-bezier(0.22,1,0.36,1)]
-                                    ${expanded ? "ml-2 max-w-24 opacity-100 translate-x-0" : "ml-0 max-w-0 opacity-0 -translate-x-1"}
-                                `}
-                            >
-                                {item.label}
-                            </span>
-                            
-                        </motion.button>
-                    );
-                })}
-
-                {/* Vertical Divider */}
-                <div className={`
-                    hidden sm:block h-4 bg-primary/20 transition-[width,opacity,margin] duration-300
-                    ${expanded ? "w-px opacity-100 mx-1" : "w-0 opacity-0 mx-0"}
-                `} />
-
-                {/* Vibe Toggle Button */}
-                <motion.button
-                    whileHover={{ scale: 1.1, backgroundColor: "rgba(255,255,255,0.05)" }}
-                    whileTap={{ scale: 0.9 }}
-                    onClick={toggleTheme}
-                    className={`
-                        relative flex items-center justify-center rounded-full transition-[color,background-color] duration-300 size-8 sm:size-9
-                        ${theme === "luxury" ? "text-primary" : "nav-link-contrast"}
-                    `}
-                    title={`Switch Vibe (Current: ${theme})`}
-                >
-                    <AnimatePresence mode="wait">
+                {/* Fila 2 — Acción: CTA + cambio de modo de color */}
+                <div className="flex items-center gap-2">
+                    <motion.button
+                        whileTap={{ scale: 0.97 }}
+                        whileHover={{ scale: 1.01 }}
+                        onClick={onRegisterClick}
+                        className="relative flex-1 flex items-center justify-center gap-2 rounded-2xl h-11 px-4 bg-primary hover:bg-primary-dark text-white font-bold text-xs sm:text-sm uppercase tracking-wider cursor-pointer shadow-[0_4px_15px_rgba(0,102,255,0.3)] transition-colors overflow-hidden"
+                    >
                         <motion.div
-                            key={theme}
-                            initial={{ opacity: 0, rotate: -90 }}
-                            animate={{ opacity: 1, rotate: 0 }}
-                            exit={{ opacity: 0, rotate: 90 }}
-                            transition={{ duration: 0.2 }}
-                            className="flex items-center justify-center"
-                        >
-                            {theme === "luxury" && <Sparkles className="size-4 sm:size-5" />}
-                            {theme === "classic" && <Moon className="size-4 sm:size-5" />}
-                            {theme === "sky" && <CloudSun className="size-4 sm:size-5" />}
-                            {theme === "white" && <Sun className="size-4 sm:size-5" />}
-                        </motion.div>
-                    </AnimatePresence>
-                    
-                    {/* Pulsing indicator for Luxury mode */}
-                    {theme === "luxury" && (
-                        <motion.span 
-                            animate={{ scale: [1, 1.4, 1], opacity: [0.6, 1, 0.6] }}
-                            transition={{ duration: 2, repeat: Infinity }}
-                            className="absolute top-0 right-0 size-2 bg-primary rounded-full shadow-[0_0_8px_rgba(0,102,255,0.8)]" 
+                            className="absolute inset-0 bg-white/10 opacity-0 pointer-events-none"
+                            animate={{ opacity: [0, 0.15, 0] }}
+                            transition={{ duration: 3, repeat: Infinity }}
                         />
-                    )}
-                </motion.button>
-            </motion.div>
+                        <Calendar className="w-4 h-4 shrink-0" />
+                        <span>Reservar lugar</span>
+                    </motion.button>
+
+                    {/* Toggle de modo de color */}
+                    <motion.button
+                        whileHover={{ scale: 1.08 }}
+                        whileTap={{ scale: 0.92 }}
+                        onClick={toggleTheme}
+                        aria-label={`Cambiar modo de color (actual: ${theme})`}
+                        title={`Cambiar modo de color (actual: ${theme})`}
+                        className={`relative flex items-center justify-center rounded-2xl size-11 shrink-0 border mc-border mc-fill transition-[color] duration-300
+                            ${theme === "luxury" ? "text-primary" : "text-foreground/80 hover:text-foreground"}`}
+                    >
+                        <AnimatePresence mode="wait">
+                            <motion.div
+                                key={theme}
+                                initial={{ opacity: 0, rotate: -90 }}
+                                animate={{ opacity: 1, rotate: 0 }}
+                                exit={{ opacity: 0, rotate: 90 }}
+                                transition={{ duration: 0.2 }}
+                                className="flex items-center justify-center"
+                            >
+                                {theme === "luxury" && <Sparkles className="size-4" />}
+                                {theme === "classic" && <Moon className="size-4" />}
+                                {theme === "sky" && <CloudSun className="size-4" />}
+                                {theme === "white" && <Sun className="size-4" />}
+                            </motion.div>
+                        </AnimatePresence>
+
+                        {theme === "luxury" && (
+                            <motion.span
+                                animate={{ scale: [1, 1.4, 1], opacity: [0.6, 1, 0.6] }}
+                                transition={{ duration: 2, repeat: Infinity }}
+                                className="absolute top-1 right-1 size-1.5 bg-primary rounded-full shadow-[0_0_6px_rgba(0,102,255,0.8)]"
+                            />
+                        )}
+                    </motion.button>
+                </div>
+            </div>
         </motion.nav>
     );
 }
