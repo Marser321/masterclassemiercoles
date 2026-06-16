@@ -5,7 +5,7 @@ import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import { VISUALS, type VisualId } from "@/lib/data/masterclassCopy";
 import MasterclassBanner from "./MasterclassBanner";
 
-const BANNER_HOLD_MS = 60_000;
+const BANNER_HOLD_MS = 30_000;
 
 type MediaPhase = "video" | "banner";
 

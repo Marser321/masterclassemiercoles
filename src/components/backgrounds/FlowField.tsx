@@ -14,7 +14,8 @@ import {
 // FlowField — Metáfora CRM / embudos.
 // Múltiples leads (curvas) que nacen dispersos a la izquierda y se
 // CANALIZAN hacia un único punto de convergencia a la derecha (el CRM).
-// Pulsos viajan por las curvas hacia el nexo. SVG + pathLength.
+// Con `animated` los pulsos viajan por las curvas hacia el nexo; sin él
+// queda solo la FORMA estática del embudo (curvas + nexo).
 // ============================================================
 
 // Punto de convergencia (nexo del CRM), en coords del viewBox 1000x600.
@@ -36,16 +37,29 @@ function flowPath(y: number) {
     return `M -20 ${y} C ${midX} ${y}, ${midX} ${FOCUS.y}, ${FOCUS.x} ${FOCUS.y}`;
 }
 
+interface FlowFieldProps extends ContextBackgroundProps {
+    /**
+     * Anima las curvas (autodibujado), los pulsos de lead y el nexo pulsante.
+     * Por defecto `true` (uso en página de equipo). En el hero de masterclass
+     * se pasa `false` para dejar solo la forma estática del embudo.
+     */
+    animated?: boolean;
+}
+
 export default function FlowField({
     className,
     intensity = "medium",
     density = "mid",
     opacity = 0.5,
     paused = false,
-}: ContextBackgroundProps) {
+    animated = true,
+}: FlowFieldProps) {
     const reduce = useReducedMotion();
     const resolved = useResolvedDensity(density);
-    const { ref, inView, live: animate } = useCtxLive(paused, reduce);
+    const { ref, inView, live } = useCtxLive(paused, reduce);
+
+    // Solo animamos si el consumidor lo pide y no hay reduced-motion.
+    const isAnimated = animated && reduce !== true;
 
     // Cuántos leads dibujar según densidad.
     const count = Math.min(SOURCES.length, 2 + DENSITY_STEPS[resolved]);
@@ -97,19 +111,30 @@ export default function FlowField({
                                 stroke="var(--border, rgba(0,102,255,0.2))"
                                 strokeWidth="1"
                             />
-                            {/* trazo que se autodibuja */}
-                            <motion.path
-                                d={d}
-                                fill="none"
-                                stroke="url(#flow-stroke)"
-                                strokeWidth="2"
-                                strokeLinecap="round"
-                                initial={{ pathLength: 0, opacity: 0.4 }}
-                                animate={inView ? { pathLength: 1, opacity: 0.7 } : { pathLength: 0 }}
-                                transition={{ duration: 1.6, delay: i * 0.12, ease: "easeOut" }}
-                            />
-                            {/* pulso de lead viajando hacia el nexo */}
-                            {animate && (
+                            {/* trazo de canalización (animado se autodibuja; estático visible fijo) */}
+                            {isAnimated ? (
+                                <motion.path
+                                    d={d}
+                                    fill="none"
+                                    stroke="url(#flow-stroke)"
+                                    strokeWidth="2"
+                                    strokeLinecap="round"
+                                    initial={{ pathLength: 0, opacity: 0.4 }}
+                                    animate={inView ? { pathLength: 1, opacity: 0.7 } : { pathLength: 0 }}
+                                    transition={{ duration: 1.6, delay: i * 0.12, ease: "easeOut" }}
+                                />
+                            ) : (
+                                <path
+                                    d={d}
+                                    fill="none"
+                                    stroke="url(#flow-stroke)"
+                                    strokeWidth="2"
+                                    strokeLinecap="round"
+                                    opacity="0.7"
+                                />
+                            )}
+                            {/* pulso de lead viajando hacia el nexo — solo animado */}
+                            {isAnimated && live && (
                                 <motion.circle
                                     r="3"
                                     fill="var(--chart-2, #7DD3FC)"
@@ -133,20 +158,25 @@ export default function FlowField({
 
                 {/* Glow del nexo de convergencia */}
                 <circle cx={FOCUS.x} cy={FOCUS.y} r="120" fill="url(#flow-nexus)" opacity={layerOpacity * 0.5} />
-                <motion.circle
-                    cx={FOCUS.x}
-                    cy={FOCUS.y}
-                    r="14"
-                    fill="var(--primary, #0066FF)"
-                    initial={{ opacity: 0.6 }}
-                    animate={
-                        animate
-                            ? { scale: [1, 1.25, 1], opacity: [0.55, 0.95, 0.55] }
-                            : { scale: 1, opacity: 0.7 }
-                    }
-                    transition={{ duration: 3, repeat: animate ? Infinity : 0, ease: "easeInOut" }}
-                    style={{ transformOrigin: `${FOCUS.x}px ${FOCUS.y}px` }}
-                />
+                {/* Nexo (animado late; estático fijo) */}
+                {isAnimated ? (
+                    <motion.circle
+                        cx={FOCUS.x}
+                        cy={FOCUS.y}
+                        r="14"
+                        fill="var(--primary, #0066FF)"
+                        initial={{ opacity: 0.6 }}
+                        animate={
+                            live
+                                ? { scale: [1, 1.25, 1], opacity: [0.55, 0.95, 0.55] }
+                                : { scale: 1, opacity: 0.7 }
+                        }
+                        transition={{ duration: 3, repeat: live ? Infinity : 0, ease: "easeInOut" }}
+                        style={{ transformOrigin: `${FOCUS.x}px ${FOCUS.y}px` }}
+                    />
+                ) : (
+                    <circle cx={FOCUS.x} cy={FOCUS.y} r="14" fill="var(--primary, #0066FF)" opacity="0.7" />
+                )}
             </svg>
         </div>
     );

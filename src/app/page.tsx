@@ -1,23 +1,38 @@
 "use client";
 
 import { useEffect, useState, type CSSProperties } from "react";
+import dynamic from "next/dynamic";
+// Above-the-fold: se cargan de inmediato para no retrasar el primer pintado.
 import Ribbon from "@/components/sections/masterclass/Ribbon";
 import Navbar from "@/components/sections/masterclass/Navbar";
 import Hero from "@/components/sections/masterclass/Hero";
 import StatsStrip from "@/components/sections/masterclass/StatsStrip";
-import LearnGrid from "@/components/sections/masterclass/LearnGrid";
-import AudienceFit from "@/components/sections/masterclass/AudienceFit";
-import MentorBio from "@/components/sections/masterclass/MentorBio";
-import Testimonials from "@/components/sections/masterclass/Testimonials";
-import MasterclassReplaySection from "@/components/sections/masterclass/MasterclassReplaySection";
-import UrgencyCTA from "@/components/sections/masterclass/UrgencyCTA";
-import FAQAccordion from "@/components/sections/masterclass/FAQAccordion";
-import Footer from "@/components/sections/masterclass/Footer";
-import RegistrationModal from "@/components/sections/masterclass/RegistrationModal";
-import PreviewPanel from "@/components/sections/masterclass/PreviewPanel";
-import GhostRegistrationNotifications from "@/components/sections/masterclass/GhostRegistrationNotifications";
-import IslandBar from "@/components/layout/IslandBar";
 import ScrollProgress from "@/components/ui/ScrollProgress";
+
+// Below-the-fold: code-split para aligerar el JS inicial.
+// Las secciones de contenido conservan SSR (SEO); los overlays y bloques
+// con video pesado van client-only (ssr:false), no aportan al SEO.
+const LearnGrid = dynamic(() => import("@/components/sections/masterclass/LearnGrid"));
+const AudienceFit = dynamic(() => import("@/components/sections/masterclass/AudienceFit"));
+const MentorBio = dynamic(() => import("@/components/sections/masterclass/MentorBio"));
+const UrgencyCTA = dynamic(() => import("@/components/sections/masterclass/UrgencyCTA"));
+const FAQAccordion = dynamic(() => import("@/components/sections/masterclass/FAQAccordion"));
+const Footer = dynamic(() => import("@/components/sections/masterclass/Footer"));
+const Testimonials = dynamic(() => import("@/components/sections/masterclass/Testimonials"), { ssr: false });
+const MasterclassReplaySection = dynamic(
+  () => import("@/components/sections/masterclass/MasterclassReplaySection"),
+  { ssr: false }
+);
+const RegistrationModal = dynamic(
+  () => import("@/components/sections/masterclass/RegistrationModal"),
+  { ssr: false }
+);
+const PreviewPanel = dynamic(() => import("@/components/sections/masterclass/PreviewPanel"), { ssr: false });
+const GhostRegistrationNotifications = dynamic(
+  () => import("@/components/sections/masterclass/GhostRegistrationNotifications"),
+  { ssr: false }
+);
+const IslandBar = dynamic(() => import("@/components/layout/IslandBar"), { ssr: false });
 import {
   ACTIVE_COPY,
   ACTIVE_VISUAL,

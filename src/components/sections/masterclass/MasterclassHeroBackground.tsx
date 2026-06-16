@@ -29,6 +29,7 @@ function MotifLayer({ motif, paused }: { motif: HeroBackgroundMotif; paused: boo
     return (
       <FlowField
         paused={paused}
+        animated={false}
         intensity="soft"
         density="mid"
         opacity={0.13}
