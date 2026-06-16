@@ -57,6 +57,25 @@ export interface StatItem {
 
 export type AuroraIntensity = "soft" | "medium" | "strong";
 
+export interface MasterclassBannerAsset {
+  src: string;
+  alt: string;
+  width: number;
+  height: number;
+}
+
+export interface MasterclassBannerSet {
+  horizontal: MasterclassBannerAsset;
+  vertical: MasterclassBannerAsset;
+}
+
+export interface MasterclassMotionVideoAsset {
+  src: string;
+  width: number;
+  height: number;
+  durationSeconds: number;
+}
+
 export interface VersionVisual {
   /** Familias tipográficas inyectadas como CSS vars (--font-mc-display/body). */
   font: { display: string; body: string };
@@ -155,7 +174,8 @@ export interface MasterclassCopy {
   modal: typeof MODAL;
   mobileBar: typeof MOBILE_BAR;
   footer: typeof FOOTER;
-  banner: typeof BANNER;
+  banner: MasterclassBannerSet;
+  motionVideo: MasterclassMotionVideoAsset;
 }
 
 // ----------------------------------------------------------------------------
@@ -364,16 +384,56 @@ const FOOTER = {
 // Si faltan, MasterclassBanner no renderiza nada (degradación elegante).
 const BANNER = {
   horizontal: {
-    src: "/brand/masterclass-banner-horizontal.png",
+    src: "/brand/masterclass/banner-v3-horizontal.png",
     alt: "Masterclass gratis con Danger Fernández — próximo miércoles 8 PM (Miami) por Zoom",
     width: 1672,
     height: 941,
   },
   vertical: {
-    src: "/brand/masterclass-banner-vertical.png",
+    src: "/brand/masterclass/banner-v3-vertical.png",
     alt: "Masterclass gratis con Danger Fernández — próximo miércoles 8 PM (Miami) por Zoom",
     width: 1122,
     height: 1402,
+  },
+};
+
+function createBannerSet(version: MasterclassVersionId): MasterclassBannerSet {
+  return {
+    horizontal: {
+      ...BANNER.horizontal,
+      src: `/brand/masterclass/banner-${version}-horizontal.png`,
+    },
+    vertical: {
+      ...BANNER.vertical,
+      src: `/brand/masterclass/banner-${version}-vertical.png`,
+    },
+  };
+}
+
+const BANNERS: Record<MasterclassVersionId, MasterclassBannerSet> = {
+  v1: createBannerSet("v1"),
+  v2: createBannerSet("v2"),
+  v3: BANNER,
+};
+
+const MOTION_VIDEOS: Record<MasterclassVersionId, MasterclassMotionVideoAsset> = {
+  v1: {
+    src: "/brand/masterclass/videos/video-v1-horizontal.mp4",
+    width: 1280,
+    height: 720,
+    durationSeconds: 8,
+  },
+  v2: {
+    src: "/brand/masterclass/videos/video-v2-horizontal.mp4",
+    width: 1280,
+    height: 720,
+    durationSeconds: 4,
+  },
+  v3: {
+    src: "/brand/masterclass/videos/video-v3-horizontal.mp4",
+    width: 1280,
+    height: 720,
+    durationSeconds: 4,
   },
 };
 
@@ -403,8 +463,8 @@ export const VERSIONS: Record<MasterclassVersionId, MasterclassCopy> = {
       heroBackground: {
         imageSrc: "/masterclass/backgrounds/hero-v1-resultado.png",
         motif: "growth",
-        opacityMobile: 0.14,
-        opacityDesktop: 0.24,
+        opacityMobile: 0.17,
+        opacityDesktop: 0.34,
       },
     },
     ribbon: {
@@ -484,7 +544,8 @@ export const VERSIONS: Record<MasterclassVersionId, MasterclassCopy> = {
     modal: MODAL,
     mobileBar: MOBILE_BAR,
     footer: FOOTER,
-    banner: BANNER,
+    banner: BANNERS.v1,
+    motionVideo: MOTION_VIDEOS.v1,
   },
 
   // ==========================================================================
@@ -506,8 +567,8 @@ export const VERSIONS: Record<MasterclassVersionId, MasterclassCopy> = {
       heroBackground: {
         imageSrc: "/masterclass/backgrounds/hero-v2-dolor.png",
         motif: "funnel",
-        opacityMobile: 0.12,
-        opacityDesktop: 0.22,
+        opacityMobile: 0.15,
+        opacityDesktop: 0.32,
       },
     },
     ribbon: {
@@ -586,7 +647,8 @@ export const VERSIONS: Record<MasterclassVersionId, MasterclassCopy> = {
     modal: MODAL,
     mobileBar: MOBILE_BAR,
     footer: FOOTER,
-    banner: BANNER,
+    banner: BANNERS.v2,
+    motionVideo: MOTION_VIDEOS.v2,
   },
 
   // ==========================================================================
@@ -608,8 +670,8 @@ export const VERSIONS: Record<MasterclassVersionId, MasterclassCopy> = {
       heroBackground: {
         imageSrc: "/masterclass/backgrounds/hero-v3-autoridad.png",
         motif: "blueprint",
-        opacityMobile: 0.16,
-        opacityDesktop: 0.28,
+        opacityMobile: 0.18,
+        opacityDesktop: 0.36,
       },
     },
     ribbon: {
@@ -688,7 +750,8 @@ export const VERSIONS: Record<MasterclassVersionId, MasterclassCopy> = {
     modal: MODAL,
     mobileBar: MOBILE_BAR,
     footer: FOOTER,
-    banner: BANNER,
+    banner: BANNERS.v3,
+    motionVideo: MOTION_VIDEOS.v3,
   },
 };
 

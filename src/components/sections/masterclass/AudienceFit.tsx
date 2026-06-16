@@ -4,6 +4,8 @@ import { motion } from "framer-motion";
 import { Card } from "../../ui/Card";
 import Reveal from "@/components/animations/Reveal";
 import { VERSIONS, type MasterclassVersionId } from "@/lib/data/masterclassCopy";
+import MasterclassSectionBackdrop from "./MasterclassSectionBackdrop";
+import SubtleFloatingMarks from "./SubtleFloatingMarks";
 
 interface AudienceFitProps {
   variant: MasterclassVersionId;
@@ -13,9 +15,13 @@ export default function AudienceFit({ variant }: AudienceFitProps) {
   const a = VERSIONS[variant].audience;
 
   return (
-    <section id="para-quien" className="relative py-16 sm:py-20 px-6 sm:px-8 border-y mc-border mc-section font-mc-body">
-      {/* Background glow bloblet */}
-      <div className="absolute top-[30%] right-[-10%] w-[350px] h-[350px] rounded-full bg-primary/5 blur-[80px] pointer-events-none z-0" />
+    <section id="para-quien" className="relative overflow-hidden py-16 sm:py-20 px-6 sm:px-8 border-y mc-border mc-section font-mc-body">
+      <MasterclassSectionBackdrop
+        imageSrc="/masterclass/backgrounds/section-audience-funnel-filter.png"
+        scrim="left"
+        imageClassName="object-[44%_50%] opacity-[0.14] sm:opacity-[0.2] lg:opacity-[0.25]"
+      />
+      <SubtleFloatingMarks preset="audience" />
 
       <div className="max-w-5xl mx-auto relative z-10">
 

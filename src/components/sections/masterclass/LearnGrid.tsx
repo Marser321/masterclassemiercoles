@@ -5,6 +5,8 @@ import { Card } from "../../ui/Card";
 import { Button } from "../../ui/Button";
 import Reveal from "@/components/animations/Reveal";
 import { VERSIONS, type MasterclassVersionId } from "@/lib/data/masterclassCopy";
+import MasterclassSectionBackdrop from "./MasterclassSectionBackdrop";
+import SubtleFloatingMarks from "./SubtleFloatingMarks";
 
 interface LearnGridProps {
   variant: MasterclassVersionId;
@@ -17,9 +19,13 @@ export default function LearnGrid({ variant, onRegisterClick }: LearnGridProps) 
   const isList = variant === "v2";
 
   return (
-    <section id="aprender" className="relative py-16 sm:py-20 px-6 sm:px-8 mc-section font-mc-body">
-      {/* Background glow bloblet */}
-      <div className="absolute bottom-10 left-[50%] -translate-x-[50%] w-[500px] h-[500px] rounded-full bg-primary/5 blur-[100px] pointer-events-none z-0" />
+    <section id="aprender" className="relative overflow-hidden py-16 sm:py-20 px-6 sm:px-8 mc-section font-mc-body">
+      <MasterclassSectionBackdrop
+        imageSrc="/masterclass/backgrounds/section-learn-crm-blueprint.png"
+        scrim="left"
+        imageClassName="object-[62%_50%]"
+      />
+      <SubtleFloatingMarks preset="learn" />
 
       <div className="max-w-6xl mx-auto relative z-10">
 

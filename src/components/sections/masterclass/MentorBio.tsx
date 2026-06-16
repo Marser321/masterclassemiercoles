@@ -16,8 +16,8 @@ export default function MentorBio({ variant }: MentorBioProps) {
 
   return (
     <section id="mentor" className="relative py-16 sm:py-20 px-6 sm:px-8 overflow-hidden mc-section font-mc-body">
-      {/* Glow blobs */}
-      <div className="absolute top-[20%] left-[-15%] w-[400px] h-[400px] rounded-full bg-primary/5 blur-[100px] pointer-events-none z-0" />
+      <div className="absolute inset-0 z-0 pointer-events-none bg-[linear-gradient(180deg,transparent_0%,rgba(0,102,255,0.026)_48%,transparent_100%)]" />
+      <div className="absolute inset-0 z-0 pointer-events-none texture-grid opacity-[0.12]" />
 
       <div className="max-w-4xl mx-auto relative z-10">
 

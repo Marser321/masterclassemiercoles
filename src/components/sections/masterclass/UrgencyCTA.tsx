@@ -3,6 +3,8 @@
 import { Button } from "../../ui/Button";
 import Reveal from "@/components/animations/Reveal";
 import { VERSIONS, type MasterclassVersionId } from "@/lib/data/masterclassCopy";
+import MasterclassSectionBackdrop from "./MasterclassSectionBackdrop";
+import SubtleFloatingMarks from "./SubtleFloatingMarks";
 
 interface UrgencyCTAProps {
   variant: MasterclassVersionId;
@@ -15,9 +17,13 @@ export default function UrgencyCTA({ variant, onRegisterClick }: UrgencyCTAProps
   const dot = isAmber ? "bg-amber-500" : "bg-primary";
 
   return (
-    <section className="relative py-20 sm:py-24 px-6 sm:px-8 text-center bg-gradient-to-b from-transparent via-primary/[0.02] to-background font-mc-body">
-      {/* Background glow blob */}
-      <div className="absolute top-[50%] left-[50%] -translate-x-[50%] -translate-y-[50%] w-[500px] h-[500px] rounded-full bg-primary/5 blur-[120px] pointer-events-none z-0" />
+    <section className="relative overflow-hidden py-20 sm:py-24 px-6 sm:px-8 text-center bg-gradient-to-b from-transparent via-primary/[0.02] to-background font-mc-body">
+      <MasterclassSectionBackdrop
+        imageSrc="/masterclass/backgrounds/section-urgency-live-system.png"
+        scrim="center"
+        imageClassName="object-center opacity-[0.18] sm:opacity-[0.25] lg:opacity-[0.32]"
+      />
+      <SubtleFloatingMarks preset="urgency" />
 
       <div className="max-w-3xl mx-auto relative z-10">
 

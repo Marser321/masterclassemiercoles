@@ -14,7 +14,8 @@ export default function Testimonials({ variant }: TestimonialsProps) {
 
   return (
     <section id="testimonios" className="relative py-16 sm:py-20 px-6 sm:px-8 border-y mc-border mc-section font-mc-body">
-      <div className="absolute top-[40%] left-[-10%] w-[300px] h-[300px] rounded-full bg-primary/5 blur-[80px] pointer-events-none z-0" />
+      <div className="absolute inset-0 z-0 pointer-events-none bg-[linear-gradient(180deg,transparent_0%,rgba(125,211,252,0.022)_46%,transparent_100%)]" />
+      <div className="absolute inset-0 z-0 pointer-events-none texture-grid opacity-[0.1]" />
 
       <div className="max-w-5xl mx-auto relative z-10">
 

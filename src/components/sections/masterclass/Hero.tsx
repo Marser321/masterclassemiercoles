@@ -4,8 +4,8 @@ import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { Button } from "../../ui/Button";
 import { VERSIONS, type MasterclassVersionId } from "@/lib/data/masterclassCopy";
-import MasterclassBanner from "./MasterclassBanner";
 import MasterclassHeroBackground from "./MasterclassHeroBackground";
+import MasterclassHeroMedia from "./MasterclassHeroMedia";
 
 interface HeroProps {
   variant: MasterclassVersionId;
@@ -134,6 +134,8 @@ export default function Hero({ variant, onRegisterClick, backgroundPaused = fals
     </div>
   );
 
+  const mobileValuePills = ["60 min en vivo", "Zoom", "Sin tarjeta"];
+
   const cta = (
     <>
       <Button
@@ -142,7 +144,7 @@ export default function Hero({ variant, onRegisterClick, backgroundPaused = fals
         glow
         aurora
         onClick={onRegisterClick}
-        className="w-full rounded-xl px-8 py-4 font-extrabold tracking-tight text-white shadow-2xl sm:w-auto sm:px-12"
+        className="w-full rounded-xl px-6 py-3.5 text-sm font-extrabold tracking-tight text-white shadow-2xl sm:w-auto sm:px-10 sm:py-4 lg:px-12 lg:text-base"
       >
         {h.cta}
       </Button>
@@ -153,10 +155,10 @@ export default function Hero({ variant, onRegisterClick, backgroundPaused = fals
   );
 
   return (
-    <section className="relative isolate flex min-h-[calc(100svh-5rem)] items-start justify-center overflow-hidden px-4 pb-8 pt-3 sm:min-h-[calc(100svh-6rem)] sm:px-6 sm:pt-6 lg:items-center lg:px-8 lg:py-14">
+    <section className="relative isolate flex min-h-[calc(100svh-5rem)] items-start justify-center overflow-hidden px-4 pb-24 pt-3 sm:min-h-[calc(100svh-6rem)] sm:px-6 sm:pb-28 sm:pt-4 lg:items-center lg:px-8 lg:py-14">
       <MasterclassHeroBackground variant={variant} paused={backgroundPaused} />
 
-      <div className="relative z-10 mx-auto grid w-full max-w-7xl grid-cols-1 items-center gap-7 lg:grid-cols-[minmax(0,1fr)_minmax(320px,430px)] lg:gap-12">
+      <div className="relative z-10 mx-auto grid w-full max-w-7xl grid-cols-1 items-center gap-5 lg:grid-cols-[minmax(0,1fr)_minmax(320px,430px)] lg:gap-12">
         <motion.div
           initial={{ opacity: 0, y: 18 }}
           animate={{ opacity: 1, y: 0 }}
@@ -165,20 +167,36 @@ export default function Hero({ variant, onRegisterClick, backgroundPaused = fals
         >
           {countdownStrip}
 
-          <h1 className="mt-3 max-w-4xl text-[2rem] font-extrabold leading-[1.02] tracking-tight text-foreground text-balance font-mc-display sm:mt-5 sm:text-5xl lg:max-w-3xl lg:text-5xl xl:text-6xl">
+          <h1 className="mt-3 max-w-4xl text-[2rem] font-extrabold leading-[1.02] tracking-tight text-foreground text-balance font-mc-display sm:mt-4 sm:text-[2.65rem] md:text-[2.9rem] lg:max-w-3xl lg:text-5xl xl:text-6xl">
             {headline}
           </h1>
 
-          <MasterclassBanner
+          <MasterclassHeroMedia
+            key={`mobile-media-${variant}`}
             variant={variant}
             orientation="horizontal"
             priority
             sizes="(max-width: 1024px) 94vw, 0px"
-            className="mt-4 w-full max-w-md lg:hidden"
+            className="mt-3 w-full max-w-[23rem] sm:max-w-[22rem] md:max-w-[25rem] lg:hidden"
           />
 
-          <div className="mt-4 flex w-full max-w-md flex-col items-center gap-2 lg:hidden">
+          <div className="mt-3 flex w-full max-w-[23rem] flex-col items-center gap-2 sm:max-w-[22rem] md:max-w-[25rem] lg:hidden">
             {cta}
+          </div>
+
+          <p className="mt-3 max-w-[24rem] text-center text-xs leading-relaxed text-muted-foreground/78 text-pretty sm:max-w-[34rem] sm:text-sm lg:hidden">
+            {h.subhead}
+          </p>
+
+          <div className="mt-3 flex flex-wrap justify-center gap-2 lg:hidden">
+            {mobileValuePills.map((pill) => (
+              <span
+                key={pill}
+                className="rounded-full border mc-border mc-fill px-3 py-1 text-[10px] font-bold uppercase tracking-[0.08em] text-foreground/75"
+              >
+                {pill}
+              </span>
+            ))}
           </div>
 
           <div className="mt-5 hidden lg:block">{eyebrow}</div>
@@ -193,9 +211,6 @@ export default function Hero({ variant, onRegisterClick, backgroundPaused = fals
             {cta}
           </div>
 
-          <p className="mt-4 hidden max-w-xl text-sm leading-relaxed text-muted-foreground/80 text-pretty sm:block lg:hidden">
-            {h.subhead}
-          </p>
         </motion.div>
 
         <motion.div
@@ -204,12 +219,13 @@ export default function Hero({ variant, onRegisterClick, backgroundPaused = fals
           transition={{ duration: 0.75, delay: 0.12 }}
           className="hidden justify-end lg:flex"
         >
-          <MasterclassBanner
+          <MasterclassHeroMedia
+            key={`desktop-media-${variant}`}
             variant={variant}
             orientation="vertical"
             priority
             sizes="(max-width: 1024px) 0px, 430px"
-            className="w-full max-w-[410px] xl:max-w-[430px]"
+            className="w-full max-w-[410px] lg:flex lg:min-h-[511px] lg:items-center xl:max-w-[430px] xl:min-h-[536px]"
           />
         </motion.div>
       </div>
