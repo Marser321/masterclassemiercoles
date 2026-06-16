@@ -9,37 +9,62 @@ import LearnGrid from "@/components/sections/masterclass/LearnGrid";
 import AudienceFit from "@/components/sections/masterclass/AudienceFit";
 import MentorBio from "@/components/sections/masterclass/MentorBio";
 import Testimonials from "@/components/sections/masterclass/Testimonials";
+import MasterclassReplaySection from "@/components/sections/masterclass/MasterclassReplaySection";
 import UrgencyCTA from "@/components/sections/masterclass/UrgencyCTA";
 import FAQAccordion from "@/components/sections/masterclass/FAQAccordion";
 import Footer from "@/components/sections/masterclass/Footer";
 import RegistrationModal from "@/components/sections/masterclass/RegistrationModal";
 import PreviewPanel from "@/components/sections/masterclass/PreviewPanel";
+import GhostRegistrationNotifications from "@/components/sections/masterclass/GhostRegistrationNotifications";
 import IslandBar from "@/components/layout/IslandBar";
 import ScrollProgress from "@/components/ui/ScrollProgress";
-import { ACTIVE_VERSION, VERSIONS, type MasterclassVersionId } from "@/lib/data/masterclassCopy";
+import {
+  ACTIVE_COPY,
+  ACTIVE_VISUAL,
+  VISUALS,
+  LEGACY_VERSION_MAP,
+  toCopyId,
+  toVisualId,
+  type CopyId,
+  type VisualId,
+} from "@/lib/data/masterclassCopy";
 
 export default function Home() {
-  const [variant, setVariant] = useState<MasterclassVersionId>(ACTIVE_VERSION);
+  const [copy, setCopy] = useState<CopyId>(ACTIVE_COPY);
+  const [visual, setVisual] = useState<VisualId>(ACTIVE_VISUAL);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const openModal = () => setIsModalOpen(true);
   const closeModal = () => setIsModalOpen(false);
 
+  // Selección por URL: ?copy=1..4 y ?visual=1..3 (acepta c1/m1).
+  // Compat con links viejos: ?v=1|2|3 (o ?variant=) → par (copy, visual).
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
-    const v = params.get("v") || params.get("variant");
-    const next: MasterclassVersionId | null =
-      v === "1" || v === "v1" ? "v1" : v === "2" || v === "v2" ? "v2" : v === "3" || v === "v3" ? "v3" : null;
+    let nextCopy: CopyId = ACTIVE_COPY;
+    let nextVisual: VisualId = ACTIVE_VISUAL;
 
-    if (!next) return;
+    const legacy = params.get("v") || params.get("variant");
+    if (legacy && LEGACY_VERSION_MAP[legacy]) {
+      nextCopy = LEGACY_VERSION_MAP[legacy].copy;
+      nextVisual = LEGACY_VERSION_MAP[legacy].visual;
+    }
 
-    const frame = window.requestAnimationFrame(() => setVariant(next));
-    return () => window.cancelAnimationFrame(frame);
+    const explicitCopy = toCopyId(params.get("copy"));
+    if (explicitCopy) nextCopy = explicitCopy;
+
+    const explicitVisual = toVisualId(params.get("visual"));
+    if (explicitVisual) nextVisual = explicitVisual;
+
+    queueMicrotask(() => {
+      setCopy(nextCopy);
+      setVisual(nextVisual);
+    });
   }, []);
 
   const dynamicFonts = {
-    "--font-mc-display": VERSIONS[variant].visual.font.display,
-    "--font-mc-body": VERSIONS[variant].visual.font.body,
+    "--font-mc-display": VISUALS[visual].font.display,
+    "--font-mc-body": VISUALS[visual].font.body,
   } as CSSProperties;
 
   return (
@@ -50,25 +75,38 @@ export default function Home() {
       <ScrollProgress />
 
       <div className="fixed inset-x-0 top-0 z-50">
-        <Ribbon variant={variant} />
-        <Navbar variant={variant} />
+        <Ribbon copy={copy} visual={visual} />
+        <Navbar copy={copy} visual={visual} />
       </div>
 
       <div className="pt-20 sm:pt-24">
-        <Hero variant={variant} onRegisterClick={openModal} backgroundPaused={isModalOpen} />
-        <StatsStrip variant={variant} />
-        <LearnGrid variant={variant} onRegisterClick={openModal} />
-        <AudienceFit variant={variant} />
-        <MentorBio variant={variant} />
-        <Testimonials variant={variant} />
-        <UrgencyCTA variant={variant} onRegisterClick={openModal} />
-        <FAQAccordion variant={variant} />
+        <Hero copy={copy} visual={visual} onRegisterClick={openModal} backgroundPaused={isModalOpen} />
+        <StatsStrip copy={copy} />
+        <LearnGrid copy={copy} visual={visual} onRegisterClick={openModal} />
+        <AudienceFit copy={copy} />
+        <MentorBio copy={copy} />
+        <Testimonials copy={copy} />
+        <MasterclassReplaySection copy={copy} />
+        <UrgencyCTA copy={copy} visual={visual} onRegisterClick={openModal} />
+        <FAQAccordion copy={copy} />
       </div>
 
       <Footer />
       <RegistrationModal isOpen={isModalOpen} onClose={closeModal} />
-      <PreviewPanel currentVariant={variant} onVariantChange={setVariant} />
-      <IslandBar variant={variant} onVariantChange={setVariant} onRegisterClick={openModal} />
+      <PreviewPanel
+        currentCopy={copy}
+        currentVisual={visual}
+        onCopyChange={setCopy}
+        onVisualChange={setVisual}
+      />
+      <GhostRegistrationNotifications key={copy} copy={copy} isModalOpen={isModalOpen} />
+      <IslandBar
+        copy={copy}
+        visual={visual}
+        onCopyChange={setCopy}
+        onVisualChange={setVisual}
+        onRegisterClick={openModal}
+      />
     </main>
   );
 }

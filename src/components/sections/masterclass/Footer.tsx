@@ -2,10 +2,10 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { getVersion } from "@/lib/data/masterclassCopy";
+import { getCopy } from "@/lib/data/masterclassCopy";
 
 export default function Footer() {
-  const f = getVersion().footer;
+  const f = getCopy().footer;
   return (
     <footer data-footer-legal className="relative z-10 border-t mc-border mc-section py-10 px-6 sm:px-8">
       <div className="max-w-6xl mx-auto flex flex-col md:flex-row items-center justify-between gap-6">

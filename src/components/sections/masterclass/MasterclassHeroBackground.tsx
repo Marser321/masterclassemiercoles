@@ -5,10 +5,10 @@ import type { CSSProperties } from "react";
 import BlueprintLayer from "@/components/backgrounds/BlueprintLayer";
 import FlowField from "@/components/backgrounds/FlowField";
 import MetricBurst from "@/components/backgrounds/MetricBurst";
-import { VERSIONS, type HeroBackgroundMotif, type MasterclassVersionId } from "@/lib/data/masterclassCopy";
+import { VISUALS, type HeroBackgroundMotif, type VisualId } from "@/lib/data/masterclassCopy";
 
 interface MasterclassHeroBackgroundProps {
-  variant: MasterclassVersionId;
+  visual: VisualId;
   paused?: boolean;
 }
 
@@ -49,17 +49,17 @@ function MotifLayer({ motif, paused }: { motif: HeroBackgroundMotif; paused: boo
   );
 }
 
-export default function MasterclassHeroBackground({ variant, paused = false }: MasterclassHeroBackgroundProps) {
-  const visual = VERSIONS[variant].visual;
+export default function MasterclassHeroBackground({ visual, paused = false }: MasterclassHeroBackgroundProps) {
+  const v = VISUALS[visual];
   const style = {
-    "--mc-hero-bg-opacity-mobile": visual.heroBackground.opacityMobile,
-    "--mc-hero-bg-opacity-desktop": visual.heroBackground.opacityDesktop,
+    "--mc-hero-bg-opacity-mobile": v.heroBackground.opacityMobile,
+    "--mc-hero-bg-opacity-desktop": v.heroBackground.opacityDesktop,
   } as CSSProperties;
 
   return (
     <div className="absolute inset-0 z-0 overflow-hidden pointer-events-none" style={style} aria-hidden>
       <Image
-        src={visual.heroBackground.imageSrc}
+        src={v.heroBackground.imageSrc}
         alt=""
         fill
         priority
@@ -77,7 +77,7 @@ export default function MasterclassHeroBackground({ variant, paused = false }: M
         }}
       />
 
-      <MotifLayer motif={visual.heroBackground.motif} paused={paused} />
+      <MotifLayer motif={v.heroBackground.motif} paused={paused} />
 
       <div className="absolute inset-x-0 top-0 h-36 bg-gradient-to-b from-background via-background/80 to-transparent" />
       <div className="absolute inset-x-0 bottom-0 h-40 bg-gradient-to-t from-background via-background/80 to-transparent" />

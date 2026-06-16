@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
-import { VERSIONS, type MasterclassVersionId } from "@/lib/data/masterclassCopy";
+import { VISUALS, type VisualId } from "@/lib/data/masterclassCopy";
 import MasterclassBanner from "./MasterclassBanner";
 
 const BANNER_HOLD_MS = 60_000;
@@ -10,7 +10,7 @@ const BANNER_HOLD_MS = 60_000;
 type MediaPhase = "video" | "banner";
 
 interface MasterclassHeroMediaProps {
-  variant: MasterclassVersionId;
+  visual: VisualId;
   orientation: "horizontal" | "vertical";
   className?: string;
   priority?: boolean;
@@ -18,7 +18,7 @@ interface MasterclassHeroMediaProps {
 }
 
 export default function MasterclassHeroMedia({
-  variant,
+  visual,
   orientation,
   className = "",
   priority = false,
@@ -29,7 +29,7 @@ export default function MasterclassHeroMedia({
   const videoRef = useRef<HTMLVideoElement>(null);
   const [phase, setPhase] = useState<MediaPhase>("video");
   const [videoFailed, setVideoFailed] = useState(false);
-  const video = VERSIONS[variant].motionVideo;
+  const video = VISUALS[visual].motionVideo;
   const showVideo = phase === "video" && !shouldReduceMotion && !videoFailed;
 
   useEffect(() => {
@@ -40,7 +40,7 @@ export default function MasterclassHeroMedia({
     }, BANNER_HOLD_MS);
 
     return () => window.clearTimeout(timeout);
-  }, [phase, shouldReduceMotion, videoFailed, variant]);
+  }, [phase, shouldReduceMotion, videoFailed, visual]);
 
   useEffect(() => {
     if (!showVideo) return;
@@ -55,7 +55,7 @@ export default function MasterclassHeroMedia({
         setPhase("banner");
       });
     }
-  }, [showVideo, variant]);
+  }, [showVideo, visual]);
 
   return (
     <div
@@ -66,7 +66,7 @@ export default function MasterclassHeroMedia({
       <AnimatePresence mode="wait" initial={false}>
         {showVideo ? (
           <motion.div
-            key={`video-${variant}-${orientation}`}
+            key={`video-${visual}-${orientation}`}
             initial={{ opacity: 0, y: 10, scale: 0.985 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: -8, scale: 0.985 }}
@@ -76,7 +76,7 @@ export default function MasterclassHeroMedia({
             <video
               key={video.src}
               ref={videoRef}
-              data-masterclass-motion-video={variant}
+              data-masterclass-motion-video={visual}
               className="h-full w-full object-cover"
               width={video.width}
               height={video.height}
@@ -97,7 +97,7 @@ export default function MasterclassHeroMedia({
           </motion.div>
         ) : (
           <motion.div
-            key={`banner-${variant}-${orientation}`}
+            key={`banner-${visual}-${orientation}`}
             initial={shouldReduceMotion ? false : { opacity: 0, y: 8, scale: 0.99 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={shouldReduceMotion ? { opacity: 0 } : { opacity: 0, y: -8, scale: 0.99 }}
@@ -105,7 +105,7 @@ export default function MasterclassHeroMedia({
             className="w-full"
           >
             <MasterclassBanner
-              variant={variant}
+              visual={visual}
               orientation={orientation}
               priority={priority}
               sizes={sizes}

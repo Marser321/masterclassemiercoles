@@ -4,14 +4,24 @@ import Image from "next/image";
 import Link from "next/link";
 import { motion, useScroll, useMotionValueEvent } from "framer-motion";
 import { useState } from "react";
-import { VERSIONS, type MasterclassVersionId } from "@/lib/data/masterclassCopy";
+import { COPIES, VISUALS, type CopyId, type VisualId } from "@/lib/data/masterclassCopy";
 
 interface NavbarProps {
-  variant: MasterclassVersionId;
+  copy: CopyId;
+  visual: VisualId;
 }
 
-export default function Navbar({ variant }: NavbarProps) {
-  const nav = VERSIONS[variant].navbar;
+const BADGE_STYLES = {
+  soft: "bg-primary/5 border border-primary/20 text-primary text-[10px] sm:text-xs font-bold uppercase tracking-wider px-3.5 py-1.5 rounded-full shadow-[0_0_10px_rgba(0,102,255,0.05)]",
+  outline:
+    "border-2 border-primary text-primary text-[10px] sm:text-xs font-black uppercase tracking-[0.08em] px-4 py-1 rounded-full bg-transparent",
+  filled:
+    "bg-primary/10 border border-primary/20 text-primary text-[10px] sm:text-xs font-extrabold uppercase tracking-wider px-3.5 py-1.5 rounded-full shadow-[0_0_15px_rgba(0,102,255,0.1)]",
+} as const;
+
+export default function Navbar({ copy, visual }: NavbarProps) {
+  const nav = COPIES[copy].navbar;
+  const badgeStyle = VISUALS[visual].navbarBadge;
   const [scrolled, setScrolled] = useState(false);
   const { scrollY } = useScroll();
 
@@ -67,23 +77,7 @@ export default function Navbar({ variant }: NavbarProps) {
             {nav.kicker}
           </span>
 
-          {variant === "v1" && (
-            <span className="bg-primary/5 border border-primary/20 text-primary text-[10px] sm:text-xs font-bold uppercase tracking-wider px-3.5 py-1.5 rounded-full shadow-[0_0_10px_rgba(0,102,255,0.05)]">
-              {nav.badge}
-            </span>
-          )}
-
-          {variant === "v2" && (
-            <span className="border-2 border-primary text-primary text-[10px] sm:text-xs font-black uppercase tracking-[0.08em] px-4 py-1 rounded-full bg-transparent">
-              {nav.badge}
-            </span>
-          )}
-
-          {variant === "v3" && (
-            <span className="bg-primary/10 border border-primary/20 text-primary text-[10px] sm:text-xs font-extrabold uppercase tracking-wider px-3.5 py-1.5 rounded-full shadow-[0_0_15px_rgba(0,102,255,0.1)]">
-              {nav.badge}
-            </span>
-          )}
+          <span className={BADGE_STYLES[badgeStyle]}>{nav.badge}</span>
         </div>
       </div>
     </motion.nav>

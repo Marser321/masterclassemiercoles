@@ -74,3 +74,8 @@ transcribe_all.py
 guion_original*.txt
 prompt_base_marca.json
 
+# dev server logs & temp images
+.codex-dev-server.*.log
+/WhatsApp Image*
+
+

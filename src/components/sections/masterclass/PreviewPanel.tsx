@@ -2,24 +2,35 @@
 
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Settings, Check, LayoutGrid, Palette, Link2, Star } from "lucide-react";
+import { Settings, Check, LayoutGrid, Palette, Link2, Star, Type } from "lucide-react";
 import {
-  VERSIONS,
-  VERSION_IDS,
-  ACTIVE_VERSION,
-  type MasterclassVersionId,
+  COPIES,
+  VISUALS,
+  COPY_IDS,
+  VISUAL_IDS,
+  ACTIVE_COPY,
+  ACTIVE_VISUAL,
+  type CopyId,
+  type VisualId,
 } from "@/lib/data/masterclassCopy";
 
 type Theme = "luxury" | "classic" | "sky" | "white";
 
 interface PreviewPanelProps {
-  currentVariant: MasterclassVersionId;
-  onVariantChange: (v: MasterclassVersionId) => void;
+  currentCopy: CopyId;
+  currentVisual: VisualId;
+  onCopyChange: (c: CopyId) => void;
+  onVisualChange: (v: VisualId) => void;
 }
 
 const THEMES: Theme[] = ["luxury", "classic", "sky", "white"];
 
-export default function PreviewPanel({ currentVariant, onVariantChange }: PreviewPanelProps) {
+export default function PreviewPanel({
+  currentCopy,
+  currentVisual,
+  onCopyChange,
+  onVisualChange,
+}: PreviewPanelProps) {
   // El panel es una herramienta interna del equipo: oculto para los visitantes.
   // Se habilita con ?panel=1 en la URL o con el atajo Shift+P (persiste en localStorage).
   const [enabled, setEnabled] = useState(false);
@@ -79,8 +90,9 @@ export default function PreviewPanel({ currentVariant, onVariantChange }: Previe
   };
 
   const copyPreviewLink = async () => {
-    const n = currentVariant.replace("v", "");
-    const url = `${window.location.origin}${window.location.pathname}?v=${n}`;
+    const c = currentCopy.replace("c", "");
+    const m = currentVisual.replace("m", "");
+    const url = `${window.location.origin}${window.location.pathname}?copy=${c}&visual=${m}`;
     try {
       await navigator.clipboard.writeText(url);
       setCopied(true);
@@ -92,7 +104,7 @@ export default function PreviewPanel({ currentVariant, onVariantChange }: Previe
 
   if (!enabled) return null;
 
-  const currentAngle = VERSIONS[currentVariant].angle;
+  const currentAngle = COPIES[currentCopy].angle;
 
   return (
     <div className="fixed bottom-40 left-4 sm:bottom-6 sm:left-6 z-[80] font-sans">
@@ -115,7 +127,7 @@ export default function PreviewPanel({ currentVariant, onVariantChange }: Previe
             initial={{ opacity: 0, scale: 0.9, y: 10 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.9, y: 10 }}
-            className="absolute bottom-14 left-0 w-80 p-5 rounded-2xl glass-premium bg-slate-950/95 border border-primary/20 shadow-2xl backdrop-blur-xl flex flex-col gap-4 text-white"
+            className="absolute bottom-14 left-0 w-80 max-h-[80vh] overflow-y-auto p-5 rounded-2xl glass-premium bg-slate-950/95 border border-primary/20 shadow-2xl backdrop-blur-xl flex flex-col gap-4 text-white"
           >
             {/* Header */}
             <div className="flex justify-between items-center pb-2.5 border-b border-white/10">
@@ -131,19 +143,20 @@ export default function PreviewPanel({ currentVariant, onVariantChange }: Previe
               </button>
             </div>
 
-            {/* Version / Angle selector */}
+            {/* Copy selector */}
             <div className="flex flex-col gap-2">
-              <label className="text-[10px] font-black text-slate-400 uppercase tracking-wider">
-                Versión de copy (ángulo)
+              <label className="text-[10px] font-black text-slate-400 uppercase tracking-wider flex items-center gap-1">
+                <Type className="w-3 h-3 text-primary" />
+                <span>Copy (mensaje)</span>
               </label>
-              <div className="grid grid-cols-3 gap-1.5">
-                {VERSION_IDS.map((v) => {
-                  const isActiveWeek = v === ACTIVE_VERSION;
-                  const isSelected = currentVariant === v;
+              <div className="grid grid-cols-2 gap-1.5">
+                {COPY_IDS.map((c) => {
+                  const isActiveWeek = c === ACTIVE_COPY;
+                  const isSelected = currentCopy === c;
                   return (
                     <button
-                      key={v}
-                      onClick={() => onVariantChange(v)}
+                      key={c}
+                      onClick={() => onCopyChange(c)}
                       className={`relative py-2 px-2 rounded-lg text-[11px] font-bold border transition-all cursor-pointer text-center leading-tight
                         ${isSelected
                           ? "bg-primary border-primary text-white shadow-md shadow-primary/20"
@@ -153,8 +166,8 @@ export default function PreviewPanel({ currentVariant, onVariantChange }: Previe
                       {isActiveWeek && (
                         <Star className="absolute -top-1.5 -right-1.5 w-3.5 h-3.5 text-amber-400 fill-amber-400" />
                       )}
-                      <span className="block uppercase tracking-wide text-[9px] opacity-70">{v}</span>
-                      <span className="block">{VERSIONS[v].angle.name}</span>
+                      <span className="block uppercase tracking-wide text-[9px] opacity-70">{c}</span>
+                      <span className="block">{COPIES[c].angle.name}</span>
                     </button>
                   );
                 })}
@@ -165,14 +178,46 @@ export default function PreviewPanel({ currentVariant, onVariantChange }: Previe
               </p>
             </div>
 
+            {/* Visual mode selector */}
+            <div className="flex flex-col gap-2">
+              <label className="text-[10px] font-black text-slate-400 uppercase tracking-wider flex items-center gap-1">
+                <LayoutGrid className="w-3 h-3 text-primary" />
+                <span>Modo visual (diseño)</span>
+              </label>
+              <div className="grid grid-cols-3 gap-1.5">
+                {VISUAL_IDS.map((m) => {
+                  const isActiveWeek = m === ACTIVE_VISUAL;
+                  const isSelected = currentVisual === m;
+                  return (
+                    <button
+                      key={m}
+                      onClick={() => onVisualChange(m)}
+                      title={VISUALS[m].description}
+                      className={`relative py-2 px-1 rounded-lg text-[11px] font-bold border transition-all cursor-pointer text-center leading-tight
+                        ${isSelected
+                          ? "bg-primary border-primary text-white shadow-md shadow-primary/20"
+                          : "bg-white/[0.03] border-white/10 text-slate-300 hover:border-white/20 hover:text-white"
+                        }`}
+                    >
+                      {isActiveWeek && (
+                        <Star className="absolute -top-1.5 -right-1.5 w-3.5 h-3.5 text-amber-400 fill-amber-400" />
+                      )}
+                      <span className="block uppercase tracking-wide text-[9px] opacity-70">{m}</span>
+                      <span className="block truncate">{VISUALS[m].shortLabel}</span>
+                    </button>
+                  );
+                })}
+              </div>
+            </div>
+
             {/* Active week + copy link */}
             <div className="flex items-center justify-between gap-2 rounded-lg bg-white/[0.03] border border-white/10 px-3 py-2">
               <div className="text-[10px] text-slate-300 leading-tight">
                 <span className="flex items-center gap-1 text-amber-400 font-black uppercase tracking-wider text-[9px]">
-                  <Star className="w-3 h-3 fill-amber-400" /> Activa esta semana
+                  <Star className="w-3 h-3 fill-amber-400" /> Activo esta semana
                 </span>
-                <span className="text-white font-bold">{VERSIONS[ACTIVE_VERSION].angle.name}</span>
-                <span className="text-slate-500"> ({ACTIVE_VERSION})</span>
+                <span className="text-white font-bold">{COPIES[ACTIVE_COPY].angle.name}</span>
+                <span className="text-slate-500"> + {VISUALS[ACTIVE_VISUAL].shortLabel}</span>
               </div>
               <button
                 onClick={copyPreviewLink}
@@ -209,7 +254,9 @@ export default function PreviewPanel({ currentVariant, onVariantChange }: Previe
 
             {/* Note */}
             <div className="text-[9px] text-slate-500 leading-relaxed border-t border-white/10 pt-2 text-center font-medium">
-              Para publicar: fija <span className="text-slate-300 font-bold">ACTIVE_VERSION</span> en masterclassCopy.ts. Atajo: <span className="text-slate-300 font-bold">Shift+P</span>.
+              Para publicar: fija <span className="text-slate-300 font-bold">ACTIVE_COPY</span> y{" "}
+              <span className="text-slate-300 font-bold">ACTIVE_VISUAL</span> en masterclassCopy.ts. Atajo:{" "}
+              <span className="text-slate-300 font-bold">Shift+P</span>.
             </div>
           </motion.div>
         )}

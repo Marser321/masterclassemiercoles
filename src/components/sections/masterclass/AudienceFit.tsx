@@ -3,16 +3,16 @@
 import { motion } from "framer-motion";
 import { Card } from "../../ui/Card";
 import Reveal from "@/components/animations/Reveal";
-import { VERSIONS, type MasterclassVersionId } from "@/lib/data/masterclassCopy";
+import { COPIES, type CopyId } from "@/lib/data/masterclassCopy";
 import MasterclassSectionBackdrop from "./MasterclassSectionBackdrop";
 import SubtleFloatingMarks from "./SubtleFloatingMarks";
 
 interface AudienceFitProps {
-  variant: MasterclassVersionId;
+  copy: CopyId;
 }
 
-export default function AudienceFit({ variant }: AudienceFitProps) {
-  const a = VERSIONS[variant].audience;
+export default function AudienceFit({ copy }: AudienceFitProps) {
+  const a = COPIES[copy].audience;
 
   return (
     <section id="para-quien" className="relative overflow-hidden py-16 sm:py-20 px-6 sm:px-8 border-y mc-border mc-section font-mc-body">

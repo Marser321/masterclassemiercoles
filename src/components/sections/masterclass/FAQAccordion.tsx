@@ -5,15 +5,15 @@ import { motion, AnimatePresence } from "framer-motion";
 import { ChevronDown } from "lucide-react";
 import { Card } from "../../ui/Card";
 import Reveal from "@/components/animations/Reveal";
-import { VERSIONS, type MasterclassVersionId } from "@/lib/data/masterclassCopy";
+import { COPIES, type CopyId } from "@/lib/data/masterclassCopy";
 
 interface FAQAccordionProps {
-  variant: MasterclassVersionId;
+  copy: CopyId;
 }
 
-export default function FAQAccordion({ variant }: FAQAccordionProps) {
+export default function FAQAccordion({ copy }: FAQAccordionProps) {
   const [openIndex, setOpenIndex] = useState<number | null>(null);
-  const faq = VERSIONS[variant].faq;
+  const faq = COPIES[copy].faq;
 
   const handleToggle = (index: number) => {
     setOpenIndex(openIndex === index ? null : index);

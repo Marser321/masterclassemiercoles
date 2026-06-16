@@ -3,14 +3,14 @@
 import { motion } from "framer-motion";
 import { Card } from "../../ui/Card";
 import Reveal from "@/components/animations/Reveal";
-import { VERSIONS, type MasterclassVersionId } from "@/lib/data/masterclassCopy";
+import { COPIES, type CopyId } from "@/lib/data/masterclassCopy";
 
 interface TestimonialsProps {
-  variant: MasterclassVersionId;
+  copy: CopyId;
 }
 
-export default function Testimonials({ variant }: TestimonialsProps) {
-  const t = VERSIONS[variant].testimonials;
+export default function Testimonials({ copy }: TestimonialsProps) {
+  const t = COPIES[copy].testimonials;
 
   return (
     <section id="testimonios" className="relative py-16 sm:py-20 px-6 sm:px-8 border-y mc-border mc-section font-mc-body">

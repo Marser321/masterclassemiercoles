@@ -6,7 +6,7 @@ import { X, CheckCircle, Shield, ArrowRight } from "lucide-react";
 import { toast } from "sonner";
 import { Card } from "../../ui/Card";
 import { Button } from "../../ui/Button";
-import { getVersion } from "@/lib/data/masterclassCopy";
+import { getCopy } from "@/lib/data/masterclassCopy";
 
 interface RegistrationModalProps {
   isOpen: boolean;
@@ -14,7 +14,7 @@ interface RegistrationModalProps {
 }
 
 export default function RegistrationModal({ isOpen, onClose }: RegistrationModalProps) {
-  const mc = getVersion().modal;
+  const mc = getCopy().modal;
   const [formData, setFormData] = useState({ name: "", email: "", phone: "" });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);

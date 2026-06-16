@@ -3,7 +3,14 @@
 import { useEffect, useState } from "react";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import { Calendar, ChevronUp, CloudSun, Moon, Sparkles, Sun, X } from "lucide-react";
-import { VERSIONS, VERSION_IDS, type MasterclassVersionId } from "@/lib/data/masterclassCopy";
+import {
+  COPIES,
+  VISUALS,
+  COPY_IDS,
+  VISUAL_IDS,
+  type CopyId,
+  type VisualId,
+} from "@/lib/data/masterclassCopy";
 
 type Theme = "luxury" | "classic" | "sky" | "white";
 const THEMES: Theme[] = ["luxury", "classic", "sky", "white"];
@@ -22,16 +29,24 @@ function applyThemeClass(next: Theme) {
 
 interface IslandBarProps {
   onRegisterClick?: () => void;
-  variant: MasterclassVersionId;
-  onVariantChange: (v: MasterclassVersionId) => void;
+  copy: CopyId;
+  visual: VisualId;
+  onCopyChange: (c: CopyId) => void;
+  onVisualChange: (v: VisualId) => void;
 }
 
-export default function IslandBar({ onRegisterClick, variant, onVariantChange }: IslandBarProps) {
+export default function IslandBar({
+  onRegisterClick,
+  copy,
+  visual,
+  onCopyChange,
+  onVisualChange,
+}: IslandBarProps) {
   const [isFooterLegalVisible, setIsFooterLegalVisible] = useState(false);
   const [isMobileOpen, setIsMobileOpen] = useState(false);
   const [theme, setTheme] = useState<Theme>("classic");
   const reduceMotion = useReducedMotion();
-  const currentAngle = VERSIONS[variant].angle;
+  const label = `${COPIES[copy].angle.shortLabel} · ${VISUALS[visual].shortLabel}`;
 
   useEffect(() => {
     const savedTheme = localStorage.getItem("vibe-theme") ?? localStorage.getItem("theme");
@@ -64,15 +79,53 @@ export default function IslandBar({ onRegisterClick, variant, onVariantChange }:
     });
   };
 
-  const selectVariant = (next: MasterclassVersionId, closeMobile = false) => {
-    onVariantChange(next);
-    if (closeMobile) setIsMobileOpen(false);
-  };
-
   const register = () => {
     setIsMobileOpen(false);
     onRegisterClick?.();
   };
+
+  const selectors = (size: "mobile" | "compact" | "desktop", closeMobile = false) => (
+    <div className="flex flex-col gap-1.5">
+      <div className="flex flex-col gap-1">
+        <span className="text-[8px] font-black uppercase tracking-[0.18em] text-primary/70">Copy</span>
+        <OptionSelector
+          ariaLabel="Elegir copy"
+          options={COPY_IDS.map((id) => ({
+            id,
+            label: COPIES[id].angle.shortLabel,
+            title: COPIES[id].angle.tagline,
+          }))}
+          active={copy}
+          onSelect={(id) => {
+            onCopyChange(id as CopyId);
+            if (closeMobile) setIsMobileOpen(false);
+          }}
+          size={size}
+          cols={4}
+        />
+      </div>
+      <div className="flex flex-col gap-1">
+        <span className="text-[8px] font-black uppercase tracking-[0.18em] text-muted-foreground/60">
+          Diseño
+        </span>
+        <OptionSelector
+          ariaLabel="Elegir modo visual"
+          options={VISUAL_IDS.map((id) => ({
+            id,
+            label: VISUALS[id].shortLabel,
+            title: VISUALS[id].description,
+          }))}
+          active={visual}
+          onSelect={(id) => {
+            onVisualChange(id as VisualId);
+            if (closeMobile) setIsMobileOpen(false);
+          }}
+          size={size}
+          cols={3}
+        />
+      </div>
+    </div>
+  );
 
   const motionProps = reduceMotion
     ? { initial: false, animate: { opacity: 1, y: 0 }, transition: { duration: 0 } }
@@ -93,7 +146,7 @@ export default function IslandBar({ onRegisterClick, variant, onVariantChange }:
       <MobileTab
         isCollapsed={isFooterLegalVisible}
         isOpen={isMobileOpen}
-        label={currentAngle.shortLabel}
+        label={label}
         onToggle={() => setIsMobileOpen((prev) => !prev)}
       />
 
@@ -105,12 +158,12 @@ export default function IslandBar({ onRegisterClick, variant, onVariantChange }:
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={reduceMotion ? { opacity: 0 } : { opacity: 0, y: 10, scale: 0.98 }}
             transition={reduceMotion ? { duration: 0 } : { duration: 0.24, ease: [0.22, 1, 0.36, 1] }}
-            className="absolute bottom-[calc(100%+0.5rem)] left-0 right-0 max-h-[min(68svh,26rem)] overflow-y-auto rounded-[24px] border border-primary/18 bg-background/95 p-3 shadow-2xl shadow-black/40 backdrop-blur-xl sm:hidden"
+            className="absolute bottom-[calc(100%+0.5rem)] left-0 right-0 max-h-[min(68svh,30rem)] overflow-y-auto rounded-[24px] border border-primary/18 bg-background/95 p-3 shadow-2xl shadow-black/40 backdrop-blur-xl sm:hidden"
           >
             <div className="mb-2 flex items-center justify-between gap-3">
               <div>
                 <p className="text-[9px] font-black uppercase tracking-[0.18em] text-primary/80">Elegir vista</p>
-                <p className="text-xs font-semibold text-muted-foreground">Comparar angulos antes de publicar</p>
+                <p className="text-xs font-semibold text-muted-foreground">Copy y diseño por separado</p>
               </div>
               <button
                 type="button"
@@ -121,9 +174,9 @@ export default function IslandBar({ onRegisterClick, variant, onVariantChange }:
                 <X className="size-4" />
               </button>
             </div>
-            <VariantSelector variant={variant} onSelect={(next) => selectVariant(next, true)} size="mobile" />
+            {selectors("mobile", true)}
             <div className="mt-3 grid grid-cols-[minmax(0,1fr)_44px] gap-2">
-              <RegisterButton onClick={register} label="Reservar lugar" />
+              <RegisterButton onClick={register} label="Registrarme" />
               <ThemeButton theme={theme} onClick={toggleTheme} reduceMotion={!!reduceMotion} />
             </div>
           </motion.div>
@@ -132,10 +185,12 @@ export default function IslandBar({ onRegisterClick, variant, onVariantChange }:
 
       {!isFooterLegalVisible && (
         <>
-          <div className="hidden items-center gap-2 rounded-[24px] border border-primary/15 p-2 shadow-2xl glass-premium sm:flex xl:hidden">
-            <VariantSelector variant={variant} onSelect={selectVariant} size="compact" />
-            <RegisterButton onClick={register} label="Reservar" compact />
-            <ThemeButton theme={theme} onClick={toggleTheme} reduceMotion={!!reduceMotion} />
+          <div className="hidden flex-col gap-2 rounded-[24px] border border-primary/15 p-2 shadow-2xl glass-premium sm:flex xl:hidden">
+            {selectors("compact")}
+            <div className="flex items-center gap-2">
+              <RegisterButton onClick={register} label="Registrarme" compact />
+              <ThemeButton theme={theme} onClick={toggleTheme} reduceMotion={!!reduceMotion} />
+            </div>
           </div>
 
           <div className="hidden flex-col gap-2 rounded-[26px] border border-primary/15 p-2.5 shadow-2xl glass-premium xl:flex">
@@ -143,10 +198,10 @@ export default function IslandBar({ onRegisterClick, variant, onVariantChange }:
               <span className="text-center text-[9px] font-bold uppercase tracking-[0.18em] text-muted-foreground/70">
                 Elegir como verla
               </span>
-              <VariantSelector variant={variant} onSelect={selectVariant} size="desktop" />
+              {selectors("desktop")}
             </div>
             <div className="flex items-center gap-2">
-              <RegisterButton onClick={register} label="Reservar lugar" />
+              <RegisterButton onClick={register} label="Registrarme" />
               <ThemeButton theme={theme} onClick={toggleTheme} reduceMotion={!!reduceMotion} />
             </div>
           </div>
@@ -185,39 +240,43 @@ function MobileTab({
   );
 }
 
-function VariantSelector({
-  variant,
+function OptionSelector({
+  ariaLabel,
+  options,
+  active,
   onSelect,
   size,
+  cols,
 }: {
-  variant: MasterclassVersionId;
-  onSelect: (v: MasterclassVersionId) => void;
+  ariaLabel: string;
+  options: { id: string; label: string; title?: string }[];
+  active: string;
+  onSelect: (id: string) => void;
   size: "mobile" | "compact" | "desktop";
+  cols: 3 | 4;
 }) {
   return (
     <div
       role="group"
-      aria-label="Elegir version del landing"
-      className={`grid grid-cols-3 gap-1 rounded-2xl border mc-border mc-fill ${size === "compact" ? "min-w-0 flex-1 p-1" : "p-1"}`}
+      aria-label={ariaLabel}
+      className={`grid ${cols === 4 ? "grid-cols-4" : "grid-cols-3"} gap-1 rounded-2xl border mc-border mc-fill p-1`}
     >
-      {VERSION_IDS.map((v) => {
-        const active = variant === v;
-        const angle = VERSIONS[v].angle;
+      {options.map((o) => {
+        const isActive = active === o.id;
         return (
           <button
-            key={v}
+            key={o.id}
             type="button"
-            onClick={() => onSelect(v)}
-            aria-pressed={active}
-            aria-label={`Ver version: ${angle.name}`}
-            title={angle.tagline}
-            className={`${size === "mobile" ? "py-2.5" : "py-1.5"} rounded-xl px-1 text-[11px] font-bold tracking-tight transition-all ${
-              active
+            onClick={() => onSelect(o.id)}
+            aria-pressed={isActive}
+            title={o.title}
+            className={`${size === "mobile" ? "py-2.5" : "py-1.5"} rounded-xl px-1 text-[10px] font-bold tracking-tight transition-all ${
+              isActive
                 ? "bg-primary text-white shadow-[0_4px_14px_rgba(0,102,255,0.35)]"
                 : "text-muted-foreground hover:text-foreground"
             }`}
           >
-            <span className="block truncate">{angle.shortLabel}</span>
+            <span className="block truncate">{o.label}</span>
           </button>
         );
       })}

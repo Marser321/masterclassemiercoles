@@ -1,10 +1,11 @@
 "use client";
 
 import { motion, useReducedMotion } from "framer-motion";
-import { VERSIONS, type MasterclassVersionId } from "@/lib/data/masterclassCopy";
+import { COPIES, VISUALS, type CopyId, type VisualId } from "@/lib/data/masterclassCopy";
 
 interface RibbonProps {
-  variant: MasterclassVersionId;
+  copy: CopyId;
+  visual: VisualId;
 }
 
 // Bloque de items del ticker (se repite para un loop continuo).
@@ -25,10 +26,10 @@ function TickerSegment({ items, ariaHidden = false }: { items: string[]; ariaHid
   );
 }
 
-export default function Ribbon({ variant }: RibbonProps) {
-  const r = VERSIONS[variant].ribbon;
+export default function Ribbon({ copy, visual }: RibbonProps) {
+  const r = COPIES[copy].ribbon;
   const reduce = useReducedMotion();
-  const isAlert = r.tone === "alert";
+  const isAlert = VISUALS[visual].ribbonTone === "alert";
   const dotColor = isAlert ? "bg-red-500" : "bg-primary";
   const liveColor = isAlert ? "text-red-500" : "text-primary";
 

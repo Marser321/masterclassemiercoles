@@ -5,14 +5,14 @@ import Image from "next/image";
 import { Fragment } from "react";
 import AnimatedCounter from "../../ui/AnimatedCounter";
 import Reveal from "@/components/animations/Reveal";
-import { VERSIONS, type MasterclassVersionId } from "@/lib/data/masterclassCopy";
+import { COPIES, type CopyId } from "@/lib/data/masterclassCopy";
 
 interface MentorBioProps {
-  variant: MasterclassVersionId;
+  copy: CopyId;
 }
 
-export default function MentorBio({ variant }: MentorBioProps) {
-  const m = VERSIONS[variant].mentor;
+export default function MentorBio({ copy }: MentorBioProps) {
+  const m = COPIES[copy].mentor;
 
   return (
     <section id="mentor" className="relative py-16 sm:py-20 px-6 sm:px-8 overflow-hidden mc-section font-mc-body">
@@ -40,14 +40,14 @@ export default function MentorBio({ variant }: MentorBioProps) {
             transition={{ duration: 0.6 }}
             className="flex flex-col items-center justify-center w-full"
           >
-            <div className="relative rounded-[24px] mc-surface p-2 overflow-hidden group max-w-[220px] md:max-w-none">
-              <div className="relative aspect-square w-full rounded-[18px] overflow-hidden bg-slate-900 shadow-inner">
+            <div className="relative rounded-[24px] mc-surface p-2 overflow-hidden group w-full max-w-[240px] sm:max-w-[260px] md:max-w-none">
+              <div className="relative aspect-[4/5] w-full rounded-[18px] overflow-hidden bg-slate-900 shadow-inner">
                 <Image
-                  src="/team/ceo.png"
+                  src="/team/danger-fernandez-ceo.jpeg"
                   alt={`${m.name} - ${m.role} ${m.company}`}
                   fill
-                  sizes="(max-width: 768px) 200px, 240px"
-                  className="object-cover transition-transform duration-700 group-hover:scale-105"
+                  sizes="(max-width: 768px) 260px, 240px"
+                  className="object-cover object-[center_35%] transition-transform duration-700 group-hover:scale-105"
                   priority
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent to-transparent opacity-80" />

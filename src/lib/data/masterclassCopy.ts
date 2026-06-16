@@ -1,26 +1,40 @@
 // ============================================================================
 // masterclassCopy.ts — Fuente ÚNICA de verdad para la landing de la masterclass
 // ----------------------------------------------------------------------------
-// La masterclass cambia todos los miércoles. Aquí vive TODO el copy de las 3
-// versiones (v1/v2/v3), cada una con un ÁNGULO de copywriting distinto, más su
-// configuración visual (fuente, fondo animado, acento, intensidad de motion).
+// Arquitectura de DOS EJES independientes (elegibles con un clic):
+//   • COPY  (texto)        → 4 opciones: c1/c2/c3/c4   (ver COPIES)
+//   • VISUAL (presentación) → 3 modos:    m1/m2/m3      (ver VISUALS)
+// Cualquier copy se puede ver en cualquier modo visual: 4 × 3 = 12 combinaciones.
 //
-// Para publicar la versión que ven los visitantes esta semana:
-//   → cambia ACTIVE_VERSION (abajo) y vuelve a desplegar.
-// El equipo puede previsualizar cualquier versión con ?v=1|2|3 y abrir el
-// panel de control interno con ?panel=1.
+// Para publicar lo que ven los visitantes por defecto:
+//   → cambia ACTIVE_COPY y ACTIVE_VISUAL (abajo) y vuelve a desplegar.
+// Previsualización: ?copy=1..4 y ?visual=1..3 (acepta c1/m1). Compat: ?v=1|2|3.
+// Panel de control interno: ?panel=1.
 //
-// Los 3 ángulos:
-//   v1 · TRANSFORMACIÓN  → el resultado: tu negocio vendiendo en piloto automático
-//   v2 · DOLOR           → el costo de no actuar: los leads que se te escapan hoy
-//   v3 · AUTORIDAD       → la prueba: el sistema exacto de +500 empresas
+// Los 4 copys:
+//   c1 · TRANSFORMACIÓN  → el resultado: tu negocio vendiendo en piloto automático
+//   c2 · DOLOR           → el costo de no actuar: los leads que se te escapan hoy
+//   c3 · AUTORIDAD       → la prueba: el sistema exacto de +500 empresas
+//   c4 · DE CERO A $50K  → copy aprobado (fusión fiel de los 2 HTML); no se edita
+//
+// Los 3 modos visuales (extraídos tal cual de los visuales originales v1/v2/v3):
+//   m1 · Crecimiento  → Syne, acento brand, fondo growth, learn en tarjetas
+//   m2 · Embudo       → Fraunces, acento amber, fondo funnel, learn en lista
+//   m3 · Blueprint    → Fraunces, acento brand, fondo blueprint, learn en tarjetas
+//
+// Brief de copy (voz, ICP, oferta, límites de longitud, estado de claims):
+//   .claude/product-marketing.md  ← leer antes de editar este copy.
 // ============================================================================
 
-export type MasterclassVersionId = "v1" | "v2" | "v3";
+export type CopyId = "c1" | "c2" | "c3" | "c4";
+export type VisualId = "m1" | "m2" | "m3";
 
 export type AccentKey = "brand" | "amber";
-export type HeroLayout = "centered" | "split";
 export type HeroBackgroundMotif = "growth" | "funnel" | "blueprint";
+export type AuroraIntensity = "soft" | "medium" | "strong";
+export type RibbonTone = "alert" | "brand";
+export type NavbarBadgeStyle = "soft" | "outline" | "filled";
+export type LearnLayout = "cards" | "list";
 
 export interface Chip {
   icon: string;
@@ -55,8 +69,6 @@ export interface StatItem {
   description: string;
 }
 
-export type AuroraIntensity = "soft" | "medium" | "strong";
-
 export interface MasterclassBannerAsset {
   src: string;
   alt: string;
@@ -76,28 +88,28 @@ export interface MasterclassMotionVideoAsset {
   durationSeconds: number;
 }
 
-export interface VersionVisual {
-  /** Familias tipográficas inyectadas como CSS vars (--font-mc-display/body). */
-  font: { display: string; body: string };
-  /** Acento secundario para indicadores "en vivo"/urgencia. */
-  accent: AccentKey;
-  /** Aurora minimalista (celeste/azul) — intensidad distinta por versión. */
-  aurora: { intensity: AuroraIntensity };
-  heroBackground: {
-    imageSrc: string;
-    motif: HeroBackgroundMotif;
-    opacityMobile: number;
-    opacityDesktop: number;
-  };
+export interface GhostActivityCopy {
+  names: string[];
+  message: string;
 }
+
+export interface MasterclassReplayCopy {
+  kicker: string;
+  title: string;
+  description: string;
+  placeholderLabel: string;
+  videoSrc?: string;
+}
+
+// ----------------------------------------------------------------------------
+// EJE 1 · COPY (solo texto, sin presentación)
+// ----------------------------------------------------------------------------
 
 export interface MasterclassCopy {
   /** Metadatos para el panel interno y el selector público. */
-  angle: { id: MasterclassVersionId; name: string; shortLabel: string; tagline: string; description: string };
-  visual: VersionVisual;
+  angle: { id: CopyId; name: string; shortLabel: string; tagline: string; description: string };
 
   ribbon: {
-    tone: "alert" | "brand";
     live: string;
     schedule: string;
     badge: string;
@@ -107,7 +119,6 @@ export interface MasterclassCopy {
   navbar: { kicker: string; badge: string };
 
   hero: {
-    layout: HeroLayout;
     eyebrow: string;
     headline: { lead: string; highlight: string; tail: string };
     subhead: string;
@@ -115,7 +126,7 @@ export interface MasterclassCopy {
     countdownLabel: string;
     cta: string;
     ctaNote: string;
-    /** Tarjeta lateral (layouts split v2/v3). */
+    /** Tarjeta lateral (se muestra en modos con layout split). */
     card: { title: string; subtitle: string };
   };
 
@@ -126,7 +137,7 @@ export interface MasterclassCopy {
     heading: string;
     sub: string;
     blocks: LearnBlock[];
-    /** CTA opcional bajo la grilla (la usa el layout centrado v1). */
+    /** CTA opcional bajo la grilla. */
     underCta?: { text: string; button: string };
   };
 
@@ -174,12 +185,44 @@ export interface MasterclassCopy {
   modal: typeof MODAL;
   mobileBar: typeof MOBILE_BAR;
   footer: typeof FOOTER;
-  banner: MasterclassBannerSet;
-  motionVideo: MasterclassMotionVideoAsset;
+  ghostActivity?: GhostActivityCopy;
+  replay?: MasterclassReplayCopy;
 }
 
 // ----------------------------------------------------------------------------
-// CONTENIDO COMPARTIDO (factual / no cambia entre ángulos)
+// EJE 2 · VISUAL (solo presentación: tipografía, color, fondo, banner, layout)
+// ----------------------------------------------------------------------------
+
+export interface MasterclassVisual {
+  /** Metadatos para el panel interno y el selector público. */
+  id: VisualId;
+  name: string;
+  shortLabel: string;
+  description: string;
+  /** Familias tipográficas inyectadas como CSS vars (--font-mc-display/body). */
+  font: { display: string; body: string };
+  /** Acento secundario para indicadores "en vivo"/urgencia. */
+  accent: AccentKey;
+  /** Aurora minimalista (celeste/azul) — intensidad por modo. */
+  aurora: { intensity: AuroraIntensity };
+  heroBackground: {
+    imageSrc: string;
+    motif: HeroBackgroundMotif;
+    opacityMobile: number;
+    opacityDesktop: number;
+  };
+  banner: MasterclassBannerSet;
+  motionVideo: MasterclassMotionVideoAsset;
+  /** Tono del ribbon superior (color del punto/badge "en vivo"). */
+  ribbonTone: RibbonTone;
+  /** Estilo del badge del navbar. */
+  navbarBadge: NavbarBadgeStyle;
+  /** Layout de la grilla "Lo que aprenderás". */
+  learnLayout: LearnLayout;
+}
+
+// ----------------------------------------------------------------------------
+// CONTENIDO COMPARTIDO (factual / no cambia entre copys)
 // ----------------------------------------------------------------------------
 
 const CHIPS: Chip[] = [
@@ -189,8 +232,8 @@ const CHIPS: Chip[] = [
   { icon: "💻", label: "Zoom" },
 ];
 
-// Los 8 bloques enseñan lo mismo en cualquier ángulo (es el temario real de la
-// clase). Lo que cambia por versión es el encuadre de la sección (kicker/heading/sub).
+// Los 8 bloques enseñan lo mismo en cualquier copy (es el temario real de la
+// clase). Lo que cambia por copy es el encuadre de la sección (kicker/heading/sub).
 const LEARN_BLOCKS: LearnBlock[] = [
   {
     num: "01",
@@ -272,8 +315,9 @@ const AUDIENCE_NO: string[] = [
   "Aún no tienes un negocio activo, ni una idea de servicio, ni clientes definidos",
 ];
 
-// NOTA: testimonios de muestra. Reemplázalos por textos/capturas reales de
-// participantes anteriores antes de publicar (ver punto de honestidad del plan).
+// CLAIM PENDIENTE DE EVIDENCIA — testimonios de muestra. Reemplázalos por
+// testimonios reales aprobados antes de publicar (ver .claude/product-marketing.md §6
+// y docs/CLAIMS_APPROVAL_REGISTER.md).
 const TESTIMONIALS: Testimonial[] = [
   {
     stars: 5,
@@ -322,7 +366,7 @@ const FAQ_ITEMS: FaqItem[] = [
   {
     question: "¿Qué ocurre si me registro pero no puedo asistir en vivo?",
     answer:
-      "Regístrate de igual modo. Te enviaremos información sobre disponibilidad de grabaciones, resúmenes de herramientas y la programación de las próximas fechas en vivo.",
+      "Regístrate igual. Te enviamos el resumen de herramientas y la fecha de la próxima sesión en vivo. Si hay grabación disponible, también te avisamos.",
   },
   {
     question: "¿Ofrecen planes de acompañamiento después de la clase?",
@@ -331,16 +375,40 @@ const FAQ_ITEMS: FaqItem[] = [
   },
 ];
 
+// CLAIM PENDIENTE DE EVIDENCIA — validar bio y cifras de Danger antes de publicar
+// (ver .claude/product-marketing.md §6 y docs/CLAIMS_APPROVAL_REGISTER.md).
 const MENTOR_BIO: string[] = [
   "Ingeniero de software convertido en estratega de marketing y automatización. Creó la metodología de escalamiento con CRM que hoy aplican más de 500 empresas en EE.UU. — desde negocios locales hasta agencias con múltiples clientes.",
   "No da teoría: comparte el sistema exacto que opera a diario para su propia agencia y sus clientes, en vivo, paso a paso y sin rodeos.",
 ];
 
+// CLAIM PENDIENTE DE EVIDENCIA — "+500 empresas" / "+30 industrias" pendientes de
+// validar (ver .claude/product-marketing.md §6). Mantener, no inflar el número.
 const MENTOR_STATS = [
   { value: 500, suffix: "+", label: "empresas" },
   { value: 30, suffix: "+", label: "industrias" },
   { value: 100, suffix: "%", label: "práctico" },
 ];
+
+const REGISTER_MASTERCLASS_CTA = "✅ Registrarme a la masterclass";
+
+const GHOST_ACTIVITY_NAMES = [
+  "Maria R.",
+  "Carlos M.",
+  "Andrea P.",
+  "Luis G.",
+  "Valeria S.",
+  "Jorge T.",
+  "Paola C.",
+  "Daniel F.",
+];
+
+const REPLAY_PLACEHOLDER: MasterclassReplayCopy = {
+  kicker: "Momentos de la clase",
+  title: "Así se viven nuestras masterclass",
+  description: "Un vistazo a los mejores momentos, energía y práctica en vivo.",
+  placeholderLabel: "Video de mejores momentos próximamente",
+};
 
 const MODAL = {
   badge: "Paso 1 de 2 · Registro gratis",
@@ -350,7 +418,7 @@ const MODAL = {
   labels: { name: "Nombre completo", email: "Correo electrónico", phone: "Teléfono / WhatsApp" },
   placeholders: { name: "Ej. Juan Pérez", email: "juan@ejemplo.com", phone: "Ej. +1 (555) 123-4567" },
   security: "Tus datos están protegidos. Cero spam.",
-  submit: "Confirmar mi reserva gratis",
+  submit: "Confirmar mi registro a la masterclass",
   submitting: "Procesando...",
   successBadge: "¡Lugar asegurado!",
   successTitle: "¡Tu cupo está reservado!",
@@ -368,7 +436,7 @@ const MODAL = {
 const MOBILE_BAR = {
   badge: "Masterclass Gratuita",
   schedule: "Miércoles · 8 PM EST",
-  cta: "Reservar Gratis →",
+  cta: "Registrarme gratis →",
 };
 
 const FOOTER = {
@@ -382,7 +450,7 @@ const FOOTER = {
 
 // Banner promocional. Coloca los archivos en public/brand/.
 // Si faltan, MasterclassBanner no renderiza nada (degradación elegante).
-const BANNER = {
+const BANNER_BASE = {
   horizontal: {
     src: "/brand/masterclass/banner-v3-horizontal.png",
     alt: "Masterclass gratis con Danger Fernández — próximo miércoles 8 PM (Miami) por Zoom",
@@ -397,78 +465,112 @@ const BANNER = {
   },
 };
 
-function createBannerSet(version: MasterclassVersionId): MasterclassBannerSet {
+function createBannerSet(suffix: string): MasterclassBannerSet {
   return {
-    horizontal: {
-      ...BANNER.horizontal,
-      src: `/brand/masterclass/banner-${version}-horizontal.png`,
-    },
-    vertical: {
-      ...BANNER.vertical,
-      src: `/brand/masterclass/banner-${version}-vertical.png`,
-    },
+    horizontal: { ...BANNER_BASE.horizontal, src: `/brand/masterclass/banner-${suffix}-horizontal.png` },
+    vertical: { ...BANNER_BASE.vertical, src: `/brand/masterclass/banner-${suffix}-vertical.png` },
   };
 }
 
-const BANNERS: Record<MasterclassVersionId, MasterclassBannerSet> = {
-  v1: createBannerSet("v1"),
-  v2: createBannerSet("v2"),
-  v3: BANNER,
-};
-
-const MOTION_VIDEOS: Record<MasterclassVersionId, MasterclassMotionVideoAsset> = {
-  v1: {
-    src: "/brand/masterclass/videos/video-v1-horizontal.mp4",
+function motionVideo(suffix: string, durationSeconds: number): MasterclassMotionVideoAsset {
+  return {
+    src: `/brand/masterclass/videos/video-${suffix}-horizontal.mp4`,
     width: 1280,
     height: 720,
-    durationSeconds: 8,
-  },
-  v2: {
-    src: "/brand/masterclass/videos/video-v2-horizontal.mp4",
-    width: 1280,
-    height: 720,
-    durationSeconds: 4,
-  },
-  v3: {
-    src: "/brand/masterclass/videos/video-v3-horizontal.mp4",
-    width: 1280,
-    height: 720,
-    durationSeconds: 4,
-  },
-};
+    durationSeconds,
+  };
+}
 
 const SANS = { display: "'Fraunces', Georgia, serif", body: "'DM Sans', system-ui, sans-serif" };
+const SYNE = { display: "'Syne', sans-serif", body: "'Inter', sans-serif" };
 
 // ----------------------------------------------------------------------------
-// LAS 3 VERSIONES
+// LOS 3 MODOS VISUALES (extraídos tal cual de los visuales originales v1/v2/v3)
 // ----------------------------------------------------------------------------
 
-export const VERSIONS: Record<MasterclassVersionId, MasterclassCopy> = {
+export const VISUALS: Record<VisualId, MasterclassVisual> = {
+  // m1 — del visual original v1: Syne, acento brand, fondo growth, hero centrado, learn en tarjetas.
+  m1: {
+    id: "m1",
+    name: "Crecimiento",
+    shortLabel: "Crecimiento",
+    description: "Syne + Inter · acento azul · fondo de crecimiento · learn en tarjetas.",
+    font: SYNE,
+    accent: "brand",
+    aurora: { intensity: "soft" },
+    heroBackground: {
+      imageSrc: "/masterclass/backgrounds/hero-v1-resultado.png",
+      motif: "growth",
+      opacityMobile: 0.17,
+      opacityDesktop: 0.34,
+    },
+    banner: createBannerSet("v1"),
+    motionVideo: motionVideo("v1", 8),
+    ribbonTone: "alert",
+    navbarBadge: "soft",
+    learnLayout: "cards",
+  },
+  // m2 — del visual original v2: Fraunces, acento amber, fondo funnel, learn en lista.
+  m2: {
+    id: "m2",
+    name: "Embudo",
+    shortLabel: "Embudo",
+    description: "Fraunces + DM Sans · acento ámbar · fondo de flujo · learn en lista.",
+    font: SANS,
+    accent: "amber",
+    aurora: { intensity: "medium" },
+    heroBackground: {
+      imageSrc: "/masterclass/backgrounds/hero-v2-dolor.png",
+      motif: "funnel",
+      opacityMobile: 0.15,
+      opacityDesktop: 0.32,
+    },
+    banner: createBannerSet("v2"),
+    motionVideo: motionVideo("v2", 4),
+    ribbonTone: "brand",
+    navbarBadge: "outline",
+    learnLayout: "list",
+  },
+  // m3 — del visual original v3: Fraunces, acento brand, fondo blueprint, learn en tarjetas.
+  m3: {
+    id: "m3",
+    name: "Blueprint",
+    shortLabel: "Blueprint",
+    description: "Fraunces + DM Sans · acento azul · fondo de red · learn en tarjetas.",
+    font: SANS,
+    accent: "brand",
+    aurora: { intensity: "strong" },
+    heroBackground: {
+      imageSrc: "/masterclass/backgrounds/hero-v3-autoridad.png",
+      motif: "blueprint",
+      opacityMobile: 0.18,
+      opacityDesktop: 0.36,
+    },
+    banner: createBannerSet("v3"),
+    motionVideo: motionVideo("v3", 4),
+    ribbonTone: "brand",
+    navbarBadge: "filled",
+    learnLayout: "cards",
+  },
+};
+
+// ----------------------------------------------------------------------------
+// LOS 4 COPYS (solo texto)
+// ----------------------------------------------------------------------------
+
+export const COPIES: Record<CopyId, MasterclassCopy> = {
   // ==========================================================================
-  // v1 · TRANSFORMACIÓN — el resultado, el "después". Layout centrado, Syne.
+  // c1 · TRANSFORMACIÓN — el resultado, el "después".
   // ==========================================================================
-  v1: {
+  c1: {
     angle: {
-      id: "v1",
+      id: "c1",
       name: "Transformación",
       shortLabel: "Resultado",
       tagline: "El resultado / piloto automático",
-      description:
-        "Hero centrado (Syne) + fondo de crecimiento. Vende la transformación: dónde estará tu negocio después de implementar.",
-    },
-    visual: {
-      font: { display: "'Syne', sans-serif", body: "'Inter', sans-serif" },
-      accent: "brand",
-      aurora: { intensity: "soft" },
-      heroBackground: {
-        imageSrc: "/masterclass/backgrounds/hero-v1-resultado.png",
-        motif: "growth",
-        opacityMobile: 0.17,
-        opacityDesktop: 0.34,
-      },
+      description: "Vende la transformación: dónde estará tu negocio después de implementar.",
     },
     ribbon: {
-      tone: "alert",
       live: "EN VIVO",
       schedule: "Miércoles · 8 PM EST · Zoom",
       badge: "100% GRATIS",
@@ -476,18 +578,17 @@ export const VERSIONS: Record<MasterclassVersionId, MasterclassCopy> = {
     },
     navbar: { kicker: "Danger Fernández en vivo", badge: "Masterclass Gratuita" },
     hero: {
-      layout: "centered",
       eyebrow: "Masterclass en vivo · Este miércoles",
       headline: {
-        lead: "Sal de esta clase con un negocio que",
-        highlight: "vende en piloto automático",
-        tail: "",
+        lead: "Aprende el sistema que escala empresas",
+        highlight: "con CRM",
+        tail: "y ventas automáticas",
       },
       subhead:
         "En 60 minutos montamos, en vivo, el sistema de CRM y automatización que capta leads, agenda, cobra y cierra por ti. Sin experiencia técnica, sin contratar a nadie.",
       chips: CHIPS,
       countdownLabel: "La sesión comienza en",
-      cta: "✅ Quiero mi sistema funcionando",
+      cta: REGISTER_MASTERCLASS_CTA,
       ctaNote: "Sin costo · Sin tarjeta de crédito · Solo tu nombre y correo",
       card: {
         title: "Reserva tu lugar — empieza a automatizar hoy",
@@ -503,10 +604,10 @@ export const VERSIONS: Record<MasterclassVersionId, MasterclassCopy> = {
     ],
     learn: {
       kicker: "Lo que aprenderás",
-      heading: "8 bloques. 60 minutos.\nTu negocio nunca vuelve a ser el mismo.",
+      heading: "8 bloques. 60 minutos.\nTu negocio empieza a venderse solo.",
       sub: "Todo lo que siempre quisiste automatizar — en una sola sesión en vivo, paso a paso, sin jerga técnica.",
       blocks: LEARN_BLOCKS,
-      underCta: { text: "Todo esto en 60 minutos, en vivo, gratis.", button: "✅ Quiero aprender esto gratis" },
+      underCta: { text: "Todo esto en 60 minutos, en vivo, gratis.", button: REGISTER_MASTERCLASS_CTA },
     },
     audience: {
       kicker: "¿Es para ti?",
@@ -527,7 +628,7 @@ export const VERSIONS: Record<MasterclassVersionId, MasterclassCopy> = {
     },
     testimonials: {
       kicker: "Edición anterior",
-      heading: "Lo que opinan los asistentes anteriores",
+      heading: "Lo que dicen quienes ya tomaron la clase",
       sub: "Profesionales que pasaron de hacer todo a mano a un negocio que trabaja por ellos.",
       list: TESTIMONIALS,
     },
@@ -535,44 +636,34 @@ export const VERSIONS: Record<MasterclassVersionId, MasterclassCopy> = {
       eyebrow: "Tu próximo movimiento",
       title: "Tu negocio puede empezar a vender solo\neste mismo miércoles.",
       description:
-        "La sala de Zoom tiene cupo limitado y las sesiones se llenan con días de anticipación. El evento es 100% gratuito.",
+        "Cada miércoles los cupos de Zoom se llenan con días de anticipación. Reserva ahora y empieza a montar tu sistema esta misma semana — gratis.",
       badge: "Cupos limitados — se agotan rápido",
-      button: "✅ Quiero mi sistema funcionando",
+      button: REGISTER_MASTERCLASS_CTA,
       note: "Sin costo · Sin tarjeta de crédito · Confirmación inmediata",
     },
     faq: { kicker: "Dudas frecuentes", heading: "Preguntas frecuentes", items: FAQ_ITEMS },
     modal: MODAL,
     mobileBar: MOBILE_BAR,
     footer: FOOTER,
-    banner: BANNERS.v1,
-    motionVideo: MOTION_VIDEOS.v1,
+    ghostActivity: {
+      names: GHOST_ACTIVITY_NAMES,
+      message: "se registró a la masterclass del miércoles por Zoom.",
+    },
+    replay: REPLAY_PLACEHOLDER,
   },
 
   // ==========================================================================
-  // v2 · DOLOR — el costo de no actuar. Layout split, Fraunces, fondo de flujo.
+  // c2 · DOLOR — el costo de no actuar.
   // ==========================================================================
-  v2: {
+  c2: {
     angle: {
-      id: "v2",
+      id: "c2",
       name: "Dolor",
       shortLabel: "Dolor",
       tagline: "El costo de no actuar",
-      description:
-        "Hero split (Fraunces) + fondo de flujo de leads. Aversión a la pérdida: lo que se te escapa cada día que sigues manual.",
-    },
-    visual: {
-      font: SANS,
-      accent: "amber",
-      aurora: { intensity: "medium" },
-      heroBackground: {
-        imageSrc: "/masterclass/backgrounds/hero-v2-dolor.png",
-        motif: "funnel",
-        opacityMobile: 0.15,
-        opacityDesktop: 0.32,
-      },
+      description: "Aversión a la pérdida: lo que se te escapa cada día que sigues manual.",
     },
     ribbon: {
-      tone: "brand",
       live: "En vivo este miércoles",
       schedule: "8 PM EST — Zoom",
       badge: "100% Gratis",
@@ -580,19 +671,18 @@ export const VERSIONS: Record<MasterclassVersionId, MasterclassCopy> = {
     },
     navbar: { kicker: "Danger Fernández en vivo", badge: "Masterclass Gratuita" },
     hero: {
-      layout: "split",
       eyebrow: "Masterclass en vivo · Este miércoles",
       headline: {
-        lead: "Cada lead que no respondes a tiempo",
-        highlight: "lo cierra tu competencia",
-        tail: "",
+        lead: "Aprende el sistema que escala empresas",
+        highlight: "sin perder leads",
+        tail: "usando CRM",
       },
       subhead:
         "Mientras haces todo a mano, los leads se enfrían y se van. En 60 minutos te mostramos cómo frenar la fuga con CRM y automatización — sin experiencia técnica, sin contratar a nadie.",
       chips: CHIPS,
       countdownLabel: "La sesión comienza en",
-      cta: "✅ Quiero dejar de perder clientes",
-      ctaNote: "Sin costo · Sin tarjeta de crédito",
+      cta: REGISTER_MASTERCLASS_CTA,
+      ctaNote: "Sin costo · Sin tarjeta · Solo tu nombre y correo",
       card: {
         title: "Frena la fuga de leads — empieza este miércoles",
         subtitle:
@@ -630,7 +720,7 @@ export const VERSIONS: Record<MasterclassVersionId, MasterclassCopy> = {
     },
     testimonials: {
       kicker: "Edición anterior",
-      heading: "Lo que opinan los asistentes anteriores",
+      heading: "Lo que dicen quienes ya tomaron la clase",
       sub: "Dejaron de perder leads y empezaron a cerrar lo que antes se les escapaba.",
       list: TESTIMONIALS,
     },
@@ -640,42 +730,32 @@ export const VERSIONS: Record<MasterclassVersionId, MasterclassCopy> = {
       description:
         "Mientras lo piensas, tu competencia ya responde en segundos. La sala de Zoom tiene cupo limitado y el evento es 100% gratuito.",
       badge: "Cupos limitados por Zoom — se agotan rápido",
-      button: "✅ Quiero dejar de perder clientes",
+      button: REGISTER_MASTERCLASS_CTA,
       note: "Sin costo · Sin tarjeta de crédito · Confirmación inmediata",
     },
     faq: { kicker: "Preguntas frecuentes", heading: "Todo lo que necesitas saber", items: FAQ_ITEMS },
     modal: MODAL,
     mobileBar: MOBILE_BAR,
     footer: FOOTER,
-    banner: BANNERS.v2,
-    motionVideo: MOTION_VIDEOS.v2,
+    ghostActivity: {
+      names: GHOST_ACTIVITY_NAMES,
+      message: "se registró para frenar la fuga de leads este miércoles.",
+    },
+    replay: REPLAY_PLACEHOLDER,
   },
 
   // ==========================================================================
-  // v3 · AUTORIDAD — la prueba, el sistema probado. Split, Fraunces, red de nodos.
+  // c3 · AUTORIDAD — la prueba, el sistema probado.
   // ==========================================================================
-  v3: {
+  c3: {
     angle: {
-      id: "v3",
+      id: "c3",
       name: "Autoridad",
       shortLabel: "Autoridad",
       tagline: "La prueba / sistema probado",
-      description:
-        "Hero split (Fraunces) + fondo de red. Prueba social y especificidad: el sistema exacto que ya opera para +500 empresas.",
-    },
-    visual: {
-      font: SANS,
-      accent: "brand",
-      aurora: { intensity: "strong" },
-      heroBackground: {
-        imageSrc: "/masterclass/backgrounds/hero-v3-autoridad.png",
-        motif: "blueprint",
-        opacityMobile: 0.18,
-        opacityDesktop: 0.36,
-      },
+      description: "Prueba social y especificidad: el sistema exacto que ya opera para +500 empresas.",
     },
     ribbon: {
-      tone: "brand",
       live: "En vivo este miércoles",
       schedule: "8:00 PM EST (7 PM CST / 5 PM PT)",
       badge: "Zoom 100% Gratis",
@@ -683,18 +763,19 @@ export const VERSIONS: Record<MasterclassVersionId, MasterclassCopy> = {
     },
     navbar: { kicker: "Danger Fernández en vivo", badge: "Masterclass Gratuita" },
     hero: {
-      layout: "split",
       eyebrow: "Danger Fernández · En vivo este miércoles",
+      // CLAIM PENDIENTE — "+500 empresas" y "$50K/mes" son aspiracionales: mantener
+      // como meta alcanzable, nunca como garantía (ver .claude/product-marketing.md §6).
       headline: {
-        lead: "El sistema exacto que aplican +500 empresas para escalar a",
-        highlight: "$50K/mes",
-        tail: "",
+        lead: "Aprende el sistema que lleva empresas a",
+        highlight: "$50K al mes",
+        tail: "con un CRM",
       },
       subhead:
         "No es teoría. Danger te muestra en vivo, paso a paso, el mismo sistema de CRM y automatización que opera a diario para +500 empresas en +30 industrias.",
       chips: CHIPS,
       countdownLabel: "La sesión comienza en",
-      cta: "✅ Ver el sistema en vivo",
+      cta: REGISTER_MASTERCLASS_CTA,
       ctaNote: "Sin costo · Sin tarjeta de crédito · Registro inmediato",
       card: {
         title: "Asegura tu cupo — el sistema probado, en vivo",
@@ -733,7 +814,7 @@ export const VERSIONS: Record<MasterclassVersionId, MasterclassCopy> = {
     },
     testimonials: {
       kicker: "Testimonios",
-      heading: "Lo que opinan los asistentes anteriores",
+      heading: "Lo que dicen quienes ya tomaron la clase",
       sub: "Empresarios y profesionales que automatizaron sus procesos con el mismo sistema.",
       list: TESTIMONIALS,
     },
@@ -741,17 +822,115 @@ export const VERSIONS: Record<MasterclassVersionId, MasterclassCopy> = {
       eyebrow: "Asegura tu lugar",
       title: "Tu competencia ya está automatizando.\n¿Y tú?",
       description:
-        "La sala de Zoom tiene un límite estricto de accesos y las sesiones se llenan con días de anticipación. El evento es 100% gratuito.",
+        "Es el mismo sistema que ya opera para +500 empresas. Los cupos de Zoom se llenan antes del miércoles y entrar es gratis.",
       badge: "Cupos limitados por Zoom — se agotan rápido",
-      button: "✅ Reservar mi cupo gratuito",
+      button: REGISTER_MASTERCLASS_CTA,
       note: "Sin costo de registro · Sin tarjeta de crédito · Confirmación inmediata",
     },
     faq: { kicker: "Dudas frecuentes", heading: "Preguntas frecuentes", items: FAQ_ITEMS },
     modal: MODAL,
     mobileBar: MOBILE_BAR,
     footer: FOOTER,
-    banner: BANNERS.v3,
-    motionVideo: MOTION_VIDEOS.v3,
+    ghostActivity: {
+      names: GHOST_ACTIVITY_NAMES,
+      message: "se registró para ver el sistema CRM en vivo.",
+    },
+    replay: REPLAY_PLACEHOLDER,
+  },
+
+  // ==========================================================================
+  // c4 · DE CERO A $50K — copy aprobado, fusión FIEL de los 2 HTML.
+  // Texto verbatim de los archivos aprobados; NO aplicar los 7 barridos.
+  // ==========================================================================
+  c4: {
+    angle: {
+      id: "c4",
+      name: "De cero a $50K",
+      shortLabel: "$50K",
+      tagline: "De 0 a $50K/mes con CRM",
+      description: "Copy aprobado (HTML): el sistema que lleva de 0 a $50K/mes con CRM y automatización.",
+    },
+    ribbon: {
+      live: "En vivo este miércoles",
+      schedule: "8 PM EST — Zoom",
+      badge: "100% Gratis",
+      scarcity: "Cupos limitados",
+    },
+    navbar: { kicker: "Danger Fernández en vivo", badge: "Masterclass Gratuita" },
+    hero: {
+      eyebrow: "En vivo este miércoles — Zoom",
+      // CLAIM PENDIENTE — "$50K/mes" / "+500 empresas" aspiracionales (copy aprobado en HTML).
+      headline: {
+        lead: "Aprende el sistema que escala empresas a",
+        highlight: "$50K/mes",
+        tail: "con CRM",
+      },
+      subhead:
+        "En 60 minutos te mostramos el sistema exacto que usamos para captar leads, cerrar ventas y escalar empresas — sin experiencia técnica, sin contratar a nadie.",
+      chips: CHIPS,
+      countdownLabel: "La sesión comienza en",
+      cta: REGISTER_MASTERCLASS_CTA,
+      ctaNote: "Sin costo · Sin tarjeta de crédito · Solo tu nombre y correo",
+      card: {
+        title: "Reserva tu lugar ahora — es gratis",
+        subtitle:
+          "Zoom tiene límite de participantes. Las últimas ediciones se llenaron antes del miércoles.",
+      },
+    },
+    stats: [
+      { value: 500, prefix: "+", suffix: "", description: "empresas escaladas" },
+      { value: 30, prefix: "+", suffix: "", description: "industrias transformadas" },
+      { value: 50, prefix: "$", suffix: "K", description: "al mes es alcanzable" },
+      { value: 100, prefix: "", suffix: "%", description: "online y en vivo" },
+    ],
+    learn: {
+      kicker: "Lo que aprenderás",
+      heading: "8 bloques. 60 minutos.\nTu negocio nunca vuelve a ser el mismo.",
+      sub: "Todo lo que siempre quisiste automatizar — en una sola sesión en vivo, paso a paso, sin jerga técnica.",
+      blocks: LEARN_BLOCKS,
+      underCta: { text: "Todo esto en 60 minutos, en vivo, gratis.", button: REGISTER_MASTERCLASS_CTA },
+    },
+    audience: {
+      kicker: "¿Es para ti?",
+      heading: "Diseñado para quienes ya están listos para escalar",
+      sub: "No para todos. Para los que están hartos de hacer todo manual y perder leads todos los días.",
+      yesTitle: "✅ Sí es para ti si…",
+      yes: AUDIENCE_YES,
+      noTitle: "❌ No es para ti si…",
+      no: AUDIENCE_NO,
+    },
+    mentor: {
+      kicker: "Tu mentor",
+      name: "Danger Fernández",
+      role: "CEO & Fundador",
+      company: "AD Media Solution",
+      bio: MENTOR_BIO,
+      stats: MENTOR_STATS,
+    },
+    testimonials: {
+      kicker: "Edición anterior",
+      heading: "Lo que dijeron los que ya asistieron",
+      sub: "Profesionales que automatizaron sus procesos con el mismo sistema.",
+      list: TESTIMONIALS,
+    },
+    urgency: {
+      eyebrow: "Asegura tu lugar",
+      title: "Tu competencia ya está automatizando.\n¿Y tú?",
+      description:
+        "Zoom tiene límite de participantes. Las últimas ediciones se llenaron antes del miércoles. Es gratis, pero los cupos no son infinitos.",
+      badge: "Cupos disponibles — se llenan rápido",
+      button: REGISTER_MASTERCLASS_CTA,
+      note: "Sin costo · Sin tarjeta de crédito · Solo tu nombre y correo",
+    },
+    faq: { kicker: "Preguntas frecuentes", heading: "Todo lo que necesitas saber", items: FAQ_ITEMS },
+    modal: MODAL,
+    mobileBar: MOBILE_BAR,
+    footer: FOOTER,
+    ghostActivity: {
+      names: GHOST_ACTIVITY_NAMES,
+      message: "se registró a la masterclass del miércoles por Zoom.",
+    },
+    replay: REPLAY_PLACEHOLDER,
   },
 };
 
@@ -759,13 +938,43 @@ export const VERSIONS: Record<MasterclassVersionId, MasterclassCopy> = {
 // PUBLICACIÓN
 // ----------------------------------------------------------------------------
 
-/** Versión que ven los visitantes por defecto. Cámbiala cada miércoles. */
-export const ACTIVE_VERSION: MasterclassVersionId = "v3";
+/** Copy y modo visual que ven los visitantes por defecto. Cámbialos cada miércoles. */
+export const ACTIVE_COPY: CopyId = "c3";
+export const ACTIVE_VISUAL: VisualId = "m3";
 
-export const VERSION_IDS: MasterclassVersionId[] = ["v1", "v2", "v3"];
+export const COPY_IDS: CopyId[] = ["c1", "c2", "c3", "c4"];
+export const VISUAL_IDS: VisualId[] = ["m1", "m2", "m3"];
 
-/** Devuelve el copy de una versión (con fallback a la activa). */
-export function getVersion(id?: string | null): MasterclassCopy {
-  if (id === "v1" || id === "v2" || id === "v3") return VERSIONS[id];
-  return VERSIONS[ACTIVE_VERSION];
+/** Compat con links viejos ?v=1|2|3 → par (copy, visual). */
+export const LEGACY_VERSION_MAP: Record<string, { copy: CopyId; visual: VisualId }> = {
+  "1": { copy: "c1", visual: "m1" },
+  v1: { copy: "c1", visual: "m1" },
+  "2": { copy: "c2", visual: "m2" },
+  v2: { copy: "c2", visual: "m2" },
+  "3": { copy: "c3", visual: "m3" },
+  v3: { copy: "c3", visual: "m3" },
+};
+
+/** Normaliza un parámetro de copy ("1".."4" o "c1".."c4") a un CopyId válido. */
+export function toCopyId(id?: string | null): CopyId | null {
+  if (!id) return null;
+  const v = id.startsWith("c") ? id : `c${id}`;
+  return v === "c1" || v === "c2" || v === "c3" || v === "c4" ? (v as CopyId) : null;
+}
+
+/** Normaliza un parámetro de modo visual ("1".."3" o "m1".."m3") a un VisualId válido. */
+export function toVisualId(id?: string | null): VisualId | null {
+  if (!id) return null;
+  const v = id.startsWith("m") ? id : `m${id}`;
+  return v === "m1" || v === "m2" || v === "m3" ? (v as VisualId) : null;
+}
+
+/** Devuelve un copy (con fallback al activo). */
+export function getCopy(id?: string | null): MasterclassCopy {
+  return COPIES[toCopyId(id) ?? ACTIVE_COPY];
+}
+
+/** Devuelve un modo visual (con fallback al activo). */
+export function getVisual(id?: string | null): MasterclassVisual {
+  return VISUALS[toVisualId(id) ?? ACTIVE_VISUAL];
 }

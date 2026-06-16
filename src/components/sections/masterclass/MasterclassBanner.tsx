@@ -2,10 +2,10 @@
 
 import { useState } from "react";
 import Image from "next/image";
-import { VERSIONS, type MasterclassVersionId } from "@/lib/data/masterclassCopy";
+import { VISUALS, type VisualId } from "@/lib/data/masterclassCopy";
 
 interface MasterclassBannerProps {
-  variant: MasterclassVersionId;
+  visual: VisualId;
   /** Formato del banner. La visibilidad por dispositivo la controla el contenedor (clases responsive). */
   orientation: "horizontal" | "vertical";
   className?: string;
@@ -19,14 +19,14 @@ interface MasterclassBannerProps {
  * solo (degradación elegante) para no romper la landing.
  */
 export default function MasterclassBanner({
-  variant,
+  visual,
   orientation,
   className = "",
   priority = false,
   sizes,
 }: MasterclassBannerProps) {
   const [failed, setFailed] = useState(false);
-  const banner = VERSIONS[variant].banner[orientation];
+  const banner = VISUALS[visual].banner[orientation];
 
   if (failed) return null;
 

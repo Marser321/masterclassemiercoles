@@ -2,14 +2,14 @@
 
 import AnimatedCounter from "../../ui/AnimatedCounter";
 import Reveal from "@/components/animations/Reveal";
-import { VERSIONS, type MasterclassVersionId } from "@/lib/data/masterclassCopy";
+import { COPIES, type CopyId } from "@/lib/data/masterclassCopy";
 
 interface StatsStripProps {
-  variant: MasterclassVersionId;
+  copy: CopyId;
 }
 
-export default function StatsStrip({ variant }: StatsStripProps) {
-  const stats = VERSIONS[variant].stats;
+export default function StatsStrip({ copy }: StatsStripProps) {
+  const stats = COPIES[copy].stats;
 
   return (
     <div className="relative z-10 border-y mc-border mc-section backdrop-blur-sm py-8 sm:py-10 px-6 sm:px-8 font-mc-body">

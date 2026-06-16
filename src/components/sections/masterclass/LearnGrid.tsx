@@ -4,19 +4,20 @@ import { motion } from "framer-motion";
 import { Card } from "../../ui/Card";
 import { Button } from "../../ui/Button";
 import Reveal from "@/components/animations/Reveal";
-import { VERSIONS, type MasterclassVersionId } from "@/lib/data/masterclassCopy";
+import { COPIES, VISUALS, type CopyId, type VisualId } from "@/lib/data/masterclassCopy";
 import MasterclassSectionBackdrop from "./MasterclassSectionBackdrop";
 import SubtleFloatingMarks from "./SubtleFloatingMarks";
 
 interface LearnGridProps {
-  variant: MasterclassVersionId;
+  copy: CopyId;
+  visual: VisualId;
   onRegisterClick: () => void;
 }
 
-export default function LearnGrid({ variant, onRegisterClick }: LearnGridProps) {
-  const learn = VERSIONS[variant].learn;
+export default function LearnGrid({ copy, visual, onRegisterClick }: LearnGridProps) {
+  const learn = COPIES[copy].learn;
   const blocks = learn.blocks;
-  const isList = variant === "v2";
+  const isList = VISUALS[visual].learnLayout === "list";
 
   return (
     <section id="aprender" className="relative overflow-hidden py-16 sm:py-20 px-6 sm:px-8 mc-section font-mc-body">
